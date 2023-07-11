@@ -37,8 +37,6 @@ const validationSchema = Yup.object().shape({
 // ** Icons Imports
 import Close from 'mdi-material-ui/Close'
 import { inputTabAccount, roleAccount, statusAccount } from './constants'
-import { useSelector } from 'react-redux'
-import { makeSelectLogin } from 'src/pages/pages/login/loginSlice'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -65,8 +63,10 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 }))
 
 const TabAccount = props => {
-  const globalData = useSelector(makeSelectLogin)
-  const dataUser = globalData?.dataUser
+  // const globalData = useSelector(makeSelectLogin)
+  // const dataUser = globalData?.dataUser
+  const { globalData, dataUser } = props
+  console.log('globalData: ', globalData)
 
   const {
     control,
@@ -77,8 +77,8 @@ const TabAccount = props => {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       username: '',
-      name: dataUser?.fullName,
-      email: dataUser?.email,
+      name: globalData?.name,
+      email: globalData?.email,
       role: '',
       status: '',
       company: ''
@@ -86,26 +86,25 @@ const TabAccount = props => {
   })
 
   useEffect(() => {
-    // if (dataUser?.username) {
-    //   // setValueBirthDay(moment(dataUser?.birthday).format('DD/MM/YYYY'));
-    // }
-    if (dataUser?.fullName) {
-      setValue('fullName', dataUser?.fullName)
+    if (globalData?.name) {
+      setValue('name', globalData?.name)
     }
-    if (dataUser?.email) {
-      setValue('email', dataUser?.email)
+    if (globalData?.email) {
+      setValue('email', globalData?.email)
     }
-    if (dataUser?.roles) {
-      const found = roleAccount.find(element => element.field === dataUser?.roles[0].toLowerCase())
+    if (globalData?.roles) {
+      const found = roleAccount.find(element => element.field === globalData?.roles[0].toLowerCase())
       setValue('role', found?.field)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataUser])
+  }, [globalData])
 
   const onSubmit = data => console.log(data)
 
-  // ** State
+  // // ** State
   const [openAlert, setOpenAlert] = useState(true)
+  // const [imgSrc, setImgSrc] = useState('/images/avatars/1686130680-bpfull.jpg')
+
   const [imgSrc, setImgSrc] = useState('/images/avatars/1.png')
 
   const onChange = file => {

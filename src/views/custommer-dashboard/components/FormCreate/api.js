@@ -1,4 +1,4 @@
-import api from 'src/utils/baseApi'
+import api from 'src/utils/baseApiNoAuth'
 
 export const getApiProduct = (url, data) =>
   new Promise((resolve, reject) =>

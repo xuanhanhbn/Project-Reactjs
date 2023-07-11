@@ -256,11 +256,7 @@ const LoginPage = () => {
                     }}
                     name={input.field}
                   />
-                  {/* {input.type === 'password' && (
-                    <Button onClick={handleClickShowPassword}>
-                      {isShowPassword ? <EyeOutline /> : <EyeOffOutline />}
-                    </Button>
-                  )} */}
+
                   <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{message}</Typography>
                 </Grid>
               )
@@ -279,9 +275,9 @@ const LoginPage = () => {
               size='large'
               variant='contained'
               sx={{ marginBottom: 7 }}
-              onClick={handleSubmit(onSubmit)}
+              // onClick={handleSubmit(onSubmit)}
 
-              // onClick={() => router.push('/admin/dashboard')}
+              onClick={() => router.push('/admin/dashboard')}
             >
               Login
             </Button>

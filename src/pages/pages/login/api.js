@@ -1,4 +1,4 @@
-import api from 'src/utils/baseApi'
+import api from 'src/utils/baseApiNoAuth'
 import baseApiUrlUser from 'src/utils/baseApiAuth'
 
 export const getApiUser = url =>

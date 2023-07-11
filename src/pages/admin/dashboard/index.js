@@ -33,8 +33,10 @@ const Dashboard = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(loginPageActions.userInfo())
-  }, [])
+    if (dataLogin) {
+      dispatch(loginPageActions.userInfo())
+    }
+  }, [dataLogin])
 
   return (
     <ApexChartWrapper>

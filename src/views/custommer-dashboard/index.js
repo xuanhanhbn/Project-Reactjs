@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Button, TextField } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -71,13 +71,16 @@ function ListCustomer() {
     if (field === 'actions') {
       return (
         <>
-          <Button
-            onClick={() =>
-              router.push(' /account-settings/', undefined, { shallow: true, state: { myValue: 'Hello' } })
-            }
+          <Link
+            passHref
+            href={{
+              pathname: '/account-settings/',
+              query: { ...item, type: 'not' }
+            }}
           >
             <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
-          </Button>
+          </Link>
+          {/* </Button> */}
           <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
         </>
       )
@@ -182,4 +185,4 @@ function ListCustomer() {
   )
 }
 
-export default ListCustomer
+export default memo(ListCustomer)
