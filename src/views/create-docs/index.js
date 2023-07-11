@@ -1,9 +1,22 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
 import katex from 'katex'
 import { Controller, useForm } from 'react-hook-form'
 import Button from '@mui/material/Button'
+import { createDocs } from './constant'
+import { InputLabel, TextField, Typography } from '@mui/material'
+import { Label } from 'mdi-material-ui'
+import { Input } from 'antd'
+
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as Yup from 'yup'
+
+const validationSchema = Yup.object().shape({
+  title: Yup.string().required('Title is required'),
+  category: Yup.string().required('Category is required'),
+  subCategory: Yup.string().required('subCategory is required')
+})
 
 const SunEditor = dynamic(() => import('suneditor-react'), {
   ssr: false
@@ -14,13 +27,17 @@ function CreateDocs() {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm()
+  } = useForm({
+    resolver: yupResolver(validationSchema)
+  })
 
   const baseDataRequest = {
+    title: '',
+    category: '',
+    subCategory: '',
     document: ''
   }
 
-  const [value, setValue] = useState(null)
   const [dataRequest, setDataRequest] = useState(baseDataRequest)
 
   const editorOptions = {
@@ -58,38 +75,57 @@ function CreateDocs() {
     ]
   }
 
-  const handleSendDocument = () => {
-    console.log('dataRequest: ', dataRequest)
-  }
-
-  const handleChange = content => {
-    const newDataRequest = {
-      ...dataRequest,
-      document: content
-    }
-
-    setDataRequest(newDataRequest)
-  }
+  // Xử lí khi submit form
+  const onSubmit = data => console.log('data: ', data)
 
   return (
     <>
-      <SunEditor setContents={value} onChange={handleChange} setOptions={editorOptions} />
-      <Button onClick={() => handleSendDocument()}>Create</Button>
+      <form>
+        {createDocs.map(item => {
+          const { field } = item
+          const message = errors[field] && errors[field].message
+
+          return (
+            <>
+              {/* <Typography variant='h6'>{item.label}</Typography> */}
+              <Controller
+                key={`createDocument_${item.field}`}
+                control={control}
+                name={item.field}
+                render={({ field: { onChange, value } }) => {
+                  if (item.type === 'SUNEDITOR') {
+                    return <SunEditor setOptions={editorOptions} onChange={onChange} setContents={value} />
+                  }
+
+                  return (
+                    <div>
+                      <div style={{ paddingBottom: 10, paddingTop: 15, fontWeight: 500 }}>{item.inputLabel}</div>
+                      <TextField
+                        placeholder={item.label}
+                        name={item.field}
+                        label={item.label}
+                        value={value}
+                        onChange={onChange}
+                        required
+                        fullWidth
+                      />
+                    </div>
+                  )
+                }}
+              />
+              <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{message}</Typography>
+            </>
+          )
+        })}
+        <Button
+          onClick={handleSubmit(onSubmit)}
+          style={{ border: '1px solid  #3a35411f', padding: '5px 25px', backgroundColor: '#9155FD', color: 'white' }}
+        >
+          Create
+        </Button>
+      </form>
     </>
-
-    // <form onChange={handleSubmit(onSubmit)}>
-    //   {/* <SunEditor setContents={value} onChange={onSubmit} setOptions={editorOptions} /> */}
-
-    //   <Button>Create</Button>
-    //   <Controller
-    //     control={control}
-    //     render={({ field: { onChange, value } }) => (
-    //       <SunEditor setContents={value} onChange={onChange} setOptions={editorOptions} />
-    //     )}
-    //     name='docs'
-    //   />
-    // </form>
   )
 }
 
-export default CreateDocs
+export default memo(CreateDocs)

@@ -7,10 +7,20 @@ import FormatLetterCase from 'mdi-material-ui/FormatLetterCase'
 import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
 import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
-import { FileDocument } from 'mdi-material-ui'
+
+import {
+  AccountGroupOutline,
+  FileDocument,
+  SwapHorizontal,
+  AccountBoxMultipleOutline,
+  ForumOutline,
+  FileDocumentMultipleOutline
+} from 'mdi-material-ui'
+import { flip } from '@popperjs/core'
 
 //  ** Components imports
 import ListDocument from 'src/views/admin/documents'
+
 
 const navigation = () => {
   return [
@@ -23,14 +33,41 @@ const navigation = () => {
     {
       title: 'Account Settings',
       icon: AccountCogOutline,
-      path: '/account-settings'
-
-      // isShowMenu: true
+      path: '/account-settings',
+      isShowMenu: true
     },
     {
       title: 'Customer',
       icon: AccountCogOutline,
       path: '/customer-dashboard',
+      isShowMenu: true
+    },
+    {
+      sectionTitle: 'Marketing Department',
+      isShowMenu: true
+    },
+    {
+      title: 'Forums',
+      icon: SwapHorizontal,
+      path: '/marketing-department/forums',
+      isShowMenu: true
+    },
+    {
+      title: 'Members',
+      icon: AccountBoxMultipleOutline,
+      path: '/marketing-department/members',
+      isShowMenu: true
+    },
+    {
+      title: 'Messages',
+      icon: ForumOutline,
+      path: '/marketing-department/messages',
+      isShowMenu: false
+    },
+    {
+      title: 'Documents',
+      icon: FileDocumentMultipleOutline,
+      path: '/marketing-department/documents',
       isShowMenu: true
     },
     {
@@ -49,6 +86,13 @@ const navigation = () => {
       path: '/admin/create-account',
       isShowMenu: true
     },
+
+    // {
+    //   title: 'Custommer Detail',
+    //   icon: AccountCogOutline,
+    //   path: 'custommer-detail',
+    //   isShowMenu: false
+    // },
 
     // Document
     {
@@ -101,7 +145,33 @@ const navigation = () => {
     {
       icon: CubeOutline,
       title: 'Form Layouts',
-      path: '/form-layouts',
+      path: '/form-layouts'
+    },
+    {
+      icon: Table,
+      title: 'Staff',
+      path: '/staff',
+      isShowMenu: true,
+    },
+    {
+      icon: CubeOutline,
+      title: 'FeedBack',
+      path: '/feedback',
+      isShowMenu: true,
+    },
+    {
+      icon: CreditCardOutline,
+      title: 'File',
+      path: '/filemanager',
+      isShowMenu: true,
+
+      // path: '/form-layouts',
+      // isShowMenu: true
+    },
+    {
+      icon: CreditCardOutline,
+      title: 'customer-care',
+      path: '/customer-care',
       isShowMenu: true
     }
   ]

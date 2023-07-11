@@ -25,6 +25,5 @@ const baseQueryWithInterceptor = async (args, api, extraOptions) => {
 
 export const api = createApi({
   reducerPath: 'api',
-  // baseQuery: baseQueryWithInterceptor(baseQuery),
   endpoints: () => ({})
 })
