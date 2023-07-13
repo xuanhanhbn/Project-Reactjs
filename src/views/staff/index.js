@@ -83,6 +83,7 @@ const Row = props => {
                           variant='contained'
                           style={{ backgroundColor: '#9155FD', color: 'white' }}
                           sx={{ marginLeft: 10 }}
+                          href='/account-staffs'
                         >
                           <EyeFilled />
                         </Button>

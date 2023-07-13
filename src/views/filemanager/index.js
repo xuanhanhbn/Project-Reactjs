@@ -46,7 +46,7 @@ const TableCustomized = () => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>Name File</StyledTableCell>
-                        <StyledTableCell align='right'>By</StyledTableCell>
+                        <StyledTableCell align='center'>By</StyledTableCell>
                         <StyledTableCell align='right'>Date Issued</StyledTableCell>
                         <StyledTableCell align='right'>Date Action</StyledTableCell>
                         <StyledTableCell align='right'>Date Finished</StyledTableCell>
@@ -59,10 +59,10 @@ const TableCustomized = () => {
                             <StyledTableCell component='th' scope='row'>
                                 {row.name}
                             </StyledTableCell>
-                            <StyledTableCell align='right'>{row.calories}</StyledTableCell>
-                            <StyledTableCell align='right'>{row.fat}</StyledTableCell>
-                            <StyledTableCell align='right'>{row.carbs}</StyledTableCell>
-                            <StyledTableCell align='right'>{row.protein}</StyledTableCell>
+                            <StyledTableCell align='right'>{row.author}</StyledTableCell>
+                            <StyledTableCell align='right'>{row.dateissue}</StyledTableCell>
+                            <StyledTableCell align='right'>{row.dateaction}</StyledTableCell>
+                            <StyledTableCell align='right'>{row.datefinish}</StyledTableCell>
                             <StyledTableCell align='right'>
                                 <Button>
                                     <DownloadOutlined />

@@ -7,6 +7,7 @@ import FormatLetterCase from 'mdi-material-ui/FormatLetterCase'
 import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
 import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
+import FaceAgent from 'mdi-material-ui/FaceAgent'
 
 import {
   AccountGroupOutline,
@@ -35,6 +36,13 @@ const navigation = () => {
       icon: AccountCogOutline,
       path: '/account-settings',
       isShowMenu: true
+    },
+    {
+      title: 'Account Staff',
+      icon: AccountGroupOutline,
+      path: 'account-staffs',
+      isShowMenu: true
+
     },
     {
       title: 'Customer',
@@ -107,7 +115,16 @@ const navigation = () => {
 
       // component: ListDocument
     },
-
+    {
+      sectionTitle: 'Customer Care',
+      isShowMenu: true
+    },
+    {
+      icon: CreditCardOutline,
+      title: 'Customer Care',
+      path: '/customer-care',
+      isShowMenu: true
+    },
     {
       title: 'Forgot Password',
       icon: Login,
@@ -168,12 +185,7 @@ const navigation = () => {
       // path: '/form-layouts',
       // isShowMenu: true
     },
-    {
-      icon: CreditCardOutline,
-      title: 'customer-care',
-      path: '/customer-care',
-      isShowMenu: true
-    }
+
   ]
 }
 

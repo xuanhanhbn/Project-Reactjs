@@ -1,9 +1,9 @@
-const createData = (name, calories, fat, carbs, protein) => {
-    return { name, calories, fat, carbs, protein }
+const createData = (name, author, dateissue, dateaction, datefinish) => {
+    return { name, author, dateissue, dateaction, datefinish }
 }
 
 export const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+    createData('Quản lí sơ bộ ', 'Giám đốc điều hành', '21/2/2023', '25/2/2023', '30/2/2023'),
     createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
     createData('Eclair', 262, 16.0, 24, 6.0),
     createData('Cupcake', 305, 3.7, 67, 4.3),
