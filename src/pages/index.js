@@ -45,7 +45,6 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
-import input from 'src/@core/theme/overrides/input'
 import { inputLogin } from './pages/login/constants'
 import ForgotPassword from './pages/forgot-password'
 import { useSnackbar } from 'notistack'

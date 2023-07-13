@@ -13,15 +13,19 @@ import customerReducer from 'src/views/custommer-dashboard/customerSlice'
 import loginReducer from './pages/login/loginSlice'
 import loginSaga from './pages/login/loginSaga'
 
+import accountSettingSaga from 'src/views/account-settings/accoutSettingSaga'
+import accountSettingReducer from 'src/views/account-settings/accountSettingSlice'
+
 // registry reducer
 const reducers = combineReducers({
   customer: customerReducer,
-  login: loginReducer
+  login: loginReducer,
+  setting: accountSettingReducer
 })
 
 // registry sagas
 function* rootSaga() {
-  yield all([customerSaga(), loginSaga()])
+  yield all([customerSaga(), loginSaga(), accountSettingSaga()])
 }
 
 // const persistConfig = {
