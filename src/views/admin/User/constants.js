@@ -1,32 +1,57 @@
 export const inputCreateUser = [
   {
     field: 'firstName',
-    label: 'First Name',
+    placeHolder: 'First Name',
     type: 'INPUT',
-    inputLabel: 'First Name'
+    inputLabel: 'First Name :'
   },
   {
     field: 'lastName',
-    label: 'Last Name',
+    placeHolder: 'Last Name',
     type: 'INPUT',
-    inputLabel: 'Last Name'
+    inputLabel: 'Last Name :'
   },
   {
     field: 'username',
-    label: 'User Name',
+    placeHolder: 'User Name',
     type: 'INPUT',
-    inputLabel: 'User Name'
+    inputLabel: 'User Name :'
   },
   {
     field: 'email',
-    label: 'Email',
+    placeHolder: 'Email',
     type: 'INPUT',
-    inputLabel: 'Email'
+    inputLabel: 'Email :'
   },
   {
     field: 'password',
-    label: 'Password',
-    type: 'INPUT',
-    inputLabel: 'Password'
+    placeHolder: 'Password',
+    type: 'PASSWORD',
+    inputLabel: 'Password :'
+  },
+  {
+    field: 'roler',
+    placeHolder: 'Roler',
+    type: 'SELECT',
+    inputLabel: 'Roler :'
+  }
+]
+
+export const roleAccount = [
+  {
+    field: 'admin',
+    value: 'Admin'
+  },
+  {
+    field: 'author',
+    value: 'Author'
+  },
+  {
+    field: 'editor',
+    value: 'Editor'
+  },
+  {
+    field: 'maintainer',
+    value: 'Maintainer'
   }
 ]
