@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Box from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
-import { replyTopic } from './constants'
+import { replyTopic } from '../../constants'
 import CardActions from '@mui/material/CardActions'
 import Button from '@mui/material/Button'
 import { Input } from 'antd'
@@ -20,7 +20,7 @@ const ImgStyled = styled('img')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
 
-function ViewTopic() {
+function ViewTopics() {
   return (
     <div>
       <Breadcrumb style={{ marginBottom: 30 }}>
@@ -79,13 +79,13 @@ function ViewTopic() {
             Reply To: Creative ideas to help tell your company story
           </Typography>
 
-          <TextArea rows={6} style={{ marginTop: 30, borderRadius: 20 }} />
+          <TextArea rows={6} style={{ marginTop: 30, borderRadius: 6 }} />
 
           <CardActions>
-            <Button size='large' type='submit' sx={{ padding: '10px 20px', borderRadius: 30 }} variant='contained'>
+            <Button size='large' type='submit' sx={{ padding: '10px 20px' }} variant='contained'>
               Submit
             </Button>
-            <Button size='large' color='secondary' variant='outlined' sx={{ padding: '10px 20px', borderRadius: 30 }}>
+            <Button size='large' color='secondary' variant='outlined' sx={{ padding: '10px 20px' }}>
               Cancel
             </Button>
           </CardActions>
@@ -95,4 +95,4 @@ function ViewTopic() {
   )
 }
 
-export default memo(ViewTopic)
+export default memo(ViewTopics)
