@@ -14,7 +14,7 @@ import DotsVertical from 'mdi-material-ui/DotsVertical'
 // ** Custom Components Imports
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
-const WeeklyOverview = () => {
+const IncomOverview = () => {
   // ** Hook
   const theme = useTheme()
 
@@ -83,7 +83,7 @@ const WeeklyOverview = () => {
   return (
     <Card>
       <CardHeader
-        title='Month Transaction Overview'
+        title='Month InCom Overview'
         titleTypographyProps={{
           sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' }
         }}
@@ -114,4 +114,4 @@ const WeeklyOverview = () => {
   )
 }
 
-export default WeeklyOverview
+export default IncomOverview

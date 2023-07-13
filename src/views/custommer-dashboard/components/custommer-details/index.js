@@ -1,4 +1,6 @@
-import { Box, Button, Card } from '@material-ui/core'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
 import React from 'react'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
@@ -32,10 +34,11 @@ const Item = styled(Paper)(({ theme }) => ({
 function CustommerDetails() {
   return (
     <div>
-      {/* <Breadcrumb style={{ marginBottom: 30 }}>
+      <Breadcrumb style={{ marginBottom: 30 }}>
         <Breadcrumb.Item>Marketing Department</Breadcrumb.Item>
-        <Breadcrumb.Item>Forums</Breadcrumb.Item>
-      </Breadcrumb> */}
+        <Breadcrumb.Item>Custommer Dashboard</Breadcrumb.Item>
+        <Breadcrumb.Item>Custommer Detail</Breadcrumb.Item>
+      </Breadcrumb>
       <Card>
         <CardContent sx={{ padding: theme => `${theme.spacing(10, 10.25, 6)} !important` }}>
           <Box sx={{ flexGrow: 1 }}>

@@ -8,34 +8,33 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import CardContent from '@mui/material/CardContent'
+import InputAdornment from '@mui/material/InputAdornment'
 
 // ** Icons Imports
 import KeyOutline from 'mdi-material-ui/KeyOutline'
 import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
+import EyeOutline from 'mdi-material-ui/EyeOutline'
+import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 import { inputTabSecurity } from './constants'
 import { Controller, useForm } from 'react-hook-form'
 import { TextField, Typography } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import { useDispatch } from 'react-redux'
+import { settingAction } from './accountSettingSlice'
 
 const validationSchema = Yup.object().shape({
-  currentPassword: Yup.string().required('Current Password is required'),
+  oldPassword: Yup.string().required('Current Password is required'),
   newPassword: Yup.string().required('New Password is required'),
   confirmNewPassword: Yup.string()
     .required('Confirm New Password is required')
     .oneOf([Yup.ref('newPassword')], 'Passwords do not match')
 })
 
-const TabSecurity = () => {
-  const baseDataRequest = {
-    newPassword: '',
-    currentPassword: '',
-    showNewPassword: false,
-    confirmNewPassword: '',
-    showCurrentPassword: false,
-    showConfirmNewPassword: false
-  }
+const TabSecurity = props => {
+  const { dataUser } = props
+  const dispatch = useDispatch()
 
   const {
     handleSubmit,
@@ -45,14 +44,40 @@ const TabSecurity = () => {
     resolver: yupResolver(validationSchema)
   })
 
-  const onSubmit = data => {
-    console.log(data)
+  const baseDataRequest = {
+    newPassword: '',
+    oldPassword: '',
+    confirmNewPassword: '',
+    showCurrentPassword: false
   }
 
   // ** States
   const [dataRequest, setDataRequest] = useState(baseDataRequest)
 
   const handleResetForm = () => setDataRequest(baseDataRequest)
+
+  const handleSetDatRequest = data => setDataRequest(data)
+
+  const handleClickShowPassword = type => {
+    const newDataRequest = {}
+    newDataRequest = {
+      ...dataRequest,
+      showCurrentPassword: !dataRequest.showCurrentPassword
+    }
+
+    return handleSetDatRequest(newDataRequest)
+  }
+
+  // Xử lí khi ấn submit
+  const onSubmit = data => {
+    let { confirmNewPassword, showCurrentPassword, ...newObj } = data
+
+    const newDataRequest = {
+      ...newObj,
+      userId: dataUser?.id
+    }
+    dispatch(settingAction.changePassword(newDataRequest))
+  }
 
   return (
     <form>
@@ -76,12 +101,23 @@ const TabSecurity = () => {
                               placeholder={input.lable}
                               name={input.field}
                               label={input.lable}
-                              type={input.type}
                               value={value}
                               onChange={onChange}
                               required
                               fullWidth
+                              type={dataRequest.showCurrentPassword ? 'text' : input.type}
                               style={{ marginBottom: 10 }}
+                              InputProps={{
+                                endAdornment: (
+                                  <InputAdornment position='end'>
+                                    {input.type === 'password' && (
+                                      <Button onClick={() => handleClickShowPassword(input)}>
+                                        {dataRequest.showCurrentPassword ? <EyeOutline /> : <EyeOffOutline />}
+                                      </Button>
+                                    )}
+                                  </InputAdornment>
+                                )
+                              }}
                             />
                           )
                         }}

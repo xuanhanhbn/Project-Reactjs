@@ -63,10 +63,9 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 }))
 
 const TabAccount = props => {
-  // const globalData = useSelector(makeSelectLogin)
+  // const dataUser = useSelector(makeSelectLogin)
   // const dataUser = globalData?.dataUser
-  const { globalData, dataUser } = props
-  console.log('globalData: ', globalData)
+  const { dataUser } = props
 
   const {
     control,
@@ -77,34 +76,36 @@ const TabAccount = props => {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       username: '',
-      name: globalData?.name,
-      email: globalData?.email,
-      role: '',
-      status: '',
-      company: ''
+      fullName: dataUser?.fullName,
+      email: dataUser?.email,
+      role: ''
     }
   })
 
   useEffect(() => {
-    if (globalData?.name) {
-      setValue('name', globalData?.name)
+    if (dataUser?.firstName) {
+      setValue('firstName', dataUser?.firstName)
     }
-    if (globalData?.email) {
-      setValue('email', globalData?.email)
+    if (dataUser?.lastName) {
+      setValue('lastName', dataUser?.lastName)
     }
-    if (globalData?.roles) {
-      const found = roleAccount.find(element => element.field === globalData?.roles[0].toLowerCase())
+    if (dataUser?.phoneNumber) {
+      setValue('phoneNumber', dataUser?.phoneNumber)
+    }
+    if (dataUser?.email) {
+      setValue('email', dataUser?.email)
+    }
+    if (dataUser?.roles) {
+      const found = roleAccount.find(element => element.field === dataUser?.roles[0].toLowerCase())
       setValue('role', found?.field)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [globalData])
+  }, [dataUser])
 
   const onSubmit = data => console.log(data)
 
   // // ** State
   const [openAlert, setOpenAlert] = useState(true)
-
-  // const [imgSrc, setImgSrc] = useState('/images/avatars/1686130680-bpfull.jpg')
 
   const [imgSrc, setImgSrc] = useState('/images/avatars/1.png')
 
@@ -117,7 +118,7 @@ const TabAccount = props => {
     }
   }
 
-  // Render valu select
+  // Render value select
   const renderValueSelect = item => {
     if (item.field === 'role') {
       return roleAccount.map(role => {
@@ -176,7 +177,13 @@ const TabAccount = props => {
               render={({ field: { onChange, value } }) => (
                 <>
                   <InputLabel>{item.placeHolder}</InputLabel>
-                  <Select name={item.field} onChange={onChange} value={value} label={item.placeHolder}>
+                  <Select
+                    name={item.field}
+                    onChange={onChange}
+                    value={value}
+                    label={item.placeHolder}
+                    disabled={item.field === 'role' ? true : false}
+                  >
                     {renderValueSelect(item)}
                   </Select>
                 </>

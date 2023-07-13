@@ -1,5 +1,5 @@
 import React from 'react'
-import ViewTopic from 'src/views/marketing-department/forums/view-topic'
+import ViewTopic from 'src/views/marketing-department/forums/components/topic-detail'
 
 function Topic() {
   return <ViewTopic />

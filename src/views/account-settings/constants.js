@@ -1,6 +1,6 @@
 export const inputTabSecurity = [
   {
-    field: 'currentPassword',
+    field: 'oldPassword',
     lable: 'Current Password',
     type: 'password'
   },
@@ -18,34 +18,30 @@ export const inputTabSecurity = [
 
 export const inputTabAccount = [
   {
-    placeHolder: 'User Name',
-    field: 'username',
+    placeHolder: 'First Name',
+    field: 'firstName',
     type: 'INPUT'
   },
   {
-    placeHolder: 'Name',
-    field: 'name',
+    placeHolder: 'Last Name',
+    field: 'lastName',
     type: 'INPUT'
   },
+
   {
     placeHolder: 'Email',
     field: 'email',
     type: 'INPUT'
   },
   {
+    placeHolder: 'Phone Number',
+    field: 'phoneNumber',
+    type: 'INPUT'
+  },
+  {
     placeHolder: 'Role',
     field: 'role',
     type: 'SELECT'
-  },
-  {
-    placeHolder: 'Status',
-    field: 'status',
-    type: 'SELECT'
-  },
-  {
-    placeHolder: 'Company',
-    field: 'company',
-    type: 'INPUT'
   }
 ]
 
