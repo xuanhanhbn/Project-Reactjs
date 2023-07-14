@@ -169,39 +169,6 @@ const CreateUser = () => {
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={7}>
-              {/* {inputCreateUser.map(inputCreate => {
-                const { field } = inputCreate
-                const message = errors[field] && errors[field].message
-
-                return (
-                  <Grid item xs={12} sm={6} key={inputCreate.field}>
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => {
-                        return (
-                          <>
-                            <Typography sx={{ mb: 6, fontWeight: 500 }}>{inputCreate.inputLabel}</Typography>
-                            <TextField
-                              key={inputCreate.field}
-                              placeholder={inputCreate.label}
-                              name={inputCreate.field}
-                              label={inputCreate.label}
-                              type={inputCreate.type}
-                              value={value}
-                              onChange={onChange}
-                              required
-                              fullWidth
-                              style={{ marginBottom: 10 }}
-                            />
-                          </>
-                        )
-                      }}
-                      name={inputCreate.field}
-                    />
-                    <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{message}</Typography>
-                  </Grid>
-                )
-              })} */}
               {inputCreateUser.map(item => renderDefaultFilter(item))}
               <Grid item xs={12}>
                 <Button variant='contained' type='submit' sx={{ marginRight: 3.5 }}>

@@ -7,21 +7,28 @@ import { all } from 'redux-saga/effects'
 
 import { api } from './api'
 
+// Customer
 import customerSaga from 'src/views/custommer-dashboard/customerSaga'
 import customerReducer from 'src/views/custommer-dashboard/customerSlice'
 
+// Login
 import loginReducer from './pages/login/loginSlice'
 import loginSaga from './pages/login/loginSaga'
+
+//  Transaction
+import transactionSaga from 'src/views/transactions/transactionSaga'
+import transactionReducer from 'src/views/transactions/transactionSlice'
 
 // registry reducer
 const reducers = combineReducers({
   customer: customerReducer,
-  login: loginReducer
+  login: loginReducer,
+  transaction: transactionReducer
 })
 
 // registry sagas
 function* rootSaga() {
-  yield all([customerSaga(), loginSaga()])
+  yield all([customerSaga(), loginSaga(), transactionSaga()])
 }
 
 // const persistConfig = {

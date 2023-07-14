@@ -21,7 +21,6 @@ import { flip } from '@popperjs/core'
 //  ** Components imports
 import ListDocument from 'src/views/admin/documents'
 
-
 const navigation = () => {
   return [
     {
@@ -76,14 +75,24 @@ const navigation = () => {
       path: '/pages/login',
       openInNewTab: true
     },
+    // {
+    //   sectionTitle: 'User Interface',
+    //   isShowMenu: true
+    // },
+    // {
+    //   title: 'Create User',
+    //   icon: Login,
+    //   path: '/admin/create-account',
+    //   isShowMenu: true
+    // },
     {
-      sectionTitle: 'User Interface',
+      sectionTitle: 'Transactions',
       isShowMenu: true
     },
     {
-      title: 'Create User',
+      title: 'Transactions',
       icon: Login,
-      path: '/admin/create-account',
+      path: '/transactions',
       isShowMenu: true
     },
 
@@ -151,19 +160,19 @@ const navigation = () => {
       icon: Table,
       title: 'Staff',
       path: '/staff',
-      isShowMenu: true,
+      isShowMenu: true
     },
     {
       icon: CubeOutline,
       title: 'FeedBack',
       path: '/feedback',
-      isShowMenu: true,
+      isShowMenu: true
     },
     {
       icon: CreditCardOutline,
       title: 'File',
       path: '/filemanager',
-      isShowMenu: true,
+      isShowMenu: true
 
       // path: '/form-layouts',
       // isShowMenu: true
