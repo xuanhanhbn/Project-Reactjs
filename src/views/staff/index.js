@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ** React Imports
 import React, { useState, Fragment, useEffect, useCallback, memo } from 'react'
 
@@ -35,6 +36,7 @@ import Loading from 'src/components/Loading'
 
 import { makeSelectStaff, staffActions } from './staffSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { useSnackbar } from 'notistack'
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
@@ -44,44 +46,17 @@ const ColorButton = styled(Button)(({ theme }) => ({
   }
 }))
 
-const Row = props => {
-  // ** Props
-  const { row } = props
-
-  // ** State
-  const [open, setOpen] = useState(false)
+const TableCollapsible = () => {
+  const moment = require('moment')
 
   const dispatch = useDispatch()
+  const { enqueueSnackbar } = useSnackbar()
 
   const globalData = useSelector(makeSelectStaff)
   const dataStaff = globalData?.dataStaff
   const { isCreate, isLoading } = globalData
 
-  const [isOpenModal, setIsOpenModal] = useState(false)
-
-  // Xử lí mở modal
-  const handleOpenModalCreateCustomer = () => setIsOpenModal(true)
-
-  // Xử lí đóng modal
-  const handleCloseModalCreate = () => setIsOpenModal(false)
-
-  // console.log('dataStaff: ', dataStaff)
-
   const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
-
-  useEffect(() => {
-    dispatch(staffActions.getListStaff())
-  }, [])
-
-  // Xử lí khi thêm mới thành công sẽ call lại api danh sách
-  useEffect(() => {
-    if (isCreate) {
-      dispatch(staffActions.clear())
-      dispatch(staffActions.getListStaff())
-      setIsOpenModal(false)
-      handleShowSnackbar('succeed')
-    }
-  }, [isCreate])
 
   // Xử lí render ra STT & actions
   const parseData = useCallback((item, field, index) => {
@@ -110,43 +85,20 @@ const Row = props => {
     return item[field]
   }, [])
 
-  return (
-    <Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
-          <IconButton aria-label='expand row' size='small' onClick={() => setOpen(!open)}>
-            {open ? <ChevronUp /> : <ChevronDown />}
-          </IconButton>
-        </TableCell>
-        <TableCell component='th' scope='row'>
-          {row.name}
-        </TableCell>
-        <TableCell align='right'>{row.quantity}</TableCell>
-        <TableCell align='right'>{row.kpi}</TableCell>
-        <TableCell align='right'>{row.review}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell colSpan={6} sx={{ py: '0 !important' }}>
-          <Collapse in={open} timeout='auto' unmountOnExit>
-            <Box sx={{ m: 2 }}>
-              <Table size='small' aria-label='purchases'>
-                <TableCommon
-                  data={dataStaff || []}
-                  parseFunction={parseData}
-                  columns={columns}
-                  isShowPaging
-                  classNameTable='tblCampaignReport'
-                />
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </Fragment>
-  )
-}
+  useEffect(() => {
+    dispatch(staffActions.getListStaff())
+  }, [])
 
-const TableCollapsible = () => {
+  // Xử lí khi thêm mới thành công sẽ call lại api danh sách
+  useEffect(() => {
+    if (isCreate) {
+      dispatch(staffActions.clear())
+      dispatch(staffActions.getListStaff())
+      setIsOpenModal(false)
+      handleShowSnackbar('Create Success')
+    }
+  }, [isCreate])
+
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   // Xử lí mở modal
@@ -169,19 +121,14 @@ const TableCollapsible = () => {
       </ColorButton>
       <TableContainer component={Paper}>
         <Table aria-label='collapsible table'>
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Department</TableCell>
-              <TableCell align='right'>Quantity of people</TableCell>
-              <TableCell align='right'>KPI</TableCell>
-              <TableCell align='right'>Evaluate</TableCell>
-            </TableRow>
-          </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <Row key={row.name} row={row} />
-            ))}
+            <TableCommon
+              data={dataStaff || []}
+              parseFunction={parseData}
+              columns={columns}
+              isShowPaging
+              classNameTable='tblCampaignReport'
+            />
           </TableBody>
         </Table>
       </TableContainer>

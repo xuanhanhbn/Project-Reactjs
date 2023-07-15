@@ -4,7 +4,7 @@ import { getApiDefault, postApiDefault } from './api'
 
 // Lấy danh staff
 function* onGetList() {
-  const url = '/User'
+  const url = '/Employee'
   try {
     const response = yield call(getApiDefault, url)
     if (response && response.status === 200) {

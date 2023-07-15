@@ -23,6 +23,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { TextField } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import moment from 'moment'
 
 const { TextArea } = Input
 
@@ -92,6 +93,11 @@ function MarketingForums() {
           <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
         </>
       )
+    }
+    if (field === 'createdAt') {
+      const formatDate = moment(item?.createdAt).format('YYYY/MM/DD')
+
+      return <div>{formatDate}</div>
     }
 
     return item[field]

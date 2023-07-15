@@ -34,7 +34,7 @@ function ListCustomer() {
 
   const globalData = useSelector(makeSelectCustomer)
   const dataCustomer = globalData?.dataCustomer
-  const { isCreate, isLoading } = globalData
+  const { isCreate, isLoading, isCreateFailed } = globalData
 
   // Xử lí khi tìm kiếm
   const onSubmit = data => {
@@ -52,9 +52,16 @@ function ListCustomer() {
       dispatch(customerActions.clear())
       dispatch(customerActions.getListCustomer())
       setIsOpenModal(false)
-      handleShowSnackbar('Thêm mới khách hàng thành công')
+      handleShowSnackbar('Create Customer Success')
     }
   }, [isCreate])
+
+  useEffect(() => {
+    if (isCreateFailed) {
+      dispatch(customerActions.clear())
+      handleShowSnackbar('An error occurred, please try again.', 'error')
+    }
+  }, [isCreateFailed])
 
   // Xử lí mở modal
   const handleOpenModalCreateCustomer = () => setIsOpenModal(true)
