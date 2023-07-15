@@ -13,10 +13,25 @@ import DotsVertical from 'mdi-material-ui/DotsVertical'
 
 // ** Custom Components Imports
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
+import { useEffect, useState } from 'react'
 
-const IncomOverview = () => {
+const IncomOverview = props => {
+  const { dataDashboard } = props
+
+  const incomeByMonths = dataDashboard?.incomeByMonths
+
   // ** Hook
   const theme = useTheme()
+
+  // State
+
+  // check value
+  const categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  const currentMonth = new Date().getMonth() + 1
+
+  const colors = categories.map(month =>
+    month === currentMonth ? theme.palette.primary.main : theme.palette.background.default
+  )
 
   const options = {
     chart: {
@@ -47,14 +62,7 @@ const IncomOverview = () => {
       }
     },
     dataLabels: { enabled: false },
-    colors: [
-      theme.palette.background.default,
-      theme.palette.background.default,
-      theme.palette.background.default,
-      theme.palette.primary.main,
-      theme.palette.background.default,
-      theme.palette.background.default
-    ],
+    colors: colors,
     states: {
       hover: {
         filter: { type: 'none' }
@@ -64,7 +72,8 @@ const IncomOverview = () => {
       }
     },
     xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      categories: categories,
       tickPlacement: 'on',
       labels: { show: true },
       axisTicks: { show: false },
@@ -73,11 +82,27 @@ const IncomOverview = () => {
     yaxis: {
       show: true,
       tickAmount: 4,
+      min: 1,
+      max: 5,
+
       labels: {
         offsetX: -17,
         formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}k`
       }
     }
+  }
+
+  const renderData = () => {
+    const categories = options?.xaxis?.categories
+    let result = []
+    for (let i = 0; i < categories?.length; i++) {
+      const month = categories[i]
+      const matchingData = incomeByMonths?.find(item => item?.month === month)
+      const total = matchingData ? matchingData?.total : 0
+      result.push(total)
+    }
+
+    return result
   }
 
   return (
@@ -94,12 +119,7 @@ const IncomOverview = () => {
         }
       />
       <CardContent sx={{ '& .apexcharts-xcrosshairs.apexcharts-active': { opacity: 0 } }}>
-        <ReactApexcharts
-          type='bar'
-          height={205}
-          options={options}
-          series={[{ data: [0, 57, 45, 75, 58, 40, 65, 30, 41, 20, 11, 23] }]}
-        />
+        <ReactApexcharts type='bar' height={205} options={options} series={[{ data: renderData() }]} />
         <Box sx={{ mb: 7, display: 'flex', alignItems: 'center' }}>
           <Typography variant='h5' sx={{ mr: 4 }}>
             45%

@@ -1,20 +1,14 @@
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
+import CustomerCare from 'src/views/customer-care'
 
-
-import TableStickyHeader from 'src/views/customer-care'
-
-const MUITable = () => {
-
-    return (
-        <Grid item xs={12}>
-            <Card>
-                <CardHeader title='Customer Care' titleTypographyProps={{ variant: 'h6' }} />
-                {/* <TableStickyHeader /> */}
-            </Card>
-        </Grid>
-    )
+const CustomerService = () => {
+  return (
+    <div>
+      <CustomerCare />
+    </div>
+  )
 }
 
-export default MUITable
+export default CustomerService

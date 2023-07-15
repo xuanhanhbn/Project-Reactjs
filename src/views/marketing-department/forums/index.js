@@ -1,19 +1,11 @@
-import React, { memo } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { memo, useEffect } from 'react'
 import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
 import Divider from '@mui/material/Divider'
-import MarketingDepartmentHeader from '../marketingDepartmentHeader'
-import Table from '@mui/material/Table'
-import TableRow from '@mui/material/TableRow'
-import TableHead from '@mui/material/TableHead'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import { listTopic } from 'src/views/marketing-department/forums/constants'
-import Paper from '@mui/material/Paper'
 import { Input } from 'antd'
 import CardActions from '@mui/material/CardActions'
 import Link from 'next/link'
@@ -22,18 +14,61 @@ import TableCommon from 'src/components/TableCommon'
 import { Delete } from 'mdi-material-ui'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import { useCallback } from 'react'
-import { columns } from './constants'
+import { columns, createTopic } from './constants'
+import { useDispatch, useSelector } from 'react-redux'
+import { makeSelectMakerting, marketingActions } from '../marketingSlice'
+import Loading from 'src/components/Loading'
+import { useSnackbar } from 'notistack'
+import { Controller, useForm } from 'react-hook-form'
+import { TextField } from '@mui/material'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as Yup from 'yup'
 
 const { TextArea } = Input
 
-const ImgStyled = styled('img')(({ theme }) => ({
-  width: 120,
-  height: 120,
-  marginRight: theme.spacing(6.25),
-  borderRadius: theme.shape.borderRadius
-}))
+const validationSchema = Yup.object().shape({
+  content: Yup.string().required('Content is required'),
+  topic: Yup.string().required('Topic is required')
+})
 
 function MarketingForums() {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(validationSchema)
+  })
+  const dispatch = useDispatch()
+  const { enqueueSnackbar } = useSnackbar()
+
+  const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
+
+  useEffect(() => {
+    dispatch(marketingActions.getListTopic())
+  }, [])
+
+  const globalData = useSelector(makeSelectMakerting)
+  const { isLoading, isError, isCreate } = globalData
+  const dataDocument = globalData?.dataTopic
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(marketingActions.clear())
+      handleShowSnackbar('An error occurred, please try again.', 'error')
+    }
+  }, [isError])
+
+  useEffect(() => {
+    if (isCreate) {
+      dispatch(marketingActions.clear())
+      handleShowSnackbar('Create Success')
+      dispatch(marketingActions.getListTopic())
+      reset()
+    }
+  }, [isCreate])
+
   const parseData = useCallback((item, field, index) => {
     if (field === 'index') {
       return index + 1
@@ -45,11 +80,13 @@ function MarketingForums() {
           <Link
             passHref
             href={{
-              pathname: '/account-settings/',
-              query: { ...item, type: 'not' }
+              pathname: '/marketing-department/forums/topic',
+              query: { ...item }
             }}
           >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+            <Button>
+              <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+            </Button>
           </Link>
           {/* </Button> */}
           <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
@@ -60,6 +97,12 @@ function MarketingForums() {
     return item[field]
   }, [])
 
+  const onSubmit = data => {
+    dispatch(marketingActions.createTopic(data))
+  }
+
+  const handleCancel = () => reset()
+
   return (
     <div>
       <Breadcrumb style={{ marginBottom: 30 }}>
@@ -69,7 +112,7 @@ function MarketingForums() {
       {/* <MarketingDepartmentHeader /> */}
       <Card className='mt-4'>
         <TableCommon
-          data={[]}
+          data={Array.isArray(dataDocument) && dataDocument.length > 0 ? dataDocument : []}
           parseFunction={parseData}
           columns={columns}
           isShowPaging
@@ -82,22 +125,73 @@ function MarketingForums() {
             Create New Topic
           </Typography>
           <Divider sx={{ marginBottom: 10, borderColor: 'black' }} />
-          <Typography variant='h5' sx={{ marginBottom: 2, fontWeight: 600 }}>
+          <Typography variant='h5' sx={{ marginBottom: 5, fontWeight: 600 }}>
             Topic Title
           </Typography>
-          <Input style={{ borderRadius: 6, marginTop: 10, padding: '10px 20px' }} />
-          <TextArea rows={6} style={{ marginTop: 30, borderRadius: 6 }} />
+          {createTopic.map(topic => {
+            const { field } = topic
+            const message = errors[field] && errors[field].message
+
+            return (
+              <>
+                <Controller
+                  key={`createTopic_${topic.field}`}
+                  control={control}
+                  render={({ field: { onChange, value } }) => {
+                    if (topic.field === 'topic') {
+                      return (
+                        <TextField
+                          name={topic.field}
+                          label={topic.name}
+                          placeholder={topic.name}
+                          onChange={onChange}
+                          value={value}
+                          fullWidth
+                        />
+                      )
+                    }
+
+                    return (
+                      <TextArea
+                        name={topic.field}
+                        value={value}
+                        placeholder={topic.name}
+                        onChange={onChange}
+                        rows={6}
+                        style={{ marginTop: 30, borderRadius: 6 }}
+                      />
+                    )
+                  }}
+                  name={topic.field}
+                />
+                <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{message}</Typography>
+              </>
+            )
+          })}
 
           <CardActions>
-            <Button size='large' type='submit' sx={{ padding: '10px 20px' }} variant='contained'>
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              size='large'
+              type='submit'
+              sx={{ padding: '10px 20px' }}
+              variant='contained'
+            >
               Submit
             </Button>
-            <Button size='large' color='secondary' variant='outlined' sx={{ padding: '10px 20px' }}>
+            <Button
+              onClick={() => handleCancel()}
+              size='large'
+              color='secondary'
+              variant='outlined'
+              sx={{ padding: '10px 20px' }}
+            >
               Cancel
             </Button>
           </CardActions>
         </CardContent>
       </Card>
+      <Loading isLoading={isLoading} />
     </div>
   )
 }

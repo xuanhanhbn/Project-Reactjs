@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -21,8 +22,9 @@ import { Controller, useForm } from 'react-hook-form'
 import { TextField, Typography } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import { useDispatch } from 'react-redux'
-import { settingAction } from './accountSettingSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { makeSelectSetting, settingAction } from './accountSettingSlice'
+import { useSnackbar } from 'notistack'
 
 const validationSchema = Yup.object().shape({
   oldPassword: Yup.string().required('Current Password is required'),
@@ -35,10 +37,12 @@ const validationSchema = Yup.object().shape({
 const TabSecurity = props => {
   const { dataUser } = props
   const dispatch = useDispatch()
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(validationSchema)
@@ -50,6 +54,25 @@ const TabSecurity = props => {
     confirmNewPassword: '',
     showCurrentPassword: false
   }
+
+  const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
+
+  const settingData = useSelector(makeSelectSetting)
+  const isError = settingData?.isError
+  const isSuccess = settingData?.isSuccess
+
+  useEffect(() => {
+    if (isError) {
+      handleShowSnackbar('There was an error. Please try again.', 'error')
+    }
+  }, [isError])
+
+  useEffect(() => {
+    if (isSuccess) {
+      handleShowSnackbar('Change Password Success')
+      reset()
+    }
+  }, [isSuccess])
 
   // ** States
   const [dataRequest, setDataRequest] = useState(baseDataRequest)
@@ -145,12 +168,12 @@ const TabSecurity = props => {
       <Divider sx={{ margin: 0 }} />
 
       <CardContent>
-        <Box sx={{ mt: 1.75, display: 'flex', alignItems: 'center' }}>
+        {/* <Box sx={{ mt: 1.75, display: 'flex', alignItems: 'center' }}>
           <KeyOutline sx={{ marginRight: 3 }} />
           <Typography variant='h6'>Two-factor authentication</Typography>
-        </Box>
+        </Box> */}
 
-        <Box sx={{ mt: 5.75, display: 'flex', justifyContent: 'center' }}>
+        {/* <Box sx={{ mt: 5.75, display: 'flex', justifyContent: 'center' }}>
           <Box
             sx={{
               maxWidth: 368,
@@ -174,15 +197,15 @@ const TabSecurity = props => {
               a password to log in. Learn more.
             </Typography>
           </Box>
-        </Box>
+        </Box> */}
 
         <Box sx={{ mt: 11 }}>
           <Button variant='contained' onClick={handleSubmit(onSubmit)} sx={{ marginRight: 3.5 }}>
             Save Changes
           </Button>
-          <Button type='reset' variant='outlined' color='secondary' onClick={() => handleResetForm()}>
+          {/* <Button type='reset' variant='outlined' color='secondary' onClick={() => handleResetForm()}>
             Reset
-          </Button>
+          </Button> */}
         </Box>
       </CardContent>
     </form>

@@ -39,7 +39,11 @@ const data = [
   }
 ]
 
-const TotalEarning = () => {
+const TotalEarning = props => {
+  const { dataDashboard } = props
+
+  // console.log('dataDashboard: ', dataDashboard)
+
   return (
     <Card>
       <CardHeader
@@ -58,7 +62,7 @@ const TotalEarning = () => {
           </Typography>
         </Box>
 
-        <Typography component='p' variant='caption' sx={{ mb: 10 }} />
+        <Typography component='p' variant='caption' sx={{ mb: 9 }} />
 
         {data.map((item, index) => {
           return (

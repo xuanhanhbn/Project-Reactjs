@@ -5,55 +5,55 @@ const initialState = {
   errorMessage: '',
   isSuccess: false,
   isError: false,
-  isCreate: false,
-  isChangeAvatarSuccess: false,
-  dataCustomer: [],
+  dataDashBoard: [],
+  urlImage: '',
 
   dataError: {}
 }
 
-const accountSetting = createSlice({
-  name: 'accountSetting',
+const dasboard = createSlice({
+  name: 'dasboard',
   initialState,
   reducers: {
-    changePassword(state) {
+    getListDashBoard(state) {
       state.isLoading = true
     },
-    changePasswordFailed(state, action) {
+    getListDashBoardFailed(state, action) {
       state.isLoading = false
       state.isError = true
       state.dataError = action.payload || {}
       state.errorMessage = ''
     },
-    changePasswordSuccess(state, action) {
+    getListDashBoardSuccess(state, action) {
       state.isLoading = false
+      state.dataDashBoard = action.payload || []
       state.isSuccess = true
     },
-    changeAvatar(state) {
+
+    getUrlImage(state) {
       state.isLoading = true
     },
-    changeAvatarFailed(state, action) {
+    getUrlImageFailed(state, action) {
       state.isLoading = false
       state.isError = true
       state.dataError = action.payload || {}
       state.errorMessage = ''
     },
-    changeAvatarSuccess(state, action) {
+    getUrlImageSuccess(state, action) {
       state.isLoading = false
-      state.isChangeAvatarSuccess = true
+      state.urlImage = action.payload || ''
+      state.isSuccess = true
     },
-
     clear(state) {
       state.isLoading = false
       state.isSuccess = false
       state.isError = false
-      state.isChangeAvatarSuccess = false
     }
   }
 })
 
-export const settingAction = accountSetting.actions
+export const dashboardActions = dasboard.actions
 
-export const makeSelectSetting = state => state.setting
+export const makeSelectDashBoard = state => state.dashboard
 
-export default accountSetting.reducer
+export default dasboard.reducer

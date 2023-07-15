@@ -13,19 +13,35 @@ import customerReducer from 'src/views/custommer-dashboard/customerSlice'
 import loginReducer from './pages/login/loginSlice'
 import loginSaga from './pages/login/loginSaga'
 
+// Setting
 import accountSettingSaga from 'src/views/account-settings/accoutSettingSaga'
 import accountSettingReducer from 'src/views/account-settings/accountSettingSlice'
+
+// DASHBOARD
+import dashboardSaga from 'src/views/dashboard/dashboardSaga'
+import dashboardReducer from 'src/views/dashboard/dashboardSlice'
+
+// DOCUMENT
+import documentSaga from 'src/views/admin/documents/documentSaga'
+import documentReducer from 'src/views/admin/documents/documentSlice'
+
+// MARKETING
+import marketingSaga from 'src/views/marketing-department/marketingSaga'
+import marketingReducer from 'src/views/marketing-department/marketingSlice'
 
 // registry reducer
 const reducers = combineReducers({
   customer: customerReducer,
   login: loginReducer,
-  setting: accountSettingReducer
+  setting: accountSettingReducer,
+  dashboard: dashboardReducer,
+  document: documentReducer,
+  marketing: marketingReducer
 })
 
 // registry sagas
 function* rootSaga() {
-  yield all([customerSaga(), loginSaga(), accountSettingSaga()])
+  yield all([customerSaga(), loginSaga(), accountSettingSaga(), dashboardSaga(), documentSaga(), marketingSaga()])
 }
 
 // const persistConfig = {

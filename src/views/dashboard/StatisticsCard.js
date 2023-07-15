@@ -17,32 +17,30 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 
 const salesData = [
   {
-    stats: '245k',
-    title: 'Transaction',
+    field: 'monthCustomer',
+    title: 'monthCustomer',
     color: 'primary',
     icon: <TrendingUp sx={{ fontSize: '1.75rem' }} />
   },
   {
-    stats: '12.5k',
-    title: 'Customers',
+    field: 'monthIncome',
+    title: 'monthIncome',
     color: 'success',
     icon: <AccountOutline sx={{ fontSize: '1.75rem' }} />
   },
   {
-    stats: '1.54k',
+    field: 'monthTransaction',
     color: 'warning',
-    title: 'Total Incom',
+    title: 'monthTransaction',
     icon: <CellphoneLink sx={{ fontSize: '1.75rem' }} />
-  },
-  {
-    stats: '$88k',
-    color: 'info',
-    title: 'Total Staff',
-    icon: <CurrencyUsd sx={{ fontSize: '1.75rem' }} />
   }
 ]
 
-const renderStats = () => {
+const renderStats = data => {
+  const renderValue = item => {
+    return <Typography variant='h6'>{data[item.field]}</Typography>
+  }
+
   return salesData.map((item, index) => (
     <Grid item xs={12} sm={3} key={index}>
       <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -61,6 +59,7 @@ const renderStats = () => {
         </Avatar>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography variant='caption'>{item.title}</Typography>
+          {renderValue(item)}
           <Typography variant='h6'>{item.stats}</Typography>
         </Box>
       </Box>
@@ -68,7 +67,9 @@ const renderStats = () => {
   ))
 }
 
-const StatisticsCard = () => {
+const StatisticsCard = props => {
+  const { dataDashboard } = props
+
   return (
     <Card>
       <CardHeader
@@ -96,7 +97,7 @@ const StatisticsCard = () => {
       />
       <CardContent sx={{ pt: theme => `${theme.spacing(3)} !important` }}>
         <Grid container spacing={[5, 0]}>
-          {renderStats()}
+          {renderStats(dataDashboard)}
         </Grid>
       </CardContent>
     </Card>
