@@ -91,17 +91,6 @@ const TabInfo = () => {
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            {/* <DatePickerWrapper>
-              <DatePicker
-                selected={date}
-                showYearDropdown
-                showMonthDropdown
-                id='account-settings-date'
-                placeholderText='MM-DD-YYYY'
-                customInput={<CustomInput />}
-                onChange={date => setDate(date)}
-              />
-            </DatePickerWrapper> */}
             <Controller
               control={control}
               render={({ field }) => (

@@ -51,9 +51,7 @@ function Transactions() {
         <Breadcrumb.Item>
           <Link href='/admin/dashboard'>Company Active</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Link href='/transactions'>Transactions</Link>
-        </Breadcrumb.Item>
+        <Breadcrumb.Item>Transactions</Breadcrumb.Item>
       </Breadcrumb>
 
       <TableCommon

@@ -63,7 +63,12 @@ function MarketingForums() {
   return (
     <div>
       <Breadcrumb style={{ marginBottom: 30 }}>
-        <Breadcrumb.Item>Marketing Department</Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link href='/admin/dashboard'>Company Acttive</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link href='/marketing-department/forums'>Marketing Department</Link>
+        </Breadcrumb.Item>
         <Breadcrumb.Item>Forums</Breadcrumb.Item>
       </Breadcrumb>
       {/* <MarketingDepartmentHeader /> */}

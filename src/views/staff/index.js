@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, Fragment, useEffect, useCallback } from 'react'
+import React, { useState, Fragment, useEffect, useCallback, memo } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -31,6 +31,10 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import { purple } from '@mui/material/colors'
 import FormCreate from './components/FormCreate'
+import Loading from 'src/components/Loading'
+
+import { makeSelectStaff, staffActions } from './staffSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
@@ -46,6 +50,38 @@ const Row = props => {
 
   // ** State
   const [open, setOpen] = useState(false)
+
+  const dispatch = useDispatch()
+
+  const globalData = useSelector(makeSelectStaff)
+  const dataStaff = globalData?.dataStaff
+  const { isCreate, isLoading } = globalData
+
+  const [isOpenModal, setIsOpenModal] = useState(false)
+
+  // Xử lí mở modal
+  const handleOpenModalCreateCustomer = () => setIsOpenModal(true)
+
+  // Xử lí đóng modal
+  const handleCloseModalCreate = () => setIsOpenModal(false)
+
+  // console.log('dataStaff: ', dataStaff)
+
+  const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
+
+  useEffect(() => {
+    dispatch(staffActions.getListStaff())
+  }, [])
+
+  // Xử lí khi thêm mới thành công sẽ call lại api danh sách
+  useEffect(() => {
+    if (isCreate) {
+      dispatch(staffActions.clear())
+      dispatch(staffActions.getListStaff())
+      setIsOpenModal(false)
+      handleShowSnackbar('succeed')
+    }
+  }, [isCreate])
 
   // Xử lí render ra STT & actions
   const parseData = useCallback((item, field, index) => {
@@ -95,7 +131,7 @@ const Row = props => {
             <Box sx={{ m: 2 }}>
               <Table size='small' aria-label='purchases'>
                 <TableCommon
-                  data={[]}
+                  data={dataStaff || []}
                   parseFunction={parseData}
                   columns={columns}
                   isShowPaging
@@ -122,9 +158,12 @@ const TableCollapsible = () => {
   return (
     <div>
       <Breadcrumb style={{ marginBottom: 30 }}>
-        <Breadcrumb.Item>Marketing Department</Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link href='/admin/dashboard'>Company Active</Link>
+        </Breadcrumb.Item>
         <Breadcrumb.Item>Staff</Breadcrumb.Item>
       </Breadcrumb>
+
       <ColorButton onClick={() => handleOpenModalCreateCustomer()} sx={{ float: right, mb: 8 }}>
         Create User
       </ColorButton>
@@ -160,4 +199,4 @@ const TableCollapsible = () => {
   )
 }
 
-export default TableCollapsible
+export default memo(TableCollapsible)

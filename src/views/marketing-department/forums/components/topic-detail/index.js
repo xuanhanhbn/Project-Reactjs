@@ -10,6 +10,7 @@ import Button from '@mui/material/Button'
 import { Input } from 'antd'
 import { Breadcrumb } from 'antd'
 import { memo } from 'react'
+import Link from 'next/link'
 
 const { TextArea } = Input
 
@@ -24,9 +25,14 @@ function ViewTopics() {
   return (
     <div>
       <Breadcrumb style={{ marginBottom: 30 }}>
-        <Breadcrumb.Item>Marketing Department</Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link href='/admin/dashboard'>Company Acttive</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link href='/marketing-department/forums'>Marketing Department</Link>
+        </Breadcrumb.Item>
+
         <Breadcrumb.Item>Forums</Breadcrumb.Item>
-        <Breadcrumb.Item>View Topic</Breadcrumb.Item>
       </Breadcrumb>
       <Card sx={{ borderRadius: 2 }}>
         <CardContent sx={{ padding: theme => `${theme.spacing(10, 10.25, 6)} !important` }}>

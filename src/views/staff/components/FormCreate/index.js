@@ -1,8 +1,9 @@
-import React, { memo } from 'react'
+import React, { memo, forwardRef } from 'react'
 import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
+import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
 import CardActions from '@mui/material/CardActions'
 import Divider from '@mui/material/Divider'
@@ -12,19 +13,32 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import { FormControl, InputLabel, MenuItem, TextField, Typography } from '@mui/material'
+import MenuItem from '@mui/material/MenuItem'
+import Typography from '@mui/material/Typography'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import TextField from '@mui/material/TextField'
+import moment from 'moment/moment'
+
+import DatePicker from 'react-datepicker'
+
+import 'react-datepicker/dist/react-datepicker.css'
+
+// ** Styled Components
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 import { Controller, useForm } from 'react-hook-form'
-import { roleAccount, inputCreateUser } from '../../constant'
-// import ApiContext from 'src/@core/store/context'
-// import { useContext } from 'react'
-// import { get, postApiProduct } from './api'
-// import api, { BASE_URL } from 'src/utils/baseApiNoAuth'
-import { useDispatch, useSelector } from 'react-redux'
-import Select from '@mui/material/Select'
-// import { customerActions, makeSelectCustomer } from '../../customerSlice'
+import { roleAccount, inputCreateUser, roleDepartments } from '../../constant'
 
-const style = {
+import { useDispatch, useSelector } from 'react-redux'
+
+import { staffActions, makeSelectStaff } from '../../staffSlice'
+
+const CustomInput = forwardRef((props, ref) => {
+  return <TextField inputRef={ref} label='Birth Date' fullWidth {...props} />
+})
+
+const styles = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -35,31 +49,19 @@ const style = {
   boxShadow: 24
 }
 
-const modalStyles = {
-  inputFields: {
-    marginTop: '20px',
-    marginBottom: '15px',
-    '.MuiFormControl-root': {
-      marginBottom: '20px'
-    }
-  }
-}
-
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('Full Name is required'),
+  firstName: Yup.string().required('First Name is required'),
+  lastName: Yup.string().required('Last Name is required'),
+  username: Yup.string().required('User Name is required'),
   email: Yup.string().required('Email is required').email('Email is invalid.'),
-  telephone: Yup.string()
-    .required('Telephone is required')
-    .matches(phoneRegExp, 'Phone number is not valid')
-    .min(10, 'Telephone minium 10 characters'),
-  address: Yup.string().required('Address is not valid')
+  password: Yup.string().required('Password is required'),
+  roles: Yup.string().required('Roles is not valid'),
+  department: Yup.string().required('Roles is not valid'),
+  dateOfBirth: Yup.string().required('Birth date is not valid')
 })
 function FormCreate(props) {
   const { title, onOpen, onClose, handleSubmitForm, value } = props
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const {
     register,
@@ -73,13 +75,25 @@ function FormCreate(props) {
   })
 
   const renderValueSelect = item => {
-    return roleAccount.map(role => {
-      return (
-        <MenuItem key={role.field} value={role.field}>
-          {role.value}
-        </MenuItem>
-      )
-    })
+    if (item.field === 'roles') {
+      return roleAccount.map(role => {
+        return (
+          <MenuItem key={role.field} value={role.field}>
+            {role.value}
+          </MenuItem>
+        )
+      })
+    }
+
+    if (item.field === 'department') {
+      return roleDepartments.map(role => {
+        return (
+          <MenuItem key={role.field} value={role.field}>
+            {role.value}
+          </MenuItem>
+        )
+      })
+    }
   }
 
   const renderDefaultFilter = item => {
@@ -134,18 +148,25 @@ function FormCreate(props) {
             />
           </FormControl>
 
-          <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{errors.role?.message}</Typography>
+          <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{errors.roles?.message}</Typography>
         </Grid>
       )
     }
   }
 
-  // const globalData = useSelector(makeSelectCustomer)
+  const globalData = useSelector(makeSelectStaff)
   const handleClose = () => onClose()
 
   const onSubmit = data => {
-    // dispatch(customerActions.createCustomer(data))
-    console.log(data)
+    const newDataRequest = {
+      ...data,
+      dateOfBirth: moment(data.dateOfBirth).format('YYYY-MM-DD'),
+      roles: [`${data.roles}`]
+    }
+    console.log('newDataRequest: ', newDataRequest)
+
+    // data.dateOfBirth = moment(data.dateOfBirth).format('YYYY-MM-DD')
+    dispatch(staffActions.createStaff(newDataRequest))
   }
 
   return (
@@ -163,36 +184,62 @@ function FormCreate(props) {
           }
         }}
       >
-        <Fade in={onOpen}>
-          <Box sx={style}>
-            <Card fullWidth>
-              <CardHeader title={title} titleTypographyProps={{ variant: 'h6' }} />
-              <Divider sx={{ margin: 0 }} />
-              <FormControl style={{ width: '100%' }}>
-                <CardContent>
-                  <Grid container spacing={5}>
-                    {inputCreateUser.map(item => renderDefaultFilter(item))}
-                  </Grid>
-                </CardContent>
+        <form>
+          <Fade in={onOpen}>
+            <Box sx={styles}>
+              <Card fullWidth>
+                <CardHeader title={title} titleTypographyProps={{ variant: 'h6' }} />
                 <Divider sx={{ margin: 0 }} />
-                <CardActions style={{ justifyContent: 'flex-end' }}>
-                  <Button size='large' color='secondary' variant='outlined' onClick={() => handleClose()}>
-                    Cancel
-                  </Button>
-                  <Button
-                    size='large'
-                    type='submit'
-                    sx={{ mr: 2 }}
-                    variant='contained'
-                    onClick={handleSubmit(onSubmit)}
-                  >
-                    Submit
-                  </Button>
-                </CardActions>
-              </FormControl>
-            </Card>
-          </Box>
-        </Fade>
+                <FormControl style={{ width: '100%' }}>
+                  <CardContent>
+                    <Grid container spacing={5}>
+                      {inputCreateUser.map(item => renderDefaultFilter(item))}
+                      <Grid item xs={12} sm={6}>
+                        <Typography sx={{ mb: 6, fontWeight: 500 }}>Birth Date :</Typography>
+                        <Controller
+                          control={control}
+                          render={({ field }) => (
+                            <DatePickerWrapper>
+                              <DatePicker
+                                maxDate={new Date()}
+                                id='account-settings-date'
+                                placeholderText='YYYY-MM-DD'
+                                customInput={<CustomInput />}
+                                onChange={date => field.onChange(date)}
+                                selected={field.value}
+                                dateFormat='yyyy-MM-dd'
+                              />
+                            </DatePickerWrapper>
+                          )}
+                          name='dateOfBirth'
+                        />
+                        <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>
+                          {errors.dateOfBirth?.message}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid container spacing={5}></Grid>
+                  </CardContent>
+                  <Divider sx={{ margin: 0 }} />
+                  <CardActions style={{ justifyContent: 'flex-end' }}>
+                    <Button size='large' color='secondary' variant='outlined' onClick={() => handleClose()}>
+                      Cancel
+                    </Button>
+                    <Button
+                      size='large'
+                      type='submit'
+                      sx={{ mr: 2 }}
+                      variant='contained'
+                      onClick={handleSubmit(onSubmit)}
+                    >
+                      Submit
+                    </Button>
+                  </CardActions>
+                </FormControl>
+              </Card>
+            </Box>
+          </Fade>
+        </form>
       </Modal>
     </div>
   )

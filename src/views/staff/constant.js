@@ -22,9 +22,9 @@ const createData = (name, quantity, kpi, review) => {
 }
 
 export const rows = [
-  createData('Phòng Nhân Sự', 159, 6.0, 'Xuất Sắc'),
-  createData('Phòng Kế Toán', 237, 9.0, 'Trung Bình'),
-  createData('Phòng Kinh Tế', 262, 16.0, 'Yếu')
+  createData('HR Deparment', 159, 6.0, 'Very Good'),
+  createData('Accouting Department', 237, 9.0, 'Good'),
+  createData('Marketing Deparment', 262, 16.0, 'Bad')
 ]
 
 export const columns = [
@@ -89,28 +89,41 @@ export const inputCreateUser = [
     inputLabel: 'Password :'
   },
   {
-    field: 'roler',
+    field: 'roles',
     placeHolder: 'Roler',
     type: 'SELECT',
     inputLabel: 'Roler :'
+  },
+  {
+    field: 'department',
+    placeHolder: 'Department',
+    type: 'SELECT',
+    inputLabel: 'Department :'
   }
 ]
 
 export const roleAccount = [
   {
-    field: 'admin',
-    value: 'Admin'
+    field: 'manager',
+    value: 'Manager'
   },
   {
-    field: 'author',
-    value: 'Author'
+    field: 'empolyee',
+    value: 'Empolyee'
+  }
+]
+
+export const roleDepartments = [
+  {
+    field: 'marketing',
+    value: 'Marketing'
   },
   {
-    field: 'editor',
-    value: 'Editor'
+    field: 'humanResources',
+    value: 'Human Resources'
   },
   {
-    field: 'maintainer',
-    value: 'Maintainer'
+    field: 'accounting',
+    value: 'Accounting'
   }
 ]

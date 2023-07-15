@@ -8,7 +8,7 @@ export const createDocs = [
   {
     field: 'category',
     label: 'Category',
-    type: 'INPUT',
+    type: 'SELECT',
     inputLabel: 'Docs category'
   },
   {
@@ -21,5 +21,28 @@ export const createDocs = [
     field: 'content',
     label: 'Content',
     type: 'SUNEDITOR'
+  }
+]
+
+export const roleCategory = [
+  {
+    field: 'employeeProfiles',
+    value: 'Employee Profiles'
+  },
+  {
+    field: 'custommerProfiles',
+    value: 'Customer Profile'
+  },
+  {
+    field: 'productProfile',
+    value: 'Product Profile'
+  },
+  {
+    field: 'projectProfile',
+    value: 'Project Profile'
+  },
+  {
+    field: 'other',
+    value: 'Other'
   }
 ]
