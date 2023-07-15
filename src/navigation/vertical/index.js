@@ -106,25 +106,25 @@ const navigation = () => {
     },
     {
       title: 'Transactions',
-      icon: Login,
+      icon: FileDocumentMultipleOutline,
       path: '/transactions',
       isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE']
     },
 
     // Document
-    {
-      sectionTitle: 'Documents',
-      isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
-    },
-    {
-      title: 'Documents',
-      icon: FileDocument,
-      path: '/admin/list-documents',
-      isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
-    },
+    // {
+    //   sectionTitle: 'Documents',
+    //   isShowMenu: true,
+    //   role: ['Admin', 'Manager', 'EMPOYLEE']
+    // },
+    // {
+    //   title: 'Documents',
+    //   icon: FileDocument,
+    //   path: '/admin/list-documents',
+    //   isShowMenu: true,
+    //   role: ['Admin', 'Manager', 'EMPOYLEE']
+    // },
     {
       sectionTitle: 'Customer Care',
       isShowMenu: true,
@@ -156,20 +156,20 @@ const navigation = () => {
       path: '/staff',
       isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE']
-    },
-
-    {
-      sectionTitle: 'Feedback',
-      isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
-    },
-    {
-      icon: CubeOutline,
-      title: 'FeedBack',
-      path: '/feedback',
-      isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
     }
+
+    // {
+    //   sectionTitle: 'Feedback',
+    //   isShowMenu: true,
+    //   role: ['Admin', 'Manager', 'EMPOYLEE']
+    // }
+    // {
+    //   icon: CubeOutline,
+    //   title: 'FeedBack',
+    //   path: '/feedback',
+    //   isShowMenu: true,
+    //   role: ['Admin', 'Manager', 'EMPOYLEE']
+    // }
   ]
 }
 
