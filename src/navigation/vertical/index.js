@@ -7,6 +7,7 @@ import FormatLetterCase from 'mdi-material-ui/FormatLetterCase'
 import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
 import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
+import FaceAgent from 'mdi-material-ui/FaceAgent'
 
 import {
   AccountGroupOutline,
@@ -32,7 +33,16 @@ const navigation = () => {
     {
       title: 'Account Settings',
       icon: AccountCogOutline,
-      path: '/account-settings',
+      path: '/account-settings'
+    },
+    {
+      sectionTitle: 'Customer',
+      isShowMenu: true
+    },
+    {
+      title: 'Account Staff',
+      icon: AccountGroupOutline,
+      path: 'account-staffs',
       isShowMenu: true
     },
     {
@@ -96,13 +106,6 @@ const navigation = () => {
       isShowMenu: true
     },
 
-    // {
-    //   title: 'Custommer Detail',
-    //   icon: AccountCogOutline,
-    //   path: 'custommer-detail',
-    //   isShowMenu: false
-    // },
-
     // Document
     {
       sectionTitle: 'Documents',
@@ -113,10 +116,17 @@ const navigation = () => {
       icon: FileDocument,
       path: '/admin/list-documents',
       isShowMenu: true
-
-      // component: ListDocument
     },
-
+    {
+      sectionTitle: 'Customer Care',
+      isShowMenu: true
+    },
+    {
+      icon: CreditCardOutline,
+      title: 'Customer Care',
+      path: '/customer-care',
+      isShowMenu: true
+    },
     {
       title: 'Forgot Password',
       icon: Login,
@@ -127,39 +137,22 @@ const navigation = () => {
       sectionTitle: 'User Interface',
       isShowMenu: true
     },
-    {
-      title: 'Typography',
-      icon: FormatLetterCase,
-      path: '/typography',
-      isShowMenu: true
-    },
-    {
-      title: 'Icons',
-      path: '/icons',
-      icon: GoogleCirclesExtended,
-      isShowMenu: true
-    },
-    {
-      title: 'Cards',
-      icon: CreditCardOutline,
-      path: '/cards',
-      isShowMenu: true
-    },
-    {
-      title: 'Tables',
-      icon: Table,
-      path: '/tables',
-      isShowMenu: true
-    },
-    {
-      icon: CubeOutline,
-      title: 'Form Layouts',
-      path: '/form-layouts'
-    },
+
     {
       icon: Table,
       title: 'Staff',
       path: '/staff',
+      isShowMenu: true
+    },
+
+    {
+      icon: CreditCardOutline,
+      title: 'customer-care',
+      path: '/customer-care',
+      isShowMenu: true
+    },
+    {
+      sectionTitle: 'Feedback',
       isShowMenu: true
     },
     {

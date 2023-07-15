@@ -20,7 +20,6 @@ function* onGetUserInfo() {
   const url = 'User/me'
   try {
     const response = yield call(getApiUser, url)
-    console.log('response: ', response)
     if (response && response.status === 200) {
       yield put(loginPageActions.userInfoSuccess(response.data))
     } else {

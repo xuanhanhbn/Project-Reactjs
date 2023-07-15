@@ -32,8 +32,8 @@ const AccountSettings = () => {
 
   const router = useRouter()
 
-  // const dataResponse = useSelector(makeSelectLogin)
-  // const dataUser = dataResponse?.dataUser
+  const dataResponse = useSelector(makeSelectLogin)
+  const dataUser = dataResponse?.dataUser
 
   const globalData = router?.query
 
@@ -67,7 +67,7 @@ const AccountSettings = () => {
               </Box>
             }
           />
-          <Tab
+          {/* <Tab
             value='info'
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -75,17 +75,14 @@ const AccountSettings = () => {
                 <TabName>Info</TabName>
               </Box>
             }
-          />
+          /> */}
         </TabList>
 
         <TabPanel sx={{ p: 0 }} value='account'>
-          <TabAccount globalData={globalData} />
+          <TabAccount dataUser={dataUser} />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='security'>
-          <TabSecurity />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='info'>
-          <TabInfo />
+          <TabSecurity dataUser={dataUser} />
         </TabPanel>
       </TabContext>
     </Card>

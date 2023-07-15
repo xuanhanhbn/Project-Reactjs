@@ -23,17 +23,21 @@ import transactionReducer from 'src/views/transactions/transactionSlice'
 import staffSaga from 'src/views/staff/staffSaga'
 import staffReducer from 'src/views/staff/staffSlice'
 
+import accountSettingSaga from 'src/views/account-settings/accoutSettingSaga'
+import accountSettingReducer from 'src/views/account-settings/accountSettingSlice'
+
 // registry reducer
 const reducers = combineReducers({
   customer: customerReducer,
   login: loginReducer,
   transaction: transactionReducer,
-  staff: staffReducer
+  staff: staffReducer,
+  setting: accountSettingReducer
 })
 
 // registry sagas
 function* rootSaga() {
-  yield all([customerSaga(), loginSaga(), transactionSaga(), staffSaga()])
+  yield all([customerSaga(), loginSaga(), transactionSaga(), staffSaga(), accountSettingSaga()])
 }
 
 // const persistConfig = {

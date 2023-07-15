@@ -26,6 +26,7 @@ import { useEffect, useState } from 'react'
 import { parseToken } from 'src/utils/jwt'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginPageActions, makeSelectLogin } from 'src/pages/pages/login/loginSlice'
+import IncomOverview from 'src/views/dashboard/InComOverview'
 
 const Dashboard = () => {
   const loginSuccess = useSelector(makeSelectLogin)
@@ -41,19 +42,23 @@ const Dashboard = () => {
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
-        <Grid item xs={12} md={4}>
-          <Trophy />
-        </Grid>
-        <Grid item xs={12} md={8}>
+        {/* <Grid item xs={12} md={4}> */}
+        {/* <Trophy /> */}
+        {/* </Grid> */}
+        <Grid item xs={12} md={12}>
           <StatisticsCard />
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={12} lg={12}>
           <WeeklyOverview />
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={8} lg={8}>
+          <IncomOverview />
+        </Grid>
+        <Grid item xs={12} md={4} lg={4}>
           <TotalEarning />
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+
+        {/* <Grid item xs={12} md={6} lg={4}>
           <Grid container spacing={6}>
             <Grid item xs={6}>
               <CardStatisticsVerticalComponent
@@ -98,16 +103,16 @@ const Dashboard = () => {
               />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        </Grid> */}
+        {/* <Grid item xs={12} md={6} lg={4}>
           <SalesByCountries />
-        </Grid>
-        <Grid item xs={12} md={12} lg={8}>
+        </Grid> */}
+        {/* <Grid item xs={12} md={12} lg={8}>
           <DepositWithdraw />
         </Grid>
         <Grid item xs={12}>
           <Table />
-        </Grid>
+        </Grid> */}
       </Grid>
     </ApexChartWrapper>
   )
