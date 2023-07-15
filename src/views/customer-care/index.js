@@ -1,28 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ** React Imports
 import { memo, useCallback, useState } from 'react'
 
 // ** MUI Imports
-import Paper from '@mui/material/Paper'
-import Table from '@mui/material/Table'
-import TableRow from '@mui/material/TableRow'
-import TableHead from '@mui/material/TableHead'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TablePagination from '@mui/material/TablePagination'
-import { Button, TextField, Link } from '@mui/material'
-import HomeOutline from 'mdi-material-ui/HomeOutline'
+import { Button, TextField, Link, Typography } from '@mui/material'
 import { Delete } from 'mdi-material-ui'
-import { Magnify } from 'mdi-material-ui'
-import { Breadcrumb } from 'antd'
-import Stack from '@mui/material/Stack'
+import { Breadcrumb, Dropdown } from 'antd'
+import BuildIcon from '@mui/icons-material/Build'
 import { Controller, useForm } from 'react-hook-form'
 import TableCommon from 'src/components/TableCommon'
-import { listCustomerService } from './constant'
+import { listCustomerService, listStatusService, items } from './constant'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 
 const CustomerCare = () => {
   const { control, handleSubmit } = useForm()
+  const [isOpenMenu, setIsOpenMenu] = useState(false)
 
   const onSubmit = data => console.log('data: ', data)
 
@@ -43,14 +35,68 @@ const CustomerCare = () => {
           >
             <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
           </Link>
+          <Dropdown menu={{ items }} trigger={['click']}>
+            <a onClick={e => e.preventDefault()}>
+              <Button color='success'>
+                <BuildIcon fontSize='12' />
+              </Button>
+            </a>
+          </Dropdown>
           {/* </Button> */}
           <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
         </>
       )
     }
+    if (field === 'status') {
+      if (item.status === 'Not Processed') {
+        return (
+          <div style={{ backgroundColor: 'rgb(244 196 196)', borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
+            <Typography sx={{ color: 'red', textAlign: 'center' }}>Not Processed</Typography>
+          </div>
+        )
+      }
+      if (item.status === 'In Processed') {
+        return (
+          <div style={{ backgroundColor: 'rgb(244 243 196)', borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
+            <Typography sx={{ color: 'warning.main', textAlign: 'center' }}>In Processed</Typography>
+          </div>
+        )
+      }
+      if (item.status === 'Processed') {
+        return (
+          <div style={{ backgroundColor: 'rgb(205 246 215)', borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
+            <Typography sx={{ color: 'success.main', textAlign: 'center' }}>Processed</Typography>
+          </div>
+        )
+      }
+    }
 
     return item[field]
   }, [])
+
+  const fakeData = [
+    {
+      customerName: 'hanhnx',
+      phoneNumber: '0984312342',
+      email: 'hanhnx@gmail.com',
+      problem: 'Abc...',
+      status: 'Not Processed'
+    },
+    {
+      customerName: 'hanhnx',
+      phoneNumber: '0984312342',
+      email: 'hanhnx@gmail.com',
+      problem: 'Abc...',
+      status: 'In Processed'
+    },
+    {
+      customerName: 'hanhnx',
+      phoneNumber: '0984312342',
+      email: 'hanhnx@gmail.com',
+      problem: 'Abc...',
+      status: 'Processed'
+    }
+  ]
 
   return (
     <div style={{ flex: 1 }}>
@@ -107,7 +153,7 @@ const CustomerCare = () => {
       {/* Table */}
       <div className='table-data mt-3'>
         <TableCommon
-          data={[]}
+          data={fakeData || []}
           parseFunction={parseData}
           columns={listCustomerService}
           isShowPaging
@@ -120,6 +166,7 @@ const CustomerCare = () => {
           // totalDisplay={dataRequest.size || 10}
         />
       </div>
+      {/* {isOpenMenu && <MenuStatus isOpenMenu={isOpenMenu} setIsOpenMenu={setIsOpenMenu} />} */}
     </div>
   )
 }

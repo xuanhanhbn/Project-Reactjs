@@ -23,8 +23,8 @@ export const inputSearchCustomer = [
     label: 'Name'
   },
   {
-    field: 'customerId',
-    label: 'Customer Id'
+    field: 'email',
+    label: 'Email'
   },
   {
     field: 'phone',

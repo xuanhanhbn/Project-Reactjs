@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Breadcrumb, Typography } from 'antd'
 import Link from 'next/link'
@@ -6,13 +7,16 @@ import TableCommon from 'src/components/TableCommon'
 import { columns } from './constants'
 import { transactionActions, makeSelectTransaction } from './transactionSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { Button } from '@mui/material'
+import FormCreate from './components/ModalCreate'
 
 function Transactions() {
   const dispatch = useDispatch()
 
+  const [isOpenModal, setIsOpenModal] = useState(false)
+
   const globalData = useSelector(makeSelectTransaction)
   const dataTransaction = globalData?.dataTransaction
-  console.log('dataTransaction: ', dataTransaction)
 
   // Call api danh sach
   useEffect(() => {
@@ -41,9 +45,21 @@ function Transactions() {
         </>
       )
     }
+    if (field === 'name') {
+      return <Typography>{item?.customer?.name}</Typography>
+    }
+    if (field === 'email') {
+      return <Typography>{item?.customer?.email}</Typography>
+    }
+    if (field === 'address') {
+      return <Typography>{item?.customer?.address}</Typography>
+    }
 
     return item[field]
   }, [])
+
+  const handleOpenModalCreate = () => setIsOpenModal(true)
+  const handleCloseModalCreate = () => setIsOpenModal(false)
 
   return (
     <div>
@@ -53,7 +69,11 @@ function Transactions() {
         </Breadcrumb.Item>
         <Breadcrumb.Item>Transactions</Breadcrumb.Item>
       </Breadcrumb>
-
+      <div className='d-flex justify-content-end mb-3'>
+        <Button size='large' variant='contained' sx={{ marginLeft: 10 }} onClick={() => handleOpenModalCreate()}>
+          Thêm mới
+        </Button>
+      </div>
       <TableCommon
         data={dataTransaction || []}
         parseFunction={parseData}
@@ -61,6 +81,16 @@ function Transactions() {
         isShowPaging
         classNameTable='tblCampaignReport'
       />
+      {isOpenModal && (
+        <FormCreate
+          onOpen={isOpenModal}
+          onClose={() => handleCloseModalCreate()}
+          title='Add Transaction'
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+          style={{ minWidth: 340 }}
+        />
+      )}
     </div>
   )
 }

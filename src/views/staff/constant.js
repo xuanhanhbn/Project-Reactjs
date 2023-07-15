@@ -45,7 +45,7 @@ export const columns = [
     minWidth: 170
   },
   {
-    field: 'deparment',
+    field: 'department',
     name: 'Deparment',
     minWidth: 170
   },

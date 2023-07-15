@@ -6,6 +6,7 @@ const initialState = {
   isSuccess: false,
   isError: false,
   isCreate: false,
+  isCreateFailed: false,
   dataCustomer: [],
   dataError: {}
 }
@@ -33,7 +34,7 @@ const customer = createSlice({
     },
     createCustomerFailed(state, action) {
       state.isLoading = false
-      state.isError = true
+      state.isCreateFailed = true
       state.dataError = action.payload || {}
       state.errorMessage = ''
     },
@@ -46,6 +47,7 @@ const customer = createSlice({
       state.isSuccess = false
       state.isError = false
       state.isCreate = false
+      state.isCreateFailed = false
     }
   }
 })
