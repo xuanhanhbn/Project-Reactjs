@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Grid } from '@mui/material'
@@ -15,6 +15,9 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { listOder } from './constant'
 import { Breadcrumb } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
+import { customerActions, makeSelectCustomer } from '../../customerSlice'
+import { useRouter } from 'next/router'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -23,15 +26,10 @@ const ImgStyled = styled('img')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary
-}))
+function CustommerDetails(props) {
+  const router = useRouter()
+  const globalData = router?.query
 
-function CustommerDetails() {
   return (
     <div>
       <Breadcrumb style={{ marginBottom: 30 }}>
@@ -125,7 +123,7 @@ function CustommerDetails() {
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                           <div>
                             <span style={{ color: '#3a354161' }}>Name</span>
-                            <p style={{ fontWeight: 600, marginTop: 4 }}>Nguyen Van A</p>
+                            <p style={{ fontWeight: 600, marginTop: 4 }}>{globalData.name}</p>
                           </div>
                           <div>
                             <ImgStyled
@@ -137,15 +135,15 @@ function CustommerDetails() {
                         </div>
                         <div style={{ marginBottom: 8 }}>
                           <span style={{ color: '#3a354161' }}>Email</span>
-                          <p style={{ fontWeight: 600, marginTop: 3 }}>nguyenvana@gmail.com</p>
+                          <p style={{ fontWeight: 600, marginTop: 3 }}>{globalData.email}</p>
                         </div>
                         <div style={{ marginBottom: 8 }}>
                           <span style={{ color: '#3a354161' }}>Phone</span>
-                          <p style={{ fontWeight: 600, marginTop: 3 }}>+84000444222</p>
+                          <p style={{ fontWeight: 600, marginTop: 3 }}>{globalData.telephone}</p>
                         </div>
                         <div style={{ marginBottom: 8 }}>
                           <span style={{ color: '#3a354161' }}>Address</span>
-                          <p style={{ fontWeight: 600, marginTop: 3 }}>160 Parkway, CA, USA</p>
+                          <p style={{ fontWeight: 600, marginTop: 3 }}>{globalData.address}</p>
                         </div>
                       </div>
                       <div style={{ marginTop: 20, display: 'flex', justifyContent: 'space-between' }}>
@@ -155,7 +153,8 @@ function CustommerDetails() {
                             border: '1px solid  #3a35411f',
                             padding: '5px 50px',
                             backgroundColor: '#9155FD',
-                            color: 'white'
+                            color: 'white',
+                            marginLeft: 10
                           }}
                         >
                           Message

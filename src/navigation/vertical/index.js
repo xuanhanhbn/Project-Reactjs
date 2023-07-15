@@ -35,13 +35,13 @@ const navigation = () => {
       isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE']
     },
-    {
-      title: 'Account Staff',
-      icon: AccountGroupOutline,
-      path: 'account-staffs',
-      isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
-    },
+    // {
+    //   title: 'Account Staff',
+    //   icon: AccountGroupOutline,
+    //   path: 'account-staffs',
+    //   isShowMenu: true,
+    //   role: ['Admin', 'Manager', 'EMPOYLEE']
+    // },
     {
       title: 'Customer',
       icon: AccountCogOutline,

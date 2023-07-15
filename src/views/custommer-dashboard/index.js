@@ -74,7 +74,7 @@ function ListCustomer() {
           <Link
             passHref
             href={{
-              pathname: '/account-settings/',
+              pathname: '/customer-dashboard/custommer-detail',
               query: { ...item, type: 'not' }
             }}
           >
@@ -105,8 +105,8 @@ function ListCustomer() {
   return (
     <div style={{ flex: 1 }}>
       <Breadcrumb>
-        <Breadcrumb.Item>Đăng ký dịch vụ</Breadcrumb.Item>
-        <Breadcrumb.Item>Khách hàng cá nhân</Breadcrumb.Item>
+        <Breadcrumb.Item>Company Active</Breadcrumb.Item>
+        <Breadcrumb.Item>Customer Dashboard</Breadcrumb.Item>
       </Breadcrumb>
       {/* Button Add */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20, marginTop: 50 }}>
@@ -150,7 +150,7 @@ function ListCustomer() {
               onClick={() => handleOpenModalCreateCustomer()}
               className={styles.test}
             >
-              Thêm mới
+              Create New
             </Button>
           </Stack>
         </form>
