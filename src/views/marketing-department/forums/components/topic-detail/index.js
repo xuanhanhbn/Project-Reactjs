@@ -37,7 +37,6 @@ const validationSchema = Yup.object().shape({
 })
 
 function ViewTopics() {
-  const router = useRouter()
   const dispatch = useDispatch()
   const { enqueueSnackbar } = useSnackbar()
 

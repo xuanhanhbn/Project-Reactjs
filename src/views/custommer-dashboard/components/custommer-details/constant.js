@@ -49,3 +49,22 @@ export const listOder = [
     corlo: 'red'
   }
 ]
+
+export const custommerInfomatinons = [
+  {
+    field: 'name',
+    value: 'Name',
+  },
+  {
+    field: 'email',
+    value: 'Email',
+  },
+  {
+    field: 'telephone',
+    value: 'Phone',
+  },
+  {
+    field: 'address',
+    value: 'Address',
+  },
+]

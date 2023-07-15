@@ -2,16 +2,10 @@
 import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
-import CardMembership from 'src/views/feedback'
+import FeedBacks from 'src/views/feedback'
 
 const CardBasic = () => {
-    return (
-        <Grid>
-            <Grid>
-                <CardMembership />
-            </Grid>
-        </Grid>
-    )
+  return <FeedBacks />
 }
 
 export default CardBasic

@@ -34,7 +34,7 @@ function Transactions() {
           <Link
             passHref
             href={{
-              pathname: '/account-settings/',
+              pathname: '',
               query: { ...item, type: 'not' }
             }}
           >
