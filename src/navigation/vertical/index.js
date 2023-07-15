@@ -39,6 +39,7 @@ const navigation = () => {
       title: 'Account Staff',
       icon: AccountGroupOutline,
       path: 'account-staffs',
+      isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE']
     },
     {
@@ -88,15 +89,25 @@ const navigation = () => {
       openInNewTab: true,
       role: ['Admin', 'Manager', 'EMPOYLEE']
     },
+    // {
+    //   sectionTitle: 'User Interface',
+    //   isShowMenu: true
+    // },
+    // {
+    //   title: 'Create User',
+    //   icon: Login,
+    //   path: '/admin/create-account',
+    //   isShowMenu: true
+    // },
     {
-      sectionTitle: 'User Interface',
+      sectionTitle: 'Transactions',
       isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE']
     },
     {
-      title: 'Create User',
+      title: 'Transactions',
       icon: Login,
-      path: '/admin/create-account',
+      path: '/transactions',
       isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE']
     },

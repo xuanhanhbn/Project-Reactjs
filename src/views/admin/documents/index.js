@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Breadcrumb } from 'antd'
 import Divider from '@mui/material/Divider'
-import { columns } from './constants'
+import { columns, roleCategory } from './constants'
 import Link from 'next/link'
 import { Delete, EyeOutline } from 'mdi-material-ui'
 import TableCommon from 'src/components/TableCommon'
@@ -55,10 +55,14 @@ function ListDocument() {
     return item[field]
   }, [])
 
+
+
   return (
     <div style={{ flex: 1 }}>
       <Breadcrumb style={{ marginBottom: 30 }}>
-        <Breadcrumb.Item>Company Active</Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link href='/admin/dashboard'>Company Active</Link>
+        </Breadcrumb.Item>
         <Breadcrumb.Item>Documents</Breadcrumb.Item>
       </Breadcrumb>
       <Card style={{ borderRadius: 10 }}>

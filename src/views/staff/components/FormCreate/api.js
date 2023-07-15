@@ -1,17 +1,16 @@
-import baseApiAuth from 'src/utils/baseApiAuth'
+import api from 'src/utils/baseApiNoAuth'
 
-
-export const getApiDefault = url =>
+export const getApiProduct = (url, data) =>
   new Promise((resolve, reject) =>
-    baseApiAuth
-      .get(url)
+    api
+      .get(url, data)
       .then(res => resolve(res))
       .catch(err => reject(err))
   )
 
-export const postApiDefault = (url, data) =>
+export const postApiProduct = (url, data) =>
   new Promise((resolve, reject) =>
-    baseApiAuth
+    api
       .post(url, data)
       .then(res => resolve(res))
       .catch(err => reject(err))
