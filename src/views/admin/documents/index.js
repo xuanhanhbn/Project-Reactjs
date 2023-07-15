@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useEffect } from 'react'
 import { Button, Icon, TextField } from '@mui/material'
 
 import { Controller, useForm } from 'react-hook-form'
@@ -11,8 +12,23 @@ import { columns, roleCategory } from './constants'
 import Link from 'next/link'
 import { Delete, EyeOutline } from 'mdi-material-ui'
 import TableCommon from 'src/components/TableCommon'
+import { useDispatch, useSelector } from 'react-redux'
+import { documentActions, makeSelectDocument } from './documentSlice'
+import Loading from 'src/components/Loading'
 
 function ListDocument() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(documentActions.getListDocuments())
+  }, [])
+
+  const globalData = useSelector(makeSelectDocument)
+  const { isLoading } = globalData
+  const dataDocument = globalData?.dataDocument
+
+  console.log('dataDocument: ', dataDocument)
+
   const parseData = useCallback((item, field, index) => {
     if (field === 'index') {
       return index + 1
@@ -69,9 +85,10 @@ function ListDocument() {
           </Button>
         </CardContent>
       </Card>
+      <Loading isLoading={isLoading} />
       <Card style={{ borderRadius: 10, marginTop: '20px' }}>
         <TableCommon
-          data={[]}
+          data={dataDocument || []}
           parseFunction={parseData}
           columns={columns}
           isShowPaging

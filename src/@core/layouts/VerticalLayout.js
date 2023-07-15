@@ -21,6 +21,8 @@ import ScrollToTop from 'src/@core/components/scroll-to-top'
 // ** Styled Component
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { Typography } from '@mui/material'
+import { useSelector } from 'react-redux'
+import { makeSelectLogin } from 'src/pages/pages/login/loginSlice'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
@@ -49,6 +51,11 @@ const ContentWrapper = styled('main')(({ theme }) => ({
 const VerticalLayout = props => {
   // ** Props
   const { settings, children, scrollToTop, verticalNavItems } = props
+
+  const getDataGetMe = useSelector(makeSelectLogin)
+  const dataUser = getDataGetMe?.dataUser
+  const roleUser = dataUser?.roles
+
   const [login, setLogin] = useState()
 
   // ** Vars
@@ -65,6 +72,12 @@ const VerticalLayout = props => {
     const dataLoginPage = JSON.parse(localStorage.getItem('loginPage'))
     setLogin(dataLoginPage)
   }, [])
+
+  const handleCheckRole = verticalNavItems.map(item => {
+    const role = roleUser?.some(value => item?.role?.includes(value))
+
+    return role
+  })
 
   return (
     <>
@@ -108,10 +121,17 @@ const VerticalLayout = props => {
           className='app-content d-flex justify-content-center align-items-center'
           sx={{ minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}
         >
-          <Typography>Vui lòng đăng nhập</Typography>
+          <Typography>Plesae Login</Typography>
         </Box>
       )}
-
+      {!login && handleCheckRole?.filter(roles => roles === false) && (
+        <Box
+          className='app-content d-flex justify-content-center align-items-center'
+          sx={{ minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}
+        >
+          <Typography>ccc</Typography>
+        </Box>
+      )}
       {scrollToTop ? (
         scrollToTop(props)
       ) : (

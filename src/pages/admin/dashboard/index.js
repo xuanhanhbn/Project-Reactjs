@@ -27,17 +27,44 @@ import { parseToken } from 'src/utils/jwt'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginPageActions, makeSelectLogin } from 'src/pages/pages/login/loginSlice'
 import IncomOverview from 'src/views/dashboard/InComOverview'
+import { dashboardActions, makeSelectDashBoard } from 'src/views/dashboard/dashboardSlice'
+import Loading from 'src/components/Loading'
+import { getApiDefault } from 'src/views/dashboard/api'
 
 const Dashboard = () => {
+  const [isLoadingCo, setIsLoadingCo] = useState(false)
+
   const loginSuccess = useSelector(makeSelectLogin)
+  const getDataDashboard = useSelector(makeSelectDashBoard)
+  const dataDashboard = getDataDashboard?.dataDashBoard
+  const { isLoading } = getDataDashboard
   const { isSuccess, dataLogin } = loginSuccess
+  const dataUser = loginSuccess?.dataUser
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (dataLogin) {
       dispatch(loginPageActions.userInfo())
+      dispatch(dashboardActions.getListDashBoard())
+      handleGetUrlImage()
     }
   }, [dataLogin])
+
+  const handleGetUrlImage = async () => {
+    try {
+      setIsLoadingCo(true)
+      const url = `Document/File/${dataUser?.profilePictureId}`
+      const res = await getApiDefault(url)
+      console.log('reSSImage: ', res)
+      if (res && res.status === 200) {
+        setIsLoadingCo(false)
+      }
+    } catch (error) {
+      setIsLoadingCo(false)
+
+      // return handleShowSnackbar('Có lỗi trong quá trình thực hiện', 'warning')
+    }
+  }
 
   return (
     <ApexChartWrapper>
@@ -46,16 +73,16 @@ const Dashboard = () => {
         {/* <Trophy /> */}
         {/* </Grid> */}
         <Grid item xs={12} md={12}>
-          <StatisticsCard />
+          <StatisticsCard dataDashboard={dataDashboard} />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <WeeklyOverview />
+          <WeeklyOverview dataDashboard={dataDashboard} />
         </Grid>
         <Grid item xs={12} md={8} lg={8}>
-          <IncomOverview />
+          <IncomOverview dataDashboard={dataDashboard} />
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
-          <TotalEarning />
+          <TotalEarning dataDashboard={dataDashboard} />
         </Grid>
 
         {/* <Grid item xs={12} md={6} lg={4}>
@@ -114,6 +141,7 @@ const Dashboard = () => {
           <Table />
         </Grid> */}
       </Grid>
+      <Loading isLoading={isLoading} />
     </ApexChartWrapper>
   )
 }

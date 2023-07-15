@@ -37,6 +37,8 @@ const validationSchema = Yup.object().shape({
 // ** Icons Imports
 import Close from 'mdi-material-ui/Close'
 import { inputTabAccount, roleAccount, statusAccount } from './constants'
+import { useDispatch } from 'react-redux'
+import { settingAction } from './accountSettingSlice'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -63,9 +65,9 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 }))
 
 const TabAccount = props => {
-  // const dataUser = useSelector(makeSelectLogin)
-  // const dataUser = globalData?.dataUser
   const { dataUser } = props
+
+  const dispatch = useDispatch()
 
   const {
     control,
@@ -105,16 +107,21 @@ const TabAccount = props => {
   const onSubmit = data => console.log(data)
 
   // // ** State
-  const [openAlert, setOpenAlert] = useState(true)
 
   const [imgSrc, setImgSrc] = useState('/images/avatars/1.png')
 
-  const onChange = file => {
+  const onChangeAvatar = file => {
     const reader = new FileReader()
+
     const { files } = file.target
     if (files && files.length !== 0) {
+      const blobFromFile = new Blob([], { type: 'image/jpeg' })
+      const formData = new FormData()
+      formData.append('file', blobFromFile, files[0]?.name)
       reader.onload = () => setImgSrc(reader.result)
       reader.readAsDataURL(files[0])
+
+      dispatch(settingAction.changeAvatar(formData))
     }
   }
 
@@ -210,7 +217,7 @@ const TabAccount = props => {
                   <input
                     hidden
                     type='file'
-                    onChange={onChange}
+                    onChange={onChangeAvatar}
                     accept='image/png, image/jpeg'
                     id='account-settings-upload-image'
                   />

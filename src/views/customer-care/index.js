@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 
 // ** MUI Imports
 import Paper from '@mui/material/Paper'
@@ -10,129 +10,118 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
-import { Icon, Link } from '@mui/material'
+import { Button, TextField, Link } from '@mui/material'
 import HomeOutline from 'mdi-material-ui/HomeOutline'
 import { Delete } from 'mdi-material-ui'
+import { Magnify } from 'mdi-material-ui'
+import { Breadcrumb } from 'antd'
+import Stack from '@mui/material/Stack'
+import { Controller, useForm } from 'react-hook-form'
+import TableCommon from 'src/components/TableCommon'
+import { listCustomerService } from './constant'
+import EyeOutline from 'mdi-material-ui/EyeOutline'
 
-const columnsDefault = [
-    {
-        id: 'stt', label: 'stt', minWidth: 50,
-    },
+const CustomerCare = () => {
+  const { control, handleSubmit } = useForm()
 
-    {
-        id: 'name', label: 'name', minWidth: 50, align: 'left',
-    },
-    {
-        id: 'phone',
-        label: 'phone',
-        align: 'left',
-        minWidth: 50,
-    },
-    {
-        id: 'email',
-        label: 'email',
-        minWidth: 50,
-        align: 'center',
+  const onSubmit = data => console.log('data: ', data)
 
-    },
-    {
-        id: 'problem',
-        label: 'problem',
-        minWidth: 200,
-        align: 'center',
-    },
-    {
-        id: 'action',
-        label: 'action',
-        minWidth: 70,
-        align: 'center',
-    },
-    {
-        id: 'status',
-        label: 'status',
-        minWidth: 70,
-        align: 'left',
+  const parseData = useCallback((item, field, index) => {
+    if (field === 'index') {
+      return index + 1
     }
-]
-function createData(stt, name, phone, email, problem, action, status) {
 
-    return { stt, name, phone, email, problem, action, status }
+    if (field === 'actions') {
+      return (
+        <>
+          <Link
+            passHref
+            href={{
+              pathname: '/account-settings/',
+              query: { ...item, type: 'not' }
+            }}
+          >
+            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+          </Link>
+          {/* </Button> */}
+          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+        </>
+      )
+    }
+
+    return item[field]
+  }, [])
+
+  return (
+    <div style={{ flex: 1 }}>
+      <Breadcrumb>
+        <Breadcrumb.Item>Customer</Breadcrumb.Item>
+        <Breadcrumb.Item>Customer Service</Breadcrumb.Item>
+      </Breadcrumb>
+      {/* Button Add */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20, marginTop: 50 }}>
+        {/* <Loading isLoading={isLoading} /> */}
+        {/* <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1, sm: 2, md: 4 }}>
+            {listCustomerService.map(inputSearch => (
+              <div key={`inputSearchCustormer_${inputSearch.field}`}>
+                <Controller
+                  key={inputSearch.field}
+                  control={control}
+                  render={({ field: { onChange, value } }) => {
+                    return (
+                      <TextField
+                        placeholder={inputSearch.label}
+                        name={inputSearch.field}
+                        label={inputSearch.label}
+                        value={value}
+                        onChange={onChange}
+                        required
+                        fullWidth
+                      />
+                    )
+                  }}
+                  name={inputSearch.field}
+                />
+              </div>
+            ))}
+            <Button
+              style={{ backgroundColor: '#9155FD', color: 'white' }}
+              onClick={handleSubmit(onSubmit)}
+              size='large'
+              variant='contained'
+            >
+              <Magnify />
+            </Button>
+            <Button
+              size='large'
+              variant='contained'
+              sx={{ marginLeft: 10 }}
+              onClick={() => handleOpenModalCreateCustomer()}
+            >
+              Thêm mới
+            </Button>
+          </Stack>
+        </form> */}
+      </div>
+      {/* Table */}
+      <div className='table-data mt-3'>
+        <TableCommon
+          data={[]}
+          parseFunction={parseData}
+          columns={listCustomerService}
+          isShowPaging
+          classNameTable='tblCampaignReport'
+
+          // onChangePage={page => onChangePage(page - 1)}
+          // totalCountData={(dataList && dataList.totalElements) || 0}
+          // defaultPage={dataRequest.page + 1}
+          // currentPage={dataRequest.page + 1}
+          // totalDisplay={dataRequest.size || 10}
+        />
+      </div>
+    </div>
+  )
 }
 
-
-
-const TableStickyHeader = props => {
-    const { rows, columns } = props
-    const rowsDefault = rows ? rows : rowDefault || []
-    const columsDefault = columns ? columns : columnsDefault || []
-
-    // ** States
-
-    const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = useState(10)
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage)
-    }
-
-    const handleChangeRowsPerPage = event => {
-        setRowsPerPage(+event.target.value)
-        setPage(0)
-    }
-
-    return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label='sticky table'>
-                    <TableHead>
-                        <TableRow>
-                            {columsDefault.map(column => (
-                                <>
-                                    <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }}>
-                                        {column.label}
-                                    </TableCell>
-                                </>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rowsDefault.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                            return (
-                                <TableRow hover role='checkbox' tabIndex={-1} key={row.code}>
-                                    {columsDefault.map(column => {
-                                        const value = row[column.id]
-
-                                        return (
-                                            <TableCell key={column.id} align={column.align}>
-                                                {column.format && typeof value === 'number' ? column.format(value) : value}
-                                                {column.id === 'action' && (
-                                                    <>
-                                                        <Link href='/account-settings/'>
-                                                            <HomeOutline style={{ fontSize: 18, marginRight: 5 }} />
-                                                        </Link>
-                                                        <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
-                                                    </>
-                                                )}
-                                            </TableCell>
-                                        )
-                                    })}
-                                </TableRow>
-                            )
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component='div'
-                count={rowsDefault.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-        </Paper>
-    )
-}
-
-export default TableStickyHeader
+export default memo(CustomerCare)

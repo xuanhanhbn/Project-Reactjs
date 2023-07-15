@@ -7,16 +7,16 @@ export const columns = [
 
     // isSort: true,
   },
-  { field: 'topicTitle', name: 'Topic Title', minWidth: 170 },
-  { field: 'voices', name: 'Voices', minWidth: 100 },
+  { field: 'topic', name: 'Topic Title', minWidth: 170 },
+  { field: 'content', name: 'Voices', minWidth: 100 },
   {
-    field: 'post',
-    name: 'Post',
+    field: 'createdByName',
+    name: 'Created By Name',
     minWidth: 170
   },
   {
-    field: 'lastPost',
-    name: 'Last Post',
+    field: 'createdAt',
+    name: 'Created At',
     minWidth: 170
   },
   {
@@ -63,48 +63,13 @@ export const listTopic = [
   }
 ]
 
-export const replyTopic = [
+export const createTopic = [
   {
-    id: 0,
-    userName: 'Jonh',
-    avatar: '/images/avatars/1686130680-bpfull.jpg',
-    message:
-      'Lorem ipsum odor amet, consectetuer adipiscing elit. Ac purus in massa egestas mollis varius; dignissim elementum. Mollis tincidunt mattis hendrerit dolor eros enim, nisi ligula ornare. Hendrerit parturient habitant pharetra rutrum gravida porttitor eros feugiat. Mollis elit sodales taciti duis praesent id. Consequat urna vitae morbi nunc congue.',
-    replyTime: 'January 18, 2022 at 3:04 pm'
+    field: 'topic',
+    name: 'Topic'
   },
   {
-    id: 1,
-    userName: 'Jonh1',
-    avatar: '/images/avatars/1686130680-bpfull.jpg',
-    message: 'loooooooooo',
-    replyTime: 'January 18, 2022 at 3:04 pm'
-  },
-  {
-    id: 2,
-    userName: 'Jonh2',
-    avatar: '/images/avatars/1686130680-bpfull.jpg',
-    message: 'good job',
-    replyTime: 'January 18, 2022 at 3:04 pm'
-  },
-  {
-    id: 3,
-    userName: 'Jonh3',
-    avatar: '/images/avatars/1686130680-bpfull.jpg',
-    message: 'aaaaaaaaaaaa',
-    replyTime: 'January 18, 2022 at 3:04 pm'
-  },
-  {
-    id: 4,
-    userName: 'Jonh4',
-    avatar: '/images/avatars/1686130680-bpfull.jpg',
-    message: '.',
-    replyTime: 'January 18, 2022 at 3:04 pm'
-  },
-  {
-    id: 5,
-    userName: 'Jonh5',
-    avatar: '/images/avatars/1686130680-bpfull.jpg',
-    message: '!!!!!!!!!!!!!!',
-    replyTime: 'January 18, 2022 at 3:04 pm'
+    field: 'content',
+    name: 'Content'
   }
 ]

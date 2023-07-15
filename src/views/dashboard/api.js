@@ -15,15 +15,3 @@ export const postApiDefault = (url, data) =>
       .then(res => resolve(res))
       .catch(err => reject(err))
   )
-
-export const postApiChangeAvatar = (url, data) =>
-  new Promise((resolve, reject) =>
-    baseApiAuth
-      .post(url, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(res => resolve(res))
-      .catch(err => reject(err))
-  )

@@ -68,7 +68,6 @@ const UserDropdown = () => {
   }
 
   const handleDropdownClose = url => {
-    console.log('url: ', url)
     if (url) {
       router.push(url)
     }
@@ -77,6 +76,7 @@ const UserDropdown = () => {
 
   const handleLogout = () => {
     handleDropdownClose('/')
+    localStorage.removeItem('loginPage')
     handleShowSnackbar('Logout Success')
   }
 
@@ -114,10 +114,10 @@ const UserDropdown = () => {
                 {/* {dataUser ? dataUser?.roles[0].toString() : ''} */}
                 {/* {globalData && Object.keys(globalData) ? dataUser?.roles[0].toString() : ''} */}
                 {/* Admin */}
-              </Typography >
-            </Box >
-          </Box >
-        </Box >
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/account-settings')}>
           <Box sx={styles}>
@@ -161,8 +161,8 @@ const UserDropdown = () => {
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout
         </MenuItem>
-      </Menu >
-    </Fragment >
+      </Menu>
+    </Fragment>
   )
 }
 

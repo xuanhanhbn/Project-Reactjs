@@ -1,19 +1,7 @@
 import React from 'react'
-import CreateDocs from 'src/views/create-docs'
-import { Controller, useForm } from 'react-hook-form'
-import { Button } from 'antd'
+import CreateDocs from 'src/views/admin/documents/components/create-docs'
 
 function CreateDocuments() {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors }
-  } = useForm()
-
-  const onSubmit = data => {
-    console.log(data)
-  }
-
   return (
     <div>
       <CreateDocs />

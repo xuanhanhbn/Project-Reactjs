@@ -16,10 +16,6 @@ import { FormControl, TextField, Typography } from '@mui/material'
 
 import { Controller, useForm } from 'react-hook-form'
 import { inputAddCustomer } from '../../constant'
-import ApiContext from 'src/@core/store/context'
-import { useContext } from 'react'
-import { get, postApiProduct } from './api'
-import api, { BASE_URL } from 'src/utils/baseApiNoAuth'
 import { useDispatch, useSelector } from 'react-redux'
 import { customerActions, makeSelectCustomer } from '../../customerSlice'
 
