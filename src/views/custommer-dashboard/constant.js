@@ -19,16 +19,8 @@ export const inputAddCustomer = [
 
 export const inputSearchCustomer = [
   {
-    field: 'name',
-    label: 'Name'
-  },
-  {
-    field: 'email',
-    label: 'Email'
-  },
-  {
-    field: 'phone',
-    label: 'Phone'
+    field: 'search',
+    label: 'Search'
   }
 ]
 

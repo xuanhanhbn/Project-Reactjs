@@ -3,8 +3,9 @@ import { customerActions } from './customerSlice'
 import { getApiDefault, postApiDefault } from './api'
 
 // Lấy danh sách khách hàng
-function* onGetList() {
-  const url = '/Customer?search=&page=0&size=16'
+function* onGetList(data) {
+  const payload = data && data?.payload?.search ? data?.payload?.search : ''
+  const url = `/Customer?search=${payload}&page=0&size=16`
   try {
     const response = yield call(getApiDefault, url)
     if (response && response.status === 200) {

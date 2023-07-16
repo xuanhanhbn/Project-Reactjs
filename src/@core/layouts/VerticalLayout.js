@@ -23,6 +23,7 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { Typography } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { makeSelectLogin } from 'src/pages/pages/login/loginSlice'
+import { useRouter } from 'next/router'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
@@ -51,6 +52,8 @@ const ContentWrapper = styled('main')(({ theme }) => ({
 const VerticalLayout = props => {
   // ** Props
   const { settings, children, scrollToTop, verticalNavItems } = props
+
+  const router = useRouter()
 
   const getDataGetMe = useSelector(makeSelectLogin)
   const dataUser = getDataGetMe?.dataUser
@@ -116,22 +119,7 @@ const VerticalLayout = props => {
           </>
         )}
       </VerticalLayoutWrapper>
-      {!login && (
-        <Box
-          className='app-content d-flex justify-content-center align-items-center'
-          sx={{ minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}
-        >
-          <Typography>Plesae Login</Typography>
-        </Box>
-      )}
-      {!login && handleCheckRole?.filter(roles => roles === false) && (
-        <Box
-          className='app-content d-flex justify-content-center align-items-center'
-          sx={{ minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}
-        >
-          <Typography>ccc</Typography>
-        </Box>
-      )}
+
       {scrollToTop ? (
         scrollToTop(props)
       ) : (

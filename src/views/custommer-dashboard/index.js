@@ -38,7 +38,7 @@ function ListCustomer() {
 
   // Xử lí khi tìm kiếm
   const onSubmit = data => {
-    console.log('datA: ', data)
+    dispatch(customerActions.getListCustomer(data))
   }
 
   // Call api danh sach
@@ -116,7 +116,9 @@ function ListCustomer() {
         <Breadcrumb.Item>Customer Dashboard</Breadcrumb.Item>
       </Breadcrumb>
       {/* Button Add */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20, marginTop: 50 }}>
+      <div
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 20, marginTop: 50 }}
+      >
         <Loading isLoading={isLoading} />
         <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1, sm: 2, md: 4 }}>

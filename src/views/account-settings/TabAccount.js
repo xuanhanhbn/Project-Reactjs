@@ -37,8 +37,9 @@ const validationSchema = Yup.object().shape({
 // ** Icons Imports
 import Close from 'mdi-material-ui/Close'
 import { inputTabAccount, roleAccount, statusAccount } from './constants'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { settingAction } from './accountSettingSlice'
+import { makeSelectLogin } from 'src/pages/pages/login/loginSlice'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -66,7 +67,7 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 
 const TabAccount = props => {
   const { dataUser } = props
-
+  console.log('dataUser: ', dataUser)
   const dispatch = useDispatch()
 
   const {
@@ -108,7 +109,13 @@ const TabAccount = props => {
 
   // // ** State
 
-  const [imgSrc, setImgSrc] = useState('/images/avatars/1.png')
+  const [imgSrc, setImgSrc] = useState(() => {
+    if (dataUser && dataUser?.profilePictureId) {
+      return ` https://wdabckd.azurewebsites.net/api/Document/File/${dataUser?.profilePictureId}`
+    } else {
+      return '/images/avatars/1.png'
+    }
+  })
 
   const onChangeAvatar = file => {
     const reader = new FileReader()
