@@ -6,7 +6,7 @@ import { memo, useCallback, useState } from 'react'
 import { Button, TextField, Link, Typography } from '@mui/material'
 import { Delete } from 'mdi-material-ui'
 import { Breadcrumb, Dropdown } from 'antd'
-import BuildIcon from '@mui/icons-material/Build'
+// import BuildIcon from '@mui/icons-material/Build'
 import { Controller, useForm } from 'react-hook-form'
 import TableCommon from 'src/components/TableCommon'
 import { listCustomerService, listStatusService, items } from './constant'
@@ -35,13 +35,13 @@ const CustomerCare = () => {
           >
             <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
           </Link>
-          <Dropdown menu={{ items }} trigger={['click']}>
+          {/* <Dropdown menu={{ items }} trigger={['click']}>
             <a onClick={e => e.preventDefault()}>
               <Button color='success'>
                 <BuildIcon fontSize='12' />
               </Button>
             </a>
-          </Dropdown>
+          </Dropdown> */}
           {/* </Button> */}
           <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
         </>

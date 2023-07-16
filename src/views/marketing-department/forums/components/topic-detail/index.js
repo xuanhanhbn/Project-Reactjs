@@ -48,6 +48,7 @@ function ViewTopics() {
   } = useForm({
     resolver: yupResolver(validationSchema)
   })
+  const router = useRouter()
 
   const globalData = router?.query
 

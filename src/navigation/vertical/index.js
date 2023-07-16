@@ -157,20 +157,21 @@ const navigation = () => {
       path: '/staff',
       isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE']
-    }
+    },
 
     // {
     //   sectionTitle: 'Feedback',
     //   isShowMenu: true,
     //   role: ['Admin', 'Manager', 'EMPOYLEE']
     // }
-    // {
-    //   icon: CubeOutline,
-    //   title: 'FeedBack',
-    //   path: '/feedback',
-    //   isShowMenu: true,
-    //   role: ['Admin', 'Manager', 'EMPOYLEE']
-    // }
+
+    {
+      icon: CubeOutline,
+      title: 'FeedBack',
+      path: '/feedback',
+      isShowMenu: true,
+      role: ['Admin', 'Manager', 'EMPOYLEE']
+    }
   ]
 }
 
