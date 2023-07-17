@@ -1,13 +1,8 @@
-const { Decagram } = require('mdi-material-ui')
-
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
-
+import React from 'react'
 import ListStaff from 'src/views/staff'
 
-const MUITable = () => {
+function StaffList() {
   return <ListStaff />
 }
 
-export default MUITable
+export default StaffList

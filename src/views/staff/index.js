@@ -3,24 +3,11 @@
 import React, { useState, Fragment, useEffect, useCallback, memo } from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
-import Collapse from '@mui/material/Collapse'
-import TableRow from '@mui/material/TableRow'
-import TableHead from '@mui/material/TableHead'
 import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import IconButton from '@mui/material/IconButton'
 import TableContainer from '@mui/material/TableContainer'
 import { styled } from '@mui/material/styles'
-
-import { EyeFilled } from '@ant-design/icons'
-
-// ** Icons Imports
-import ChevronUp from 'mdi-material-ui/ChevronUp'
-import ChevronDown from 'mdi-material-ui/ChevronDown'
-import { rows } from './constant'
 
 import TableCommon from 'src/components/TableCommon'
 import Link from 'next/link'
@@ -29,7 +16,6 @@ import { columns } from './constant'
 import { Breadcrumb } from 'antd'
 import { right } from '@popperjs/core'
 import Button from '@mui/material/Button'
-import Stack from '@mui/material/Stack'
 import { purple } from '@mui/material/colors'
 import FormCreate from './components/FormCreate'
 import Loading from 'src/components/Loading'
@@ -46,9 +32,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   }
 }))
 
-const TableCollapsible = () => {
-  const moment = require('moment')
-
+function ListStaff() {
   const dispatch = useDispatch()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -146,4 +130,4 @@ const TableCollapsible = () => {
   )
 }
 
-export default memo(TableCollapsible)
+export default ListStaff

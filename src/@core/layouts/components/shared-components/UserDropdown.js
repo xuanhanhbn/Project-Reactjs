@@ -43,6 +43,15 @@ const UserDropdown = () => {
   // ** States
   const [anchorEl, setAnchorEl] = useState(null)
 
+  const [imgSrc, setImgSrc] = useState(() => {
+    const urlImage = JSON.parse(localStorage.getItem('urlImage'))
+    if (dataUser && dataUser?.profilePictureId) {
+      return `https://wdabckd.azurewebsites.net/api/${urlImage}`
+    } else {
+      return '/images/avatars/1.png'
+    }
+  })
+
   // ** Hooks
   const router = useRouter()
   const { enqueueSnackbar } = useSnackbar()
@@ -77,6 +86,9 @@ const UserDropdown = () => {
   const handleLogout = () => {
     handleDropdownClose('/')
     localStorage.removeItem('loginPage')
+    localStorage.removeItem('dataUser')
+    localStorage.removeItem('urlImage')
+
     handleShowSnackbar('Logout Success')
   }
 
