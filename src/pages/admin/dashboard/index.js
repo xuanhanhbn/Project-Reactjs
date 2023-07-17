@@ -38,7 +38,7 @@ const Dashboard = () => {
   const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
 
   useEffect(() => {
-    if (dataLogin) {
+    if (dataLogin && dataUser?.roles?.toString() === 'Admin') {
       dispatch(dashboardActions.getListDashBoard())
     } else {
       router.back()
