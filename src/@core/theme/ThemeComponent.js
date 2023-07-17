@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ** MUI Imports
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
@@ -15,10 +16,18 @@ import themeOptions from './ThemeOptions'
 
 // ** Global Styles
 import GlobalStyling from './globalStyles'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { loginPageActions } from 'src/pages/pages/login/loginSlice'
 
 const ThemeComponent = props => {
   // ** Props
   const { settings, children } = props
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(loginPageActions.userInfo())
+  }, [])
 
   // ** Merged ThemeOptions of Core and User
   const coreThemeConfig = themeOptions(settings)

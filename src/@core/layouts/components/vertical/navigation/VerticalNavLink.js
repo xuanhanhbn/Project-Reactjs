@@ -19,6 +19,8 @@ import UserIcon from 'src/layouts/components/UserIcon'
 
 // ** Utils
 import { handleURLQueries } from 'src/@core/layouts/utils'
+import { useSelector } from 'react-redux'
+import { makeSelectLogin } from 'src/pages/pages/login/loginSlice'
 
 // ** Styled Components
 const MenuNavLink = styled(ListItemButton)(({ theme }) => ({
@@ -47,6 +49,12 @@ const MenuItemTextMetaWrapper = styled(Box)({
 })
 
 const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }) => {
+  const getDataGetMe = useSelector(makeSelectLogin)
+  const dataUser = getDataGetMe?.dataUser
+  const roleUser = dataUser?.roles
+
+  const role = roleUser?.some(value => item?.role?.includes(value))
+
   // ** Hooks
   const router = useRouter()
   const IconTag = item.icon
@@ -60,12 +68,7 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }) => {
   }
 
   return (
-    <ListItem
-      disablePadding
-      className='nav-link'
-      disabled={item.disabled || false}
-      sx={{ mt: 1.5, px: '0 !important' }}
-    >
+    <ListItem disablePadding className='nav-link' disabled={!role || false} sx={{ mt: 1.5, px: '0 !important' }}>
       <Link passHref href={item.path === undefined ? '/' : `${item.path}`}>
         <MenuNavLink
           component={'a'}
@@ -82,7 +85,7 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }) => {
           }}
           sx={{
             pl: 5.5,
-            ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' })
+            ...(!role ? { pointerEvents: 'none', cursor: 'not-allowed' } : { cursor: 'pointer' })
           }}
         >
           <ListItemIcon

@@ -21,7 +21,7 @@ const VerticalNavItems = props => {
   const RenderMenuItems = verticalNavItems?.map((item, index) => {
     const role = roleUser?.some(value => item?.role?.includes(value))
 
-    if (item.isShowMenu && role) {
+    if (item.isShowMenu) {
       const TagName = resolveNavItemComponent(item)
 
       return <TagName {...props} key={index} item={item} />

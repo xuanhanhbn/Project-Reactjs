@@ -23,8 +23,8 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
 import { Button } from '@mui/material'
-import { useSelector } from 'react-redux'
-import { makeSelectLogin } from 'src/pages/pages/login/loginSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginPageActions, makeSelectLogin } from 'src/pages/pages/login/loginSlice'
 import { useSnackbar } from 'notistack'
 
 // ** Styled Components
@@ -42,15 +42,7 @@ const UserDropdown = () => {
 
   // ** States
   const [anchorEl, setAnchorEl] = useState(null)
-
-  const [imgSrc, setImgSrc] = useState(() => {
-    const urlImage = JSON.parse(localStorage.getItem('urlImage'))
-    if (dataUser && dataUser?.profilePictureId) {
-      return `https://wdabckd.azurewebsites.net/api/${urlImage}`
-    } else {
-      return '/images/avatars/1.png'
-    }
-  })
+  const dispatch = useDispatch()
 
   // ** Hooks
   const router = useRouter()
@@ -85,10 +77,11 @@ const UserDropdown = () => {
 
   const handleLogout = () => {
     handleDropdownClose('/')
+    dispatch(loginPageActions.cleanup())
+
     localStorage.removeItem('loginPage')
     localStorage.removeItem('dataUser')
     localStorage.removeItem('urlImage')
-
     handleShowSnackbar('Logout Success')
   }
 

@@ -111,22 +111,23 @@ const navigation = () => {
       icon: FileDocumentMultipleOutline,
       path: '/transactions',
       isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
+      role: ['Admin', 'Manager', 'EMPOYLEE'],
+      disabled: true
     },
 
     // Document
-    // {
-    //   sectionTitle: 'Documents',
-    //   isShowMenu: true,
-    //   role: ['Admin', 'Manager', 'EMPOYLEE']
-    // },
-    // {
-    //   title: 'Documents',
-    //   icon: FileDocument,
-    //   path: '/admin/list-documents',
-    //   isShowMenu: true,
-    //   role: ['Admin', 'Manager', 'EMPOYLEE']
-    // },
+    {
+      sectionTitle: 'Documents',
+      isShowMenu: true,
+      role: ['Admin', 'Manager', 'EMPOYLEE']
+    },
+    {
+      title: 'Documents',
+      icon: FileDocument,
+      path: '/admin/list-documents',
+      isShowMenu: true,
+      role: ['Admin', 'Manager', 'EMPOYLEE']
+    },
     {
       sectionTitle: 'Customer Care',
       isShowMenu: true,

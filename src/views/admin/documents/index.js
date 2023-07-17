@@ -15,6 +15,7 @@ import TableCommon from 'src/components/TableCommon'
 import { useDispatch, useSelector } from 'react-redux'
 import { documentActions, makeSelectDocument } from './documentSlice'
 import Loading from 'src/components/Loading'
+import moment from 'moment'
 
 function ListDocument() {
   const dispatch = useDispatch()
@@ -51,11 +52,14 @@ function ListDocument() {
         </>
       )
     }
+    if (field === 'createdAt') {
+      const formatDate = moment(item?.createdAt).format('YYYY/MM/DD')
+
+      return <div>{formatDate}</div>
+    }
 
     return item[field]
   }, [])
-
-
 
   return (
     <div style={{ flex: 1 }}>

@@ -16,9 +16,12 @@ import Chip from '@mui/material/Chip'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import OutlinedInput from '@mui/material/OutlinedInput'
+import { UploadOutlined } from '@ant-design/icons'
+import { message, Upload } from 'antd'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import { ButtonStyled } from 'src/components/ButtonStyled'
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
@@ -61,6 +64,51 @@ function CreateDocs() {
 
   const [personName, setPersonName] = React.useState([])
 
+  const [fileList, setFileList] = useState([])
+  const [uploading, setUploading] = useState(false)
+
+  const handleUpload = () => {
+    const formData = new FormData()
+    fileList.forEach(file => {
+      formData.append('files[]', file)
+    })
+    setUploading(true)
+
+    // You can use any AJAX library you like
+
+    fetch('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
+      method: 'POST',
+      body: formData
+    })
+      .then(res => res.json())
+      .then(() => {
+        setFileList([])
+        message.success('upload successfully.')
+      })
+      .catch(() => {
+        message.error('upload failed.')
+      })
+      .finally(() => {
+        setUploading(false)
+      })
+  }
+
+  const props = {
+    onRemove: file => {
+      const index = fileList.indexOf(file)
+      const newFileList = fileList.slice()
+      newFileList.splice(index, 1)
+      setFileList(newFileList)
+    },
+    beforeUpload: file => {
+      setFileList([...fileList, file])
+
+      return false
+    },
+
+    fileList
+  }
+
   const handleChange = event => {
     const {
       target: { value }
@@ -75,8 +123,6 @@ function CreateDocs() {
     subCategory: '',
     document: ''
   }
-
-  const [dataRequest, setDataRequest] = useState(baseDataRequest)
 
   const editorOptions = {
     height: 400,
@@ -111,6 +157,20 @@ function CreateDocs() {
         '#CCCCCC'
       ]
     ]
+  }
+
+  const onChangeAvatar = file => {
+    const reader = new FileReader()
+
+    const { files } = file.target
+    if (files && files.length !== 0) {
+      const blobFromFile = new Blob([], { type: 'image/jpeg' })
+      const formData = new FormData()
+      formData.append('file', blobFromFile, files[0]?.name)
+      console.log('reader: ', reader)
+      reader.onload = () => setImgSrc(reader.result)
+      reader.readAsDataURL(files[0])
+    }
   }
 
   const renderDefaultFilter = item => {
@@ -186,38 +246,16 @@ function CreateDocs() {
     }
 
     if (item.type === 'SUNEDITOR') {
-      const { field } = item
-      const message = errors[field] && errors[field].message
-
       return (
-        <>
-          <Controller
-            key={`createDocument_${item.field}`}
-            control={control}
-            name={item.field}
-            render={({ field: { onChange, value } }) => {
-              if (item.type === 'SUNEDITOR') {
-                return <SunEditor setOptions={editorOptions} onChange={onChange} setContents={value} />
-              }
-
-              return (
-                <div>
-                  <div style={{ paddingBottom: 10, paddingTop: 15, fontWeight: 500 }}>{item.inputLabel}</div>
-                  <TextField
-                    placeholder={item.label}
-                    name={item.field}
-                    label={item.label}
-                    value={value}
-                    onChange={onChange}
-                    required
-                    fullWidth
-                  />
-                </div>
-              )
-            }}
-          />
-          <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{message}</Typography>
-        </>
+        <div>
+          <Typography sx={{ mb: 3, fontWeight: 500 }}>{item.label}</Typography>
+          <Upload {...props} maxCount={1} style={{ marginBottom: 10 }}>
+            <Button variant='outlined' size='large' onClick={handleUpload}>
+              <UploadOutlined />
+              <div style={{ marginLeft: 10 }}>Select File</div>
+            </Button>
+          </Upload>
+        </div>
       )
     }
   }
@@ -238,7 +276,10 @@ function CreateDocs() {
         <Button
           type='submit'
           onClick={handleSubmit(onSubmit)}
-          style={{ border: '1px solid  #3a35411f', padding: '5px 25px', backgroundColor: '#9155FD', color: 'white' }}
+          variant='contained'
+          size='large'
+          sx={{ marginTop: 5 }}
+          fullWidth
         >
           Create
         </Button>

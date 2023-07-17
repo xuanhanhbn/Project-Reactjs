@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { CalendarMultiple } from 'mdi-material-ui'
 
 const initialState = {
   isLoading: false,
@@ -48,6 +49,9 @@ const login = createSlice({
       state.isSuccess = false
       state.isError = false
       state.isLogin = false
+    },
+    cleanup(state) {
+      state.dataUser = {}
     }
   }
 })
