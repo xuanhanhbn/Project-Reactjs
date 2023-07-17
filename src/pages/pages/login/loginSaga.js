@@ -22,6 +22,7 @@ function* onGetUserInfo() {
     const response = yield call(getApiUser, url)
     if (response && response.status === 200) {
       yield put(loginPageActions.userInfoSuccess(response.data))
+      localStorage.setItem('dataUser', JSON.stringify(response?.data))
     } else {
       yield put(loginPageActions.userInfoFailed())
     }

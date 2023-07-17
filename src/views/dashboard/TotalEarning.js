@@ -71,8 +71,6 @@ const TotalEarning = props => {
         <Typography component='p' variant='caption' sx={{ mb: 9 }} />
 
         {data.map((item, index) => {
-          console.log('item: ', item)
-
           return (
             <Box
               key={item.title}

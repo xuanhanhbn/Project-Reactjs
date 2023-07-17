@@ -39,7 +39,8 @@ import Close from 'mdi-material-ui/Close'
 import { inputTabAccount, roleAccount, statusAccount } from './constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { settingAction } from './accountSettingSlice'
-import { makeSelectLogin } from 'src/pages/pages/login/loginSlice'
+import { loginPageActions, makeSelectLogin } from 'src/pages/pages/login/loginSlice'
+import { getApiDefault } from './api'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -67,7 +68,6 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 
 const TabAccount = props => {
   const { dataUser } = props
-  console.log('dataUser: ', dataUser)
   const dispatch = useDispatch()
 
   const {
@@ -102,20 +102,29 @@ const TabAccount = props => {
       const found = roleAccount.find(element => element.field === dataUser?.roles[0].toLowerCase())
       setValue('role', found?.field)
     }
+
+    // handleGetUrlImage()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataUser])
 
   const onSubmit = data => console.log(data)
 
+  // const handleGetUrlImage = async () => {
+  //   try {
+  //     const url = `Document/File/${dataUser?.profilePictureId}`
+  //     const res = await getApiDefault(url)
+  //     if (res && res.status === 200) {
+  //       localStorage.setItem('urlImage', JSON.stringify(url))
+  //       setImgSrc(`https://wdabckd.azurewebsites.net/api/${url}`)
+  //     }
+  //   } catch (error) {
+  //     console.log('eerr: ', error)
+  //   }
+  // }
+
   // // ** State
 
-  const [imgSrc, setImgSrc] = useState(() => {
-    if (dataUser && dataUser?.profilePictureId) {
-      return ` https://wdabckd.azurewebsites.net/api/Document/File/${dataUser?.profilePictureId}`
-    } else {
-      return '/images/avatars/1.png'
-    }
-  })
+  const [imgSrc, setImgSrc] = useState('/images/avatars/1.png')
 
   const onChangeAvatar = file => {
     const reader = new FileReader()
@@ -125,9 +134,10 @@ const TabAccount = props => {
       const blobFromFile = new Blob([], { type: 'image/jpeg' })
       const formData = new FormData()
       formData.append('file', blobFromFile, files[0]?.name)
+      console.log('reader: ', reader)
       reader.onload = () => setImgSrc(reader.result)
       reader.readAsDataURL(files[0])
-
+      dispatch(loginPageActions.userInfo())
       dispatch(settingAction.changeAvatar(formData))
     }
   }

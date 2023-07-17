@@ -20,12 +20,10 @@ function* onChangePassword(data) {
 
 // Upload avatar
 function* onUploadAvatar(data) {
-  console.log('data: ', data)
   const payload = data?.payload
   const url = '/User/ProfilePicture'
   try {
     const response = yield call(postApiChangeAvatar, url, payload)
-    console.log('res: ', response)
     if (response && response.status === 200) {
       yield put(settingAction.changeAvatarSuccess(response.data))
     } else {

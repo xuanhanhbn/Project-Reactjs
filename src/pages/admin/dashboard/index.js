@@ -20,6 +20,7 @@ import { dashboardActions, makeSelectDashBoard } from 'src/views/dashboard/dashb
 import Loading from 'src/components/Loading'
 import { getApiDefault } from 'src/views/dashboard/api'
 import { Typography } from '@mui/material'
+import { useSnackbar } from 'notistack'
 
 const Dashboard = () => {
   const [isLoadingCo, setIsLoadingCo] = useState(false)
@@ -31,30 +32,39 @@ const Dashboard = () => {
   const { isSuccess, dataLogin } = loginSuccess
   const dataUser = loginSuccess?.dataUser
   const dispatch = useDispatch()
+  const { enqueueSnackbar } = useSnackbar()
+
+  const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
 
   useEffect(() => {
-    if (dataLogin) {
+    const refreshToken = JSON.parse(localStorage.getItem('loginPage'))
+    if (dataLogin ? dataLogin : refreshToken) {
       dispatch(loginPageActions.userInfo())
       dispatch(dashboardActions.getListDashBoard())
-      handleGetUrlImage()
+
+      // setTimeout(() => {
+      //   handleGetUrlImage()
+      // }, 1000)
     }
   }, [dataLogin])
 
-  const handleGetUrlImage = async () => {
-    try {
-      setIsLoadingCo(true)
-      const url = `Document/File/${dataUser?.profilePictureId}`
-      const res = await getApiDefault(url)
-      console.log('reSSImage: ', res)
-      if (res && res.status === 200) {
-        setIsLoadingCo(false)
-      }
-    } catch (error) {
-      setIsLoadingCo(false)
+  // const handleGetUrlImage = async () => {
+  //   const idPicture = JSON.parse(localStorage.getItem('dataUser'))
 
-      // return handleShowSnackbar('Có lỗi trong quá trình thực hiện', 'warning')
-    }
-  }
+  //   try {
+  //     setIsLoadingCo(true)
+  //     const url = `Document/File/${idPicture?.profilePictureId}`
+  //     const res = await getApiDefault(url)
+  //     if (res && res.status === 200) {
+  //       setIsLoadingCo(false)
+  //       localStorage.setItem('urlImage', JSON.stringify(url))
+  //     }
+  //   } catch (error) {
+  //     setIsLoadingCo(false)
+
+  //     return handleShowSnackbar('Có lỗi trong quá trình thực hiện', 'warning')
+  //   }
+  // }
 
   return (
     <ApexChartWrapper className='d-flex justify-content-center align-items-center'>

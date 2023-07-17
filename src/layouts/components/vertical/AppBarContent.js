@@ -15,7 +15,7 @@ import UserDropdown from 'src/@core/layouts/components/shared-components/UserDro
 import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 
 const AppBarContent = props => {
-  // const dataLoginPage = JSON.parse(localStorage.getItem('loginPage'))
+  // const dataLoginPage = JSON.parse(.getItem('loginPage'))
   // console.log('dataLoginPage: ', dataLoginPage)
 
   // ** Props
