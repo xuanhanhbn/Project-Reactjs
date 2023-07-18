@@ -99,23 +99,35 @@ const LoginPage = () => {
   // Lấy dữ liệu từ api trả về
   const dataLoginPage = useSelector(makeSelectLogin)
   const { isSuccess, dataLogin, isLoading, isError, isLogin } = dataLoginPage
+  const dataUser = dataLoginPage?.dataUser
 
   // Xử lí khi đăng nhập thành công
   useEffect(() => {
     if (isLogin) {
       dispatch(loginPageActions.clear())
+      dispatch(loginPageActions.userInfo())
+
       handleShowSnackbar('Login Success')
-      router.push('/admin/dashboard')
       localStorage.setItem('loginPage', JSON.stringify(dataLogin))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLogin])
 
+  useEffect(() => {
+    if (dataUser && Object.keys(dataUser).length) {
+      if (dataUser?.roles?.toString() === 'Admin') {
+        router.push('/admin/dashboard')
+      } else {
+        router.push('/customer-dashboard')
+      }
+    }
+  }, [dataUser])
+
   // Xử lí khi đăng nhập thất bại
   useEffect(() => {
     if (isError) {
       dispatch(loginPageActions.clear())
-      handleShowSnackbar('Vui lòng kiểm tra lại tên đăng nhập hoặc mật khẩu', 'error')
+      handleShowSnackbar('There was an error. Please try again.', 'error')
     }
   }, [isError])
 

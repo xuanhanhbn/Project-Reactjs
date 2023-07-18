@@ -8,20 +8,21 @@ export const columns = [
     // isSort: true,
   },
   { field: 'title', name: 'Title', minWidth: 270 },
-  { field: 'author', name: 'Author', minWidth: 100 },
+  { field: 'createdByName', name: 'Author', minWidth: 100 },
   {
-    field: 'created',
+    field: 'createdAt',
     name: 'Created',
     minWidth: 170
   },
+
   {
-    field: 'lastEdited',
-    name: 'Last Edited',
+    field: 'category',
+    name: 'Category',
     minWidth: 170
   },
   {
-    field: 'group',
-    name: 'Group',
+    field: 'content',
+    name: 'Attachment',
     minWidth: 170
   },
   {

@@ -21,6 +21,7 @@ import Loading from 'src/components/Loading'
 import { getApiDefault } from 'src/views/dashboard/api'
 import { Typography } from '@mui/material'
 import { useSnackbar } from 'notistack'
+import { useRouter } from 'next/router'
 
 const Dashboard = () => {
   const [isLoadingCo, setIsLoadingCo] = useState(false)
@@ -33,18 +34,14 @@ const Dashboard = () => {
   const dataUser = loginSuccess?.dataUser
   const dispatch = useDispatch()
   const { enqueueSnackbar } = useSnackbar()
-
+  const router = useRouter()
   const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
 
   useEffect(() => {
-    const refreshToken = JSON.parse(localStorage.getItem('loginPage'))
-    if (dataLogin ? dataLogin : refreshToken) {
-      dispatch(loginPageActions.userInfo())
+    if (dataLogin && dataUser?.roles?.toString() === 'Admin') {
       dispatch(dashboardActions.getListDashBoard())
-
-      // setTimeout(() => {
-      //   handleGetUrlImage()
-      // }, 1000)
+    } else {
+      router.back()
     }
   }, [dataLogin])
 
@@ -68,22 +65,21 @@ const Dashboard = () => {
 
   return (
     <ApexChartWrapper className='d-flex justify-content-center align-items-center'>
-      {dataUser?.roles?.toString() === 'Admin' && (
-        <Grid container spacing={6}>
-          <Grid item xs={12} md={12}>
-            <StatisticsCard dataDashboard={dataDashboard} />
-          </Grid>
-          <Grid item xs={12} md={12} lg={12}>
-            <WeeklyOverview dataDashboard={dataDashboard} />
-          </Grid>
-          <Grid item xs={12} md={8} lg={8}>
-            <IncomOverview dataDashboard={dataDashboard} />
-          </Grid>
-          <Grid item xs={12} md={4} lg={4}>
-            <TotalEarning dataDashboard={dataDashboard} />
-          </Grid>
+      <Grid container spacing={6}>
+        <Grid item xs={12} md={12}>
+          <StatisticsCard dataDashboard={dataDashboard} />
+        </Grid>
+        <Grid item xs={12} md={12} lg={12}>
+          <WeeklyOverview dataDashboard={dataDashboard} />
+        </Grid>
+        <Grid item xs={12} md={8} lg={8}>
+          <IncomOverview dataDashboard={dataDashboard} />
+        </Grid>
+        <Grid item xs={12} md={4} lg={4}>
+          <TotalEarning dataDashboard={dataDashboard} />
+        </Grid>
 
-          {/* <Grid item xs={12} md={6} lg={4}>
+        {/* <Grid item xs={12} md={6} lg={4}>
              <Grid container spacing={6}>
                <Grid item xs={6}>
                  <CardStatisticsVerticalComponent
@@ -129,24 +125,16 @@ const Dashboard = () => {
                </Grid>
              </Grid>
            </Grid> */}
-          {/* <Grid item xs={12} md={6} lg={4}>
+        {/* <Grid item xs={12} md={6} lg={4}>
              <SalesByCountries />
            </Grid> */}
-          {/* <Grid item xs={12} md={12} lg={8}>
+        {/* <Grid item xs={12} md={12} lg={8}>
              <DepositWithdraw />
            </Grid>
            <Grid item xs={12}>
              <Table />
            </Grid> */}
-        </Grid>
-      )}
-
-      {dataUser?.roles?.toString() !== 'Admin' && (
-        <div className=' d-flex justify-content-center align-items-center '>
-          <Typography>You do not have access to this feature.</Typography>
-        </div>
-      )}
-
+      </Grid>
       <Loading isLoading={isLoading} />
     </ApexChartWrapper>
   )
