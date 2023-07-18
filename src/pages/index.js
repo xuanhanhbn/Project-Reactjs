@@ -12,12 +12,8 @@ import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
-import InputLabel from '@mui/material/InputLabel'
 import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
 import { styled, useTheme } from '@mui/material/styles'
 import MuiCard from '@mui/material/Card'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -26,7 +22,7 @@ import Grid from '@mui/material/Grid'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import { makeSelectCustomer, customerActions, loginPageActions, makeSelectLogin } from './pages/login/loginSlice'
+import { loginPageActions, makeSelectLogin } from './pages/login/loginSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Icons Imports
@@ -251,7 +247,6 @@ const LoginPage = () => {
                           variant='outlined'
                           style={{ marginBottom: 10 }}
                           onKeyDown={handleKeyDown}
-                          id='outlined-start-adornment'
                           InputProps={{
                             endAdornment: (
                               <InputAdornment position='end'>

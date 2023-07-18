@@ -137,7 +137,8 @@ const TabAccount = props => {
       console.log('reader: ', reader)
       reader.onload = () => setImgSrc(reader.result)
       reader.readAsDataURL(files[0])
-      dispatch(loginPageActions.userInfo())
+
+      // dispatch(loginPageActions.userInfo())
       dispatch(settingAction.changeAvatar(formData))
     }
   }
