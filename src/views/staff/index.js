@@ -11,7 +11,9 @@ import { styled } from '@mui/material/styles'
 
 import TableCommon from 'src/components/TableCommon'
 import Link from 'next/link'
-import { Delete, EyeOutline } from 'mdi-material-ui'
+import { Delete } from 'mdi-material-ui'
+import EyeOutline from 'mdi-material-ui/EyeOutline'
+
 import { columns } from './constant'
 import { Breadcrumb } from 'antd'
 import { right } from '@popperjs/core'
@@ -23,6 +25,7 @@ import Loading from 'src/components/Loading'
 import { makeSelectStaff, staffActions } from './staffSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSnackbar } from 'notistack'
+import { IconButton } from '@mui/material'
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
@@ -58,10 +61,14 @@ function ListStaff() {
               query: { ...item, type: 'not' }
             }}
           >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+            <IconButton>
+              <EyeOutline style={{ fontSize: 18 }} />
+            </IconButton>
           </Link>
           {/* </Button> */}
-          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          <IconButton>
+            <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          </IconButton>
         </>
       )
     }

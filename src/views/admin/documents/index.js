@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect } from 'react'
-import { Button, Icon, TextField } from '@mui/material'
+import { Button, Icon, IconButton, TextField } from '@mui/material'
 
 import { Controller, useForm } from 'react-hook-form'
 import Card from '@mui/material/Card'
@@ -45,10 +45,14 @@ function ListDocument() {
               query: { ...item, type: 'not' }
             }}
           >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+            <IconButton>
+              <EyeOutline style={{ fontSize: 18 }} />
+            </IconButton>
           </Link>
-          {/* </Button> */}
-          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+
+          <IconButton>
+            <Delete style={{ fontSize: 18, color: 'red' }} />
+          </IconButton>
         </>
       )
     }

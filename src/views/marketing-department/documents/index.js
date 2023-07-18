@@ -1,5 +1,5 @@
 import MarketingDepartmentHeader from '../marketingDepartmentHeader'
-import { Button } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
@@ -36,10 +36,13 @@ function MarketingDocuments() {
               query: { ...item, type: 'not' }
             }}
           >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+            <IconButton>
+              <EyeOutline style={{ fontSize: 18 }} />
+            </IconButton>
           </Link>
-          {/* </Button> */}
-          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          <IconButton>
+            <Delete style={{ fontSize: 18, color: 'red' }} />
+          </IconButton>
         </>
       )
     }

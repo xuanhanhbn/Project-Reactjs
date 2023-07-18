@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { Button, TextField } from '@mui/material'
+import { Button, IconButton, TextField } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import { Delete } from 'mdi-material-ui'
@@ -85,7 +85,9 @@ function ListCustomer() {
               query: { ...item, type: 'not' }
             }}
           >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+            <IconButton>
+              <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+            </IconButton>
           </Link>
           {/* </Button> */}
           <Delete style={{ fontSize: 18, color: 'red' }} color='red' />

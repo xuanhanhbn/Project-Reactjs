@@ -17,7 +17,7 @@ import TextareaAutosize from '@mui/base/TextareaAutosize'
 import { styled } from '@mui/system'
 
 import { Controller, useForm } from 'react-hook-form'
-import { inputCustommerRequestr } from '../../constants'
+import { inputCustommerRequest } from './constants'
 
 // import { useDispatch, useSelector } from 'react-redux'
 // import { customerActions, makeSelectCustomer } from '../../customerSlice'
@@ -50,8 +50,8 @@ const validationSchema = Yup.object().shape({
   message: Yup.string().required('Message is not valid')
 })
 
-function FormCreate(props) {
-  const { title, onOpen, onClose, handleSubmitForm, value } = props
+const RequestSuport = props => {
+  const { title, onOpen, fakeData, onClose, handleSubmitForm, value } = props
 
   const grey = {
     50: '#f6f8fa',
@@ -101,6 +101,7 @@ function FormCreate(props) {
     clearErrors,
     setError,
     control,
+    
     formState: { errors }
   } = useForm({
     resolver: yupResolver(validationSchema)
@@ -129,6 +130,7 @@ function FormCreate(props) {
                   <TextField
                     fullWidth
                     required
+                    defaultValue={data}
                     label={item.label}
                     name={item.field}
                     onChange={onChange}
@@ -172,7 +174,7 @@ function FormCreate(props) {
                   <Grid container spacing={5}>
                     <Grid item xs={12}>
                       <Box sx={modalStyles.inputFields}>
-                        {inputCustommerRequestr.map(item => renderDefaultFilter(item))}
+                        {inputCustommerRequest.map(item => renderDefaultFilter(item))}
                         <Grid item xs={12}>
                           <Controller
                             control={control}
@@ -185,7 +187,7 @@ function FormCreate(props) {
                                     required
                                     multiline
                                     minRows={6}
-                                    placeholder='Message'
+                                    placeholder={data}
                                     label='Massage'
                                     name='massage'
                                     onChange={onChange}
@@ -230,4 +232,4 @@ function FormCreate(props) {
   )
 }
 
-export default memo(FormCreate)
+export default memo(RequestSuport)

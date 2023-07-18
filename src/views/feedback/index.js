@@ -18,6 +18,7 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
 import Avatar from '@mui/material/Avatar'
 import Link from 'next/link'
+import RequestSupport from 'src/components/RequestSupport'
 
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
@@ -32,6 +33,7 @@ import {
   CalendarAlert,
   CheckCircleOutline,
   DotsHorizontal,
+  EyeOutline,
   FaceAgent,
   ListStatus,
   MessageAlertOutline,
@@ -51,11 +53,19 @@ const FeedBacks = () => {
 
   const [isOpenModalFeed, setIsOpenModalFeed] = useState(false)
 
+  const [isOpenModalSupport, setIsOpenModalSupport] = useState(false)
+
   // Xử lí mở modal
   const handleOpenModalCreateFeed = () => setIsOpenModal(true)
 
   // Xử lí đóng modal
   const handleCloseModalFeed = () => setIsOpenModal(false)
+
+  // Xử lí mở modal
+  const handleOpenModalSupport = () => setIsOpenModalSupport(true)
+
+  // Xử lí đóng modal
+  const handleCloseModalSupport = () => setIsOpenModalSupport(false)
 
   // Xử lí mở modal
   const handleOpenModalFeedDetails = () => setIsOpenModalFeed(true)
@@ -69,22 +79,14 @@ const FeedBacks = () => {
       return index + 1
     }
 
-    if (field === 'details') {
-      return (
-        <>
-          <Button onClick={() => handleOpenModalFeedDetails()} type='submit' variant='outline' size='large'>
-            View Details
-          </Button>
-        </>
-      )
-    }
-
     if (field === 'actions') {
       return (
         <>
-          <IconButton color='secondary'>
-            <SquareEditOutline />
-          </IconButton>
+          <Link href='' passHref>
+            <IconButton onClick={() => handleOpenModalFeedDetails()} color='secondary'>
+              <EyeOutline style={{ fontSize: 18 }} />
+            </IconButton>
+          </Link>
           <IconButton
             onClick={() => {
               alert('delete')
@@ -187,7 +189,7 @@ const FeedBacks = () => {
       </Card>
       <Box sx={{ m: 8, float: 'right' }}>
         <Button onClick={() => handleOpenModalCreateFeed()} type='submit' variant='contained' size='large'>
-          Send Request
+          Request support
         </Button>
       </Box>
       <Box>
@@ -213,6 +215,17 @@ const FeedBacks = () => {
         <FeedBackDetails
           onOpen={isOpenModalFeed}
           onClose={() => handleCloseModalFeedDetails()}
+          title='Add Customer'
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+          style={{ minWidth: 340 }}
+        />
+      )}
+      {isOpenModalSupport && (
+        <RequestSupport
+          onOpen={isOpenModalSupport}
+          onClose={() => handleCloseModalSupport()}
+          data={fakeDataRequest}
           title='Add Customer'
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'

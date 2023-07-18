@@ -3,16 +3,28 @@
 import { memo, useCallback, useState } from 'react'
 
 // ** MUI Imports
-import { Button, TextField, Link, Typography } from '@mui/material'
-import { Delete } from 'mdi-material-ui'
+import { Button, TextField, Link, Typography, IconButton } from '@mui/material'
+import { Delete, EyeOutline } from 'mdi-material-ui'
+
 import { Breadcrumb, Dropdown } from 'antd'
+
 // import BuildIcon from '@mui/icons-material/Build'
 import { Controller, useForm } from 'react-hook-form'
 import TableCommon from 'src/components/TableCommon'
 import { listCustomerService, listStatusService, items } from './constant'
-import EyeOutline from 'mdi-material-ui/EyeOutline'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import CustommerSeveviceStaff from './components/MenuStatus/CustomerServiceStaff'
 
 const CustomerCare = () => {
+  const [age, setAge] = useState('')
+
+  const handleChangeName = event => {
+    setAge(event.target.value)
+  }
+
   const { control, handleSubmit } = useForm()
   const [isOpenMenu, setIsOpenMenu] = useState(false)
 
@@ -21,6 +33,14 @@ const CustomerCare = () => {
   const parseData = useCallback((item, field, index) => {
     if (field === 'index') {
       return index + 1
+    }
+
+    if (field === 'serviceStaff') {
+      return (
+        <>
+          <CustommerSeveviceStaff />
+        </>
+      )
     }
 
     if (field === 'actions') {
@@ -33,17 +53,12 @@ const CustomerCare = () => {
               query: { ...item, type: 'not' }
             }}
           >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+            <EyeOutline style={{ fontSize: 18 }} />
           </Link>
-          {/* <Dropdown menu={{ items }} trigger={['click']}>
-            <a onClick={e => e.preventDefault()}>
-              <Button color='success'>
-                <BuildIcon fontSize='12' />
-              </Button>
-            </a>
-          </Dropdown> */}
-          {/* </Button> */}
-          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+
+          <IconButton>
+            <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          </IconButton>
         </>
       )
     }
@@ -171,4 +186,4 @@ const CustomerCare = () => {
   )
 }
 
-export default memo(CustomerCare)
+export default CustomerCare

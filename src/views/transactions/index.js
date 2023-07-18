@@ -7,7 +7,7 @@ import TableCommon from 'src/components/TableCommon'
 import { columns } from './constants'
 import { transactionActions, makeSelectTransaction } from './transactionSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 import FormCreate from './components/ModalCreate'
 
 function Transactions() {
@@ -38,10 +38,14 @@ function Transactions() {
               query: { ...item, type: 'not' }
             }}
           >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+            <IconButton>
+              <EyeOutline style={{ fontSize: 18 }} />
+            </IconButton>
           </Link>
           {/* </Button> */}
-          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          <IconButton>
+            <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          </IconButton>
         </>
       )
     }
