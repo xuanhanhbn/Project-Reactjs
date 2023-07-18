@@ -37,12 +37,6 @@ export const inputCustommerRequestr = [
     label: 'Phone No.',
     type: 'INPUT',
     inputLabel: 'Phone :'
-  },
-  {
-    field: 'message',
-    label: 'Message',
-    type: 'MESSAGE',
-    inputLabel: 'Message :'
   }
 ]
 
@@ -73,18 +67,10 @@ export const columns = [
 
 export const fakeDataRequest = [
   {
-    req: 'abcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    status: 'loading'
+    req: 'Turns out semicolon-less style is easier and safer in TS',
+    reqTitle:
+      'Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well. Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well. Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.',
+    status: 'Received'
   }
 ]
 
-export const itemsDrop = [
-  {
-    key: 'edit',
-    label: 'Edit'
-  },
-  {
-    key: 'delete',
-    label: 'Delete'
-  }
-]

@@ -196,7 +196,7 @@ const FeedBacks = () => {
           parseFunction={parseData}
           columns={columns}
           isShowPaging
-          classNameTable='tblCampaignReport'
+          classNameTable='tblCampaignReport '
         />
       </Box>
       {isOpenModal && (

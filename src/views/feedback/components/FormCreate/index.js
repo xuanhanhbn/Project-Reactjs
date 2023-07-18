@@ -13,6 +13,8 @@ import CardHeader from '@mui/material/CardHeader'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { FormControl, TextField, Typography } from '@mui/material'
+import TextareaAutosize from '@mui/base/TextareaAutosize'
+import { styled } from '@mui/system'
 
 import { Controller, useForm } from 'react-hook-form'
 import { inputCustommerRequestr } from '../../constants'
@@ -50,6 +52,55 @@ const validationSchema = Yup.object().shape({
 
 function FormCreate(props) {
   const { title, onOpen, onClose, handleSubmitForm, value } = props
+
+  const blue = {
+    100: '#DAECFF',
+    200: '#b6daff',
+    400: '#3399FF',
+    500: '#007FFF',
+    600: '#0072E5',
+    900: '#003A75'
+  }
+
+  const grey = {
+    50: '#f6f8fa',
+    100: '#eaeef2',
+    200: '#d0d7de',
+    300: '#afb8c1',
+    400: '#8c959f',
+    500: '#6e7781',
+    600: '#57606a',
+    700: '#424a53',
+    800: '#32383f',
+    900: '#24292f'
+  }
+
+  const StyledTextarea = styled(TextareaAutosize)(
+    ({ theme }) => `
+    width: 100%;
+    font-family: IBM Plex Sans, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 12px;
+    border-radius: 12px;
+    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+    border: 1px solid rgba(58, 53, 65, 0.22);
+  
+   
+  
+    &:focus {
+      border-color: #9155FD;
+      box-shadow: 0 0 0 2px #9155FD;
+    }
+  
+    // firefox
+    &:focus-visible {
+      outline: 0;
+    }
+  `
+  )
 
   // const dispatch = useDispatch()
 
@@ -103,39 +154,6 @@ function FormCreate(props) {
         </Grid>
       )
     }
-
-    if (item.type === 'MESSAGE') {
-      const { field } = item
-      const message = errors[field] && errors[field].message
-
-      return (
-        <Grid item xs={12} key={item.field}>
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => {
-              return (
-                <>
-                  <TextField
-                    fullWidth
-                    required
-                    multiline
-                    minRows={6}
-                    label={item.label}
-                    name={item.field}
-                    onChange={onChange}
-                    value={value}
-                    type={item.type}
-                  />
-                </>
-              )
-            }}
-            name={item.field}
-          />
-
-          <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{message}</Typography>
-        </Grid>
-      )
-    }
   }
 
   return (
@@ -164,6 +182,35 @@ function FormCreate(props) {
                     <Grid item xs={12}>
                       <Box sx={modalStyles.inputFields}>
                         {inputCustommerRequestr.map(item => renderDefaultFilter(item))}
+                        <Grid item xs={12}>
+                          <Controller
+                            control={control}
+                            render={({ field: { onChange, value } }) => {
+                              return (
+                                <>
+                                  <StyledTextarea
+                                    fullWidth
+                                    required
+                                    multiline
+                                    minRows={6}
+                                    maxLength={600}
+                                    placeholder='Message'
+                                    label='Massage'
+                                    name='massage'
+                                    onChange={onChange}
+                                    value={value}
+                                    type='input'
+                                  />
+                                </>
+                              )
+                            }}
+                            name='message'
+                          />
+
+                          <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>
+                            {errors.message?.message}
+                          </Typography>
+                        </Grid>
                       </Box>
                     </Grid>
                   </Grid>
@@ -192,4 +239,4 @@ function FormCreate(props) {
   )
 }
 
-export default React.memo(FormCreate)
+export default memo(FormCreate)
