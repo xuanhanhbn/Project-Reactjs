@@ -8,7 +8,7 @@ export const columns = [
     // isSort: true,
   },
   { field: 'topic', name: 'Topic Title', minWidth: 170 },
-  { field: 'content', name: 'Voices', minWidth: 100 },
+  { field: 'content', name: 'Question', minWidth: 100 },
   {
     field: 'createdByName',
     name: 'Created By Name',

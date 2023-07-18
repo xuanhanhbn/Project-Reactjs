@@ -6,8 +6,10 @@ import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import CardContent from '@mui/material/CardContent'
-import { Carousel, Button, Breadcrumb } from 'antd'
-import { useRef, useState } from 'react'
+import { Carousel, Breadcrumb } from 'antd'
+import React, { memo, useCallback, useRef, useState } from 'react'
+import TableCommon from 'src/components/TableCommon'
+import Stack from '@mui/material/Stack'
 
 // ** Icons Imports
 import TrendingUp from 'mdi-material-ui/TrendingUp'
@@ -17,16 +19,91 @@ import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
 import Avatar from '@mui/material/Avatar'
 import Link from 'next/link'
 
+import FormControl from '@mui/material/FormControl'
+import TextField from '@mui/material/TextField'
+import { Controller, useForm } from 'react-hook-form'
+import InputLabel from '@mui/material/InputLabel'
+import { custommerFeedBack, inputCustommerRequestr } from './constants'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as Yup from 'yup'
+import CardHeader from '@mui/material/CardHeader'
+import { columns, fakeDataRequest, itemsDrop } from './constants'
+import {
+  CalendarAlert,
+  CheckCircleOutline,
+  DotsHorizontal,
+  FaceAgent,
+  ListStatus,
+  MessageAlertOutline,
+  MinusCircleOutline,
+  SquareEditOutline
+} from 'mdi-material-ui'
+import Button from '@mui/material/Button'
+import FormCreate from './components/FormCreate'
+import IconButton from '@mui/material/IconButton'
+import { DeleteOutline } from 'mdi-material-ui'
+import FeedBackDetails from './components/FeedBackDetails'
+
 const FeedBacks = () => {
   const ref = useRef()
+
+  const [isOpenModal, setIsOpenModal] = useState(false)
+
+  const [isOpenModalFeed, setIsOpenModalFeed] = useState(false)
+
+  // Xử lí mở modal
+  const handleOpenModalCreateFeed = () => setIsOpenModal(true)
+
+  // Xử lí đóng modal
+  const handleCloseModalFeed = () => setIsOpenModal(false)
+
+  // Xử lí mở modal
+  const handleOpenModalFeedDetails = () => setIsOpenModalFeed(true)
+
+  // Xử lí đóng modal
+  const handleCloseModalFeedDetails = () => setIsOpenModalFeed(false)
+
+  // Xử lí render ra STT & actions
+  const parseData = useCallback((item, field, index) => {
+    if (field === 'index') {
+      return index + 1
+    }
+
+    if (field === 'details') {
+      return (
+        <>
+          <Button onClick={() => handleOpenModalFeedDetails()} type='submit' variant='outline' size='large'>
+            View Details
+          </Button>
+        </>
+      )
+    }
+
+    if (field === 'actions') {
+      return (
+        <>
+          <IconButton color='secondary'>
+            <SquareEditOutline />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              alert('delete')
+            }}
+            color='error'
+          >
+            <DeleteOutline />
+          </IconButton>
+        </>
+      )
+    }
+
+    return item[field]
+  }, [])
 
   return (
     <div>
       <Breadcrumb style={{ marginBottom: 30 }}>
-        <Breadcrumb.Item>
-          <Link href='/admin/dashboard'>Company Acttive</Link>
-        </Breadcrumb.Item>
-
+        <Breadcrumb.Item>Company Acttive</Breadcrumb.Item>
         <Breadcrumb.Item>Feed Backs</Breadcrumb.Item>
       </Breadcrumb>
       <Card>
@@ -57,189 +134,93 @@ const FeedBacks = () => {
                     <Typography variant='body2'>Lifetime Free Update</Typography>
                   </Box>
                 </Grid>
-              </Grid>{' '}
+              </Grid>
             </CardContent>
           </Grid>
           <Grid item sm={7} xs={12}>
             <CardContent>
               <Carousel autoplay={2000} ref={ref}>
-                <div>
-                  <Card
-                    sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: 'info.main', height: 200 }}
-                  >
-                    <CardContent sx={{ padding: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
-                      <Box
+                {custommerFeedBack.map(fb => {
+                  return (
+                    <div key={fb.custommerName}>
+                      <Card
                         sx={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          alignItems: 'center',
-                          justifyContent: 'space-between'
+                          border: 0,
+                          boxShadow: 0,
+                          color: 'common.white',
+                          backgroundColor: 'info.main',
+                          height: 200
                         }}
                       >
-                        <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
-                          <Avatar
-                            alt='Mary Vaughn'
-                            src='/images/avatars/3.png'
-                            sx={{ width: 34, height: 34, marginRight: 2.75 }}
-                          />
-                          <Typography variant='body2' sx={{ color: 'common.white' }}>
-                            Mary Vaughn
+                        <CardContent sx={{ padding: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexWrap: 'wrap',
+                              alignItems: 'center',
+                              justifyContent: 'space-between'
+                            }}
+                          >
+                            <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
+                              <Avatar
+                                alt='Mary Vaughn'
+                                src={fb.avatar}
+                                sx={{ width: 34, height: 34, marginRight: 2.75 }}
+                              />
+                              <Typography variant='body2' sx={{ color: 'common.white' }}>
+                                {fb.custommerName}
+                              </Typography>
+                            </Box>
+                          </Box>
+                          <Typography variant='body2' sx={{ marginBottom: 3, color: 'common.white' }}>
+                            {fb.feedback}
                           </Typography>
-                        </Box>
-                      </Box>
-                      <Typography variant='body2' sx={{ marginBottom: 3, color: 'common.white' }}>
-                        Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type
-                        invalid as well.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </div>
-                <div>
-                  <Card
-                    sx={{
-                      border: 0,
-                      boxShadow: 0,
-                      color: 'common.white',
-                      backgroundColor: '#9155FD',
-                      height: 200
-                    }}
-                  >
-                    <CardContent sx={{ padding: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          alignItems: 'center',
-                          justifyContent: 'space-between'
-                        }}
-                      >
-                        <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
-                          <Avatar
-                            alt='Mary Vaughn'
-                            src='/images/avatars/2.png'
-                            sx={{ width: 34, height: 34, marginRight: 2.75 }}
-                          />
-                          <Typography variant='body2' sx={{ color: 'common.white' }}>
-                            Mary Vaughn
-                          </Typography>
-                        </Box>
-                      </Box>
-                      <Typography variant='body2' sx={{ marginBottom: 3, color: 'common.white' }}>
-                        Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type
-                        invalid as well.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </div>
-                <div>
-                  <Card
-                    sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#56CA00', height: 200 }}
-                  >
-                    <CardContent sx={{ padding: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          alignItems: 'center',
-                          justifyContent: 'space-between'
-                        }}
-                      >
-                        <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
-                          <Avatar
-                            alt='Mary Vaughn'
-                            src='/images/avatars/1.png'
-                            sx={{ width: 34, height: 34, marginRight: 2.75 }}
-                          />
-                          <Typography variant='body2' sx={{ color: 'common.white' }}>
-                            Mary Vaughn
-                          </Typography>
-                        </Box>
-                      </Box>
-                      <Typography variant='body2' sx={{ marginBottom: 3, color: 'common.white' }}>
-                        Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type
-                        invalid as well.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </div>
-                <div>
-                  <Card
-                    sx={{
-                      border: 0,
-                      boxShadow: 0,
-                      color: 'common.white',
-                      backgroundColor: '#20c997',
-                      height: 200
-                    }}
-                  >
-                    <CardContent sx={{ padding: theme => `${theme.spacing(3.25, 5, 4.5)} !important` }}>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          alignItems: 'center',
-                          justifyContent: 'space-between'
-                        }}
-                      >
-                        <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
-                          <Avatar
-                            alt='Mary Vaughn'
-                            src='/images/avatars/4.png'
-                            sx={{ width: 34, height: 34, marginRight: 2.75 }}
-                          />
-                          <Typography variant='body2' sx={{ color: 'common.white' }}>
-                            Mary Vaughn
-                          </Typography>
-                        </Box>
-                      </Box>
-                      <Typography variant='body2' sx={{ marginBottom: 3, color: 'common.white' }}>
-                        Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type
-                        invalid as well.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  )
+                })}
               </Carousel>
-              {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: '50%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-                onClick={() => {
-                  ref.current.prev()
-
-                  // setCurrImg(currImg - 1)
-                }}
-              >
-                <ArrowLeft />
-              </Button>
-              <Button
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: '50%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-                onClick={() => {
-                  ref.current.next()
-
-                  // setCurrImg(currImg + 1)
-                }}
-              >
-                <ArrowRight />
-              </Button>
-            </div> */}
             </CardContent>
           </Grid>
         </Grid>
       </Card>
+      <Box sx={{ m: 8, float: 'right' }}>
+        <Button onClick={() => handleOpenModalCreateFeed()} type='submit' variant='contained' size='large'>
+          Send Request
+        </Button>
+      </Box>
+      <Box>
+        <TableCommon
+          data={fakeDataRequest || []}
+          parseFunction={parseData}
+          columns={columns}
+          isShowPaging
+          classNameTable='tblCampaignReport'
+        />
+      </Box>
+      {isOpenModal && (
+        <FormCreate
+          onOpen={isOpenModal}
+          onClose={() => handleCloseModalFeed()}
+          title='Send request'
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+          style={{ minWidth: 340 }}
+        />
+      )}
+      {isOpenModalFeed && (
+        <FeedBackDetails
+          onOpen={isOpenModalFeed}
+          onClose={() => handleCloseModalFeedDetails()}
+          title='Add Customer'
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+          style={{ minWidth: 340 }}
+        />
+      )}
+
+      <Box></Box>
     </div>
   )
 }
@@ -251,4 +232,4 @@ const StyledBox = styled(Box)(({ theme }) => ({
   }
 }))
 
-export default FeedBacks
+export default memo(FeedBacks)
