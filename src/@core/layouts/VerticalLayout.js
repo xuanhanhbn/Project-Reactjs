@@ -53,12 +53,6 @@ const VerticalLayout = props => {
   // ** Props
   const { settings, children, scrollToTop, verticalNavItems } = props
 
-  const router = useRouter()
-
-  const getDataGetMe = useSelector(makeSelectLogin)
-  const dataUser = getDataGetMe?.dataUser
-  const roleUser = dataUser?.roles
-
   const [login, setLogin] = useState()
 
   // ** Vars
@@ -76,48 +70,42 @@ const VerticalLayout = props => {
     setLogin(dataLoginPage)
   }, [])
 
-  const handleCheckRole = verticalNavItems.map(item => {
-    const role = roleUser?.some(value => item?.role?.includes(value))
-
-    return role
-  })
-
   return (
     <>
       <VerticalLayoutWrapper className='layout-wrapper'>
-        {login && (
-          <>
-            <Navigation
-              navWidth={navWidth}
-              navVisible={navVisible}
-              setNavVisible={setNavVisible}
-              toggleNavVisibility={toggleNavVisibility}
-              {...props}
-            />
-            <MainContentWrapper className='layout-content-wrapper'>
-              <AppBar toggleNavVisibility={toggleNavVisibility} {...props} />
+        {/* {login && ( */}
+        <>
+          <Navigation
+            navWidth={navWidth}
+            navVisible={navVisible}
+            setNavVisible={setNavVisible}
+            toggleNavVisibility={toggleNavVisibility}
+            {...props}
+          />
+          <MainContentWrapper className='layout-content-wrapper'>
+            <AppBar toggleNavVisibility={toggleNavVisibility} {...props} />
 
-              <ContentWrapper
-                className='layout-page-content'
-                sx={{
-                  ...(contentWidth === 'boxed' && {
-                    mx: 'auto',
-                    '@media (min-width:1440px)': { maxWidth: 1440 },
-                    '@media (min-width:1200px)': { maxWidth: '100%' }
-                  })
-                }}
-              >
-                {children}
-              </ContentWrapper>
+            <ContentWrapper
+              className='layout-page-content'
+              sx={{
+                ...(contentWidth === 'boxed' && {
+                  mx: 'auto',
+                  '@media (min-width:1440px)': { maxWidth: 1440 },
+                  '@media (min-width:1200px)': { maxWidth: '100%' }
+                })
+              }}
+            >
+              {children}
+            </ContentWrapper>
 
-              <Footer {...props} />
+            <Footer {...props} />
 
-              <DatePickerWrapper sx={{ zIndex: 11 }}>
-                <Box id='react-datepicker-portal' />
-              </DatePickerWrapper>
-            </MainContentWrapper>
-          </>
-        )}
+            <DatePickerWrapper sx={{ zIndex: 11 }}>
+              <Box id='react-datepicker-portal' />
+            </DatePickerWrapper>
+          </MainContentWrapper>
+        </>
+        {/* )} */}
       </VerticalLayoutWrapper>
 
       {scrollToTop ? (

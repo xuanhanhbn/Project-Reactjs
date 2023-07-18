@@ -26,7 +26,10 @@ const ThemeComponent = props => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(loginPageActions.userInfo())
+    const dataLoginPage = JSON.parse(localStorage.getItem('loginPage'))
+    if (dataLoginPage) {
+      dispatch(loginPageActions.userInfo())
+    }
   }, [])
 
   // ** Merged ThemeOptions of Core and User
