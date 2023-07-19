@@ -37,16 +37,6 @@ function CustommerSeveviceStaff() {
           control={control}
           render={({ field: { onChange, value } }) => (
             <>
-              {/* <TextField
-              fullWidth
-              multiline
-              label='Bio'
-              onChange={onChange}
-              minRows={2}
-              placeholder='Bio'
-              value={value}
-            /> */}
-
               <NativeSelect style={{ borderBottom: 'none' }} defaultValue='None' onChange={onChange} value={value}>
                 {selectValue.map(user => {
                   return <option key={user.userName}>{user.name}</option>
