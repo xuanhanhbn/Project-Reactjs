@@ -40,5 +40,5 @@ yarn-error.log*
 # yarn
 yarn.lock
 
-#next
-next.config.js
+# #next
+# next.config.js

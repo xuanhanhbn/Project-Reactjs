@@ -67,8 +67,9 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }) => {
     }
   }
 
+  // disabled={!role || false}
+
   return (
-    // disabled={!role || false}
     <ListItem disablePadding className='nav-link' sx={{ mt: 1.5, px: '0 !important' }}>
       <Link passHref href={item.path === undefined ? '/' : `${item.path}`}>
         <MenuNavLink
@@ -84,6 +85,7 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }) => {
               toggleNavVisibility()
             }
           }}
+
           // sx={{
           //   pl: 5.5,
           //   ...(!role ? { pointerEvents: 'none', cursor: 'not-allowed' } : { cursor: 'pointer' })
