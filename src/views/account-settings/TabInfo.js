@@ -31,7 +31,7 @@ import Typography from '@mui/material/Typography'
 
 const validationSchema = Yup.object().shape({
   birthdate: Yup.string().required('Birth date is required'),
-  phone: Yup.string().required('Phone is required'),
+  phone: Yup.string().required('Phone Number is required'),
   country: Yup.string().required('Country is required'),
   languages: Yup.string().required('Languages is required'),
   gender: Yup.string().required('Gender is required')
