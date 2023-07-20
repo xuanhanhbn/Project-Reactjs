@@ -4,8 +4,9 @@ import { Controller, useForm } from 'react-hook-form'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import NativeSelect from '@mui/material/NativeSelect'
+import { Button } from 'antd'
 
-const selectValue = [
+const users = [
   {
     name: 'Tong Minh Duong',
     userName: 'duontm'
@@ -28,7 +29,9 @@ function CustommerSeveviceStaff() {
     formState: { errors }
   } = useForm()
 
-  const onSubmit = data => console.log(data)
+
+  // >>>> Gửi data select nhân viên
+  const onSubmit = data => console.log(data.target.value)
 
   return (
     <>
@@ -37,9 +40,14 @@ function CustommerSeveviceStaff() {
           control={control}
           render={({ field: { onChange, value } }) => (
             <>
-              <NativeSelect style={{ borderBottom: 'none' }} defaultValue='None' onChange={onChange} value={value}>
-                {selectValue.map(user => {
-                  return <option key={user.userName}>{user.name}</option>
+              <NativeSelect style={{ borderBottom: 'none' }} onChange={onSubmit} value={value}>
+                <option value='none'>None</option>
+                {users.map((user, index) => {
+                  return (
+                    <option key={index} value={user.userName}>
+                      {user.name}
+                    </option>
+                  )
                 })}
               </NativeSelect>
             </>
