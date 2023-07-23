@@ -8,20 +8,22 @@ import { Button } from 'antd'
 
 const users = [
   {
-    name: 'Tong Minh Duong',
+    name: 'Tống Minh Dương',
     userName: 'duontm'
   },
   {
-    name: 'Nguyen Xuan Hanh',
+    name: 'Nguyễn Xuân Hạnh',
     userName: 'hanhnx'
   },
   {
-    name: ' Tran Hoang Tu',
+    name: 'Trần Hoàng Tú',
     userName: 'tuth'
   }
 ]
 
-function CustommerSeveviceStaff() {
+function CustommerSeveviceStaff(props) {
+  const { role } = props
+
   const {
     control,
     handleSubmit,
@@ -29,34 +31,62 @@ function CustommerSeveviceStaff() {
     formState: { errors }
   } = useForm()
 
-
   // >>>> Gửi data select nhân viên
   const onSubmit = data => console.log(data.target.value)
 
-  return (
-    <>
-      <form>
-        <Controller
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <>
-              <NativeSelect style={{ borderBottom: 'none' }} onChange={onSubmit} value={value}>
-                <option value='none'>None</option>
-                {users.map((user, index) => {
-                  return (
-                    <option key={index} value={user.userName}>
-                      {user.name}
-                    </option>
-                  )
-                })}
-              </NativeSelect>
-            </>
-          )}
-          name='staffName'
-        />
-      </form>
-    </>
-  )
+  if (role === 'admin') {
+    return (
+      <>
+        <form>
+          <Controller
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <>
+                <NativeSelect style={{ borderBottom: 'none' }} onChange={onSubmit} value={value}>
+                  <option value='none'>None</option>
+                  {users.map((user, index) => {
+                    return (
+                      <option key={index} value={user.userName}>
+                        {user.name}
+                      </option>
+                    )
+                  })}
+                </NativeSelect>
+              </>
+            )}
+            name='staffName'
+          />
+        </form>
+      </>
+    )
+  }
+
+  if (role === 'employee') {
+    return (
+      <>
+        <form>
+          <Controller
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <>
+                <NativeSelect disabled style={{ borderBottom: 'none' }} onChange={onSubmit} value={value}>
+                  <option value='none'>None</option>
+                  {users.map((user, index) => {
+                    return (
+                      <option key={index} value={user.userName}>
+                        {user.name}
+                      </option>
+                    )
+                  })}
+                </NativeSelect>
+              </>
+            )}
+            name='staffName'
+          />
+        </form>
+      </>
+    )
+  }
 }
 
 export default CustommerSeveviceStaff

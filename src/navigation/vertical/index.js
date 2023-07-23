@@ -12,7 +12,8 @@ import {
   SwapHorizontal,
   AccountBoxMultipleOutline,
   ForumOutline,
-  FileDocumentMultipleOutline
+  FileDocumentMultipleOutline,
+  TicketConfirmationOutline
 } from 'mdi-material-ui'
 
 const navigation = () => {
@@ -77,6 +78,12 @@ const navigation = () => {
       sectionTitle: 'HR',
       isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE']
+    },
+    {
+      title: 'Ticket Lists',
+      icon: TicketConfirmationOutline,
+      path: '/ticket-lists',
+      isShowMenu: true
     },
 
     {

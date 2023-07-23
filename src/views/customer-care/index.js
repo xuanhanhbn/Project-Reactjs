@@ -80,6 +80,8 @@ const CustomerCare = () => {
 
   const onSubmit = data => console.log('data: ', data)
 
+  const role = 'admin'
+
   const parseData = useCallback((item, field, index) => {
     if (field === 'index') {
       return index + 1
@@ -88,7 +90,7 @@ const CustomerCare = () => {
     if (field === 'serviceStaff') {
       return (
         <>
-          <CustommerSeveviceStaff />
+          <CustommerSeveviceStaff role={role} />
         </>
       )
     }

@@ -12,6 +12,7 @@ export const listCustomerService = [
     maxWidth: 170,
     name: 'Customer Name'
   },
+
   // {
   //   field: 'phoneNumber',
   //   maxWidth: 170,
@@ -22,6 +23,7 @@ export const listCustomerService = [
     maxWidth: 170,
     name: 'Service Staff'
   },
+
   // {
   //   field: 'email',
   //   maxWidth: 170,

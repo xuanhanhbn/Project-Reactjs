@@ -7,10 +7,8 @@ export const columns = [
 
     // isSort: true,
   },
-  { field: 'name', name: 'Customer', minWidth: 170 },
-  { field: 'email', name: 'Email', minWidth: 170 },
+  { field: 'nameCustomer', name: 'Customer', minWidth: 170 },
 
-  { field: 'address', name: 'Address', minWidth: 170 },
   { field: 'total', name: 'Total', minWidth: 100 },
   {
     field: 'date',
@@ -23,10 +21,27 @@ export const columns = [
     minWidth: 170
   },
   {
+    field: 'status',
+    name: 'Status',
+    minWidth: 170
+  },
+  {
     field: 'actions',
     name: 'Actions',
     minWidth: 170,
     align: 'center'
+  }
+]
+
+export const fakeData = [
+  {
+    nameCustomer: 'Tên Khách Hàng',
+    emailCustomer: 'email@gmail.com',
+    addressCustomer: 'Đây là địa chỉ khách hàng',
+    total: 'Tổng tiền',
+    date: '20-07-2023',
+    createdByName: 'Dương đẹp trai',
+    status: 'Processing'
   }
 ]
 
