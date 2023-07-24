@@ -3,50 +3,100 @@
 import { memo, useCallback, useState } from 'react'
 
 // ** MUI Imports
-import { Button, TextField, Link, Typography } from '@mui/material'
-import { Delete } from 'mdi-material-ui'
+import { Button, TextField, Link, Typography, IconButton } from '@mui/material'
+import { Delete, EyeOutline } from 'mdi-material-ui'
+
 import { Breadcrumb, Dropdown } from 'antd'
 
 // import BuildIcon from '@mui/icons-material/Build'
 import { Controller, useForm } from 'react-hook-form'
 import TableCommon from 'src/components/TableCommon'
 import { listCustomerService, listStatusService, items } from './constant'
-import EyeOutline from 'mdi-material-ui/EyeOutline'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import CustommerSeveviceStaff from './components/MenuStatus/CustomerServiceStaff'
+import { DownOutlined } from '@ant-design/icons'
+import { Space } from 'antd'
+import Actions from './components/Actions'
+
+const item = [
+  {
+    key: '1',
+    type: 'group',
+    label: 'Group title',
+    children: [
+      {
+        key: '1-1',
+        label: '1st menu item'
+      },
+      {
+        key: '1-2',
+        label: '2nd menu item'
+      }
+    ]
+  },
+  {
+    key: '2',
+    label: 'sub menu',
+    children: [
+      {
+        key: '2-1',
+        label: '3rd menu item'
+      },
+      {
+        key: '2-2',
+        label: '4th menu item'
+      }
+    ]
+  },
+  {
+    key: '3',
+    label: 'disabled sub menu',
+    disabled: true,
+    children: [
+      {
+        key: '3-1',
+        label: '5d menu item'
+      },
+      {
+        key: '3-2',
+        label: '6th menu item'
+      }
+    ]
+  }
+]
 
 const CustomerCare = () => {
+  const [age, setAge] = useState('')
+
+  const handleChangeName = event => {
+    setAge(event.target.value)
+  }
+
   const { control, handleSubmit } = useForm()
   const [isOpenMenu, setIsOpenMenu] = useState(false)
 
   const onSubmit = data => console.log('data: ', data)
+
+  const role = 'admin'
 
   const parseData = useCallback((item, field, index) => {
     if (field === 'index') {
       return index + 1
     }
 
-    if (field === 'actions') {
+    if (field === 'serviceStaff') {
       return (
         <>
-          <Link
-            passHref
-            href={{
-              pathname: '/account-settings/',
-              query: { ...item, type: 'not' }
-            }}
-          >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
-          </Link>
-          {/* <Dropdown menu={{ items }} trigger={['click']}>
-            <a onClick={e => e.preventDefault()}>
-              <Button color='success'>
-                <BuildIcon fontSize='12' />
-              </Button>
-            </a>
-          </Dropdown> */}
-          {/* </Button> */}
-          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          <CustommerSeveviceStaff role={role} />
         </>
       )
+    }
+
+    if (field === 'actions') {
+      return <Actions />
     }
     if (field === 'status') {
       if (item.status === 'Not Processed') {
@@ -172,4 +222,4 @@ const CustomerCare = () => {
   )
 }
 
-export default memo(CustomerCare)
+export default CustomerCare

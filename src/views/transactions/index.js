@@ -4,11 +4,12 @@ import { Breadcrumb, Typography } from 'antd'
 import Link from 'next/link'
 import { Delete, EyeOutline } from 'mdi-material-ui'
 import TableCommon from 'src/components/TableCommon'
-import { columns } from './constants'
+import { columns, fakeData } from './constants'
 import { transactionActions, makeSelectTransaction } from './transactionSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 import FormCreate from './components/ModalCreate'
+import Actions from './components/Actions'
 
 function Transactions() {
   const dispatch = useDispatch()
@@ -31,17 +32,7 @@ function Transactions() {
     if (field === 'actions') {
       return (
         <>
-          <Link
-            passHref
-            href={{
-              pathname: '',
-              query: { ...item, type: 'not' }
-            }}
-          >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
-          </Link>
-          {/* </Button> */}
-          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          <Actions />
         </>
       )
     }
@@ -75,7 +66,7 @@ function Transactions() {
         </Button>
       </div>
       <TableCommon
-        data={dataTransaction || []}
+        data={fakeData}
         parseFunction={parseData}
         columns={columns}
         isShowPaging

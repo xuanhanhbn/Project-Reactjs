@@ -37,12 +37,6 @@ export const inputCustommerRequestr = [
     label: 'Phone No.',
     type: 'INPUT',
     inputLabel: 'Phone :'
-  },
-  {
-    field: 'message',
-    label: 'Message',
-    type: 'MESSAGE',
-    inputLabel: 'Message :'
   }
 ]
 
@@ -59,11 +53,6 @@ export const columns = [
   { field: 'status', name: 'Status', minWidth: 100 },
 
   {
-    field: 'details',
-    name: 'Details',
-    minWidth: 170
-  },
-  {
     field: 'actions',
     name: 'Actions',
     minWidth: 170,
@@ -73,18 +62,12 @@ export const columns = [
 
 export const fakeDataRequest = [
   {
-    req: 'abcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    status: 'loading'
-  }
-]
-
-export const itemsDrop = [
-  {
-    key: 'edit',
-    label: 'Edit'
-  },
-  {
-    key: 'delete',
-    label: 'Delete'
+    email: 'tongminhduong@gmail.com',
+    fullName: 'Tong Minh Duong',
+    telephone: '00000000',
+    req: 'Turns out semicolon-less style is easier and safer in TS',
+    message:
+      'Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well. Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well. Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.',
+    status: 'Received'
   }
 ]
