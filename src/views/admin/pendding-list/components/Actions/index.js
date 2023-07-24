@@ -4,7 +4,7 @@ import { Button } from '@mui/material'
 import { Delete, DotsHorizontal, EyeOutline } from 'mdi-material-ui'
 import Link from 'next/link'
 
-const view = <Link href=''>View</Link>
+const view = <Link href='/ticket-lists/ticket-details/'>View</Link>
 
 const items = [
   {
@@ -22,16 +22,12 @@ const items = [
     label: 'Status',
     children: [
       {
-        key: 'notProcessed',
-        label: 'Not Processed'
+        key: 'approve',
+        label: 'Approve'
       },
       {
-        key: 'inProcessed',
-        label: 'In Processed'
-      },
-      {
-        key: 'processed',
-        label: 'Processed'
+        key: 'refuse',
+        label: 'Refuse'
       }
     ]
   }
@@ -41,33 +37,31 @@ const handleDropdownItemClick = e => {
   if (e.key === 'delete') {
     console.log(e.key)
   }
-
-  if (e.key === 'notProcessed') {
+  if (e.key === 'approve') {
     console.log(e.key)
   }
-
-  if (e.key === 'processed') {
-    console.log(e.key)
-  }
-
-  if (e.key === 'inProcessed') {
+  if (e.key === 'refuse') {
     console.log(e.key)
   }
 }
 
-const Actions = props => (
-  <Dropdown
-    menu={{
-      onClick: handleDropdownItemClick,
-      items
-    }}
-  >
-    <Button variant='outline'>
-      <Space>
-        <DotsHorizontal />
-      </Space>
-    </Button>
-  </Dropdown>
-)
+function Actions() {
+  return (
+    <Dropdown
+      menu={{
+        onClick: handleDropdownItemClick,
+        items
+      }}
+    >
+      <a>
+        <Button variant='outline'>
+          <Space>
+            <DotsHorizontal />
+          </Space>
+        </Button>
+      </a>
+    </Dropdown>
+  )
+}
 
 export default Actions

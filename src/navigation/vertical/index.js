@@ -13,7 +13,8 @@ import {
   AccountBoxMultipleOutline,
   ForumOutline,
   FileDocumentMultipleOutline,
-  TicketConfirmationOutline
+  TicketConfirmationOutline,
+  ClipboardListOutline
 } from 'mdi-material-ui'
 
 const navigation = () => {
@@ -33,7 +34,7 @@ const navigation = () => {
     },
     {
       title: 'Approval Pending List',
-      icon: HomeOutline,
+      icon: ClipboardListOutline,
       path: '/admin/pendding-list',
       isShowMenu: true,
       role: ['Admin']

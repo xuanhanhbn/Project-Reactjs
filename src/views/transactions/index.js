@@ -2,14 +2,13 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Breadcrumb, Typography } from 'antd'
 import Link from 'next/link'
-import { Delete, EyeOutline } from 'mdi-material-ui'
+import { Delete, DeleteOutline, EyeOutline } from 'mdi-material-ui'
 import TableCommon from 'src/components/TableCommon'
 import { columns, fakeData } from './constants'
 import { transactionActions, makeSelectTransaction } from './transactionSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, IconButton } from '@mui/material'
 import FormCreate from './components/ModalCreate'
-import Actions from './components/Actions'
 
 function Transactions() {
   const dispatch = useDispatch()
@@ -32,7 +31,14 @@ function Transactions() {
     if (field === 'actions') {
       return (
         <>
-          <Actions />
+          <Link href='' passHref>
+            <IconButton color='secondary'>
+              <EyeOutline style={{ fontSize: 18 }} />
+            </IconButton>
+          </Link>
+          <IconButton color='error'>
+            <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          </IconButton>
         </>
       )
     }

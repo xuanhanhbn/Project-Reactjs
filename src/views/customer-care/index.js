@@ -4,7 +4,7 @@ import { memo, useCallback, useState } from 'react'
 
 // ** MUI Imports
 import { Button, TextField, Link, Typography, IconButton } from '@mui/material'
-import { Delete, EyeOutline } from 'mdi-material-ui'
+import { Delete, DeleteOutline, EyeOutline } from 'mdi-material-ui'
 
 import { Breadcrumb, Dropdown } from 'antd'
 

@@ -90,7 +90,9 @@ function ListCustomer() {
             </IconButton>
           </Link>
           {/* </Button> */}
-          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          <IconButton>
+            <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          </IconButton>
         </>
       )
     }

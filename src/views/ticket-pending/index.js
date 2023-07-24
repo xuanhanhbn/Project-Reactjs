@@ -1,30 +1,64 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Breadcrumb, Dropdown } from 'antd'
 import TableCommon from 'src/components/TableCommon'
 import { colums, inputSearchTicket } from './constants'
-import Actions from './components/Actions'
 import { Typography } from '@mui/material'
 import { Button, IconButton, TextField } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import { Controller, useForm } from 'react-hook-form'
-import { Magnify } from 'mdi-material-ui'
+import { Delete, DeleteOutline, EyeOutline, Magnify } from 'mdi-material-ui'
 import TicketDetails from './components/TicketDetails'
+import { makeSelectTicket, ticketActions } from './ticketSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import Link from 'next/link'
 
 function TicketPendings() {
   const { control, handleSubmit } = useForm()
+  const dispatch = useDispatch()
+
+  const globalData = useSelector(makeSelectTicket)
+  const dataTicket = globalData?.dataTicket
+  const { isCreate, isLoading, isCreateFailed } = globalData
+
+  // Xử lí khi tìm kiếm
+  const onSubmit = data => {
+    dispatch(ticketActions.getListTicket(data))
+  }
+
+  // Call api danh sach
+  useEffect(() => {
+    dispatch(ticketActions.getListTicket())
+  }, [])
 
   // ** State
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   const breadcrumbItems = [{ href: '', title: 'Company Active' }, { title: 'Ticket List' }]
 
+  // tự render actions khi có thêm items mới
   const parseData = useCallback((item, field, index) => {
     if (field === 'index') {
       return index + 1
     }
 
     if (field === 'actions') {
-      return <Actions />
+      return (
+        <>
+          <Link href='' passHref>
+            <IconButton color='secondary'>
+              <EyeOutline style={{ fontSize: 18 }} />
+            </IconButton>
+          </Link>
+          <IconButton
+            onClick={() => {
+              alert('delete')
+            }}
+            color='error'
+          >
+            <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          </IconButton>
+        </>
+      )
     }
     if (field === 'status') {
       if (item.status === 'Not Processed') {
@@ -53,19 +87,8 @@ function TicketPendings() {
     return item[field]
   }, [])
 
-  // Xử lí khi tìm kiếm
-  const onSubmit = data => {
-    console.log(data)
-  }
-
-  const fakeData = [
-    {
-      ticket: 'Ticket Name',
-      createDate: '20-7-2023',
-      processingStaff: 'Tống Minh Dương',
-      status: 'Processing'
-    }
-  ]
+  // fake data
+  const fakeData = [{ ticket: 'tést' }]
 
   return (
     <div style={{ flex: 1 }}>
@@ -114,7 +137,9 @@ function TicketPendings() {
       {/* Table */}
       <div className='table-data mt-3'>
         <TableCommon
-          data={fakeData || []}
+        
+          // data={dataTicket || []}
+          data={fakeData}
           parseFunction={parseData}
           columns={colums}
           isShowPaging

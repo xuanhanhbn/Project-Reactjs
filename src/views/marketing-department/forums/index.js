@@ -14,7 +14,7 @@ import TableCommon from 'src/components/TableCommon'
 import { Delete } from 'mdi-material-ui'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import { useCallback } from 'react'
-import { columns, createTopic } from './constants'
+import { columns, createTopic, listTopic } from './constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeSelectMakerting, marketingActions } from '../marketingSlice'
 import Loading from 'src/components/Loading'
@@ -123,7 +123,10 @@ function MarketingForums() {
       {/* <MarketingDepartmentHeader /> */}
       <Card className='mt-4'>
         <TableCommon
-          data={Array.isArray(dataDocument) && dataDocument.length > 0 ? dataDocument : []}
+        
+          // data={Array.isArray(dataDocument) && dataDocument.length > 0 ? dataDocument : [] }
+
+          data={listTopic}
           parseFunction={parseData}
           columns={columns}
           isShowPaging
