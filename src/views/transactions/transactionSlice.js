@@ -4,8 +4,8 @@ const initialState = {
   isLoading: false,
   errorMessage: '',
   isSuccess: false,
-  isError: false,
   isCreate: false,
+  isError: false,
   dataTransaction: [],
   dataError: {}
 }
@@ -27,6 +27,19 @@ const transaction = createSlice({
       state.isLoading = false
       state.dataTransaction = action.payload || []
       state.isSuccess = true
+    },
+    createTransaction(state) {
+      state.isLoading = true
+    },
+    createTransactionFailed(state, action) {
+      state.isLoading = false
+      state.isError = true
+      state.dataError = action.payload || {}
+      state.errorMessage = ''
+    },
+    createTransactionSuccess(state, action) {
+      state.isLoading = false
+      state.isCreate = true
     },
     clear(state) {
       state.isLoading = false

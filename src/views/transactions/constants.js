@@ -47,19 +47,36 @@ export const fakeData = [
 
 export const inputCreate = [
   {
-    field: 'contentSubTransactions',
-    lable: 'Content SubTransactions'
+    field: 'detail',
+    lable: 'Transaction Discription',
+    placeHolder: 'Transaction Discription',
+    type: 'INPUT'
   },
   {
-    field: 'totalSubTransactions',
-    lable: 'Total SubTransactions'
+    field: 'total',
+    lable: 'Total Transactions',
+    placeHolder: 'Total Transactions',
+    type: 'INPUT'
   },
   {
-    field: 'remarksTitle',
-    lable: 'Remarks Title'
+    field: 'customer',
+    lable: 'Customer ',
+    placeHolder: 'Customer',
+    type: 'SELECT'
+  }
+]
+
+export const inputShowInfoCustomer = [
+  {
+    field: 'email',
+    lable: 'Customer Email'
   },
   {
-    field: 'remarksContent',
-    lable: 'Remarks Content'
+    field: 'address',
+    lable: 'Customer Address'
+  },
+  {
+    field: 'telephone',
+    lable: 'Customer Telephone'
   }
 ]

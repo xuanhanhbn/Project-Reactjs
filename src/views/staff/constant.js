@@ -1,32 +1,3 @@
-const createData = (name, quantity, kpi, review) => {
-  return {
-    name,
-    quantity,
-    kpi,
-    review,
-    history: [
-      {
-        name: 'Tú',
-        date: '27',
-        date2: 7,
-        amount: 3
-      },
-      {
-        name: 'Dương',
-        date: '28',
-        date2: 5,
-        amount: 4
-      }
-    ]
-  }
-}
-
-export const rows = [
-  createData('HR Deparment', 159, 6.0, 'Very Good'),
-  createData('Accouting Department', 237, 9.0, 'Good'),
-  createData('Marketing Deparment', 262, 16.0, 'Bad')
-]
-
 export const columns = [
   {
     field: 'index',
@@ -59,17 +30,12 @@ export const columns = [
 
 export const inputCreateUser = [
   {
-    field: 'firstName',
-    placeHolder: 'First Name',
+    field: 'fullName',
+    placeHolder: 'Full Name',
     type: 'INPUT',
-    inputLabel: 'First Name :'
+    inputLabel: 'Full Name :'
   },
-  {
-    field: 'lastName',
-    placeHolder: 'Last Name',
-    type: 'INPUT',
-    inputLabel: 'Last Name :'
-  },
+
   {
     field: 'username',
     placeHolder: 'User Name',
@@ -95,35 +61,50 @@ export const inputCreateUser = [
     inputLabel: 'Roler :'
   },
   {
-    field: 'department',
-    placeHolder: 'Department',
-    type: 'SELECT',
-    inputLabel: 'Department :'
+    field: 'phone',
+    placeHolder: 'Phone Number',
+    type: 'INPUT',
+    inputLabel: 'Phone Number :'
   }
+
+  // {
+  //   field: 'department',
+  //   placeHolder: 'Department',
+  //   type: 'SELECT',
+  //   inputLabel: 'Department :'
+  // },
 ]
 
 export const roleAccount = [
   {
-    field: 'manager',
-    value: 'Manager'
+    field: 'saleManager',
+    value: 'Sale Manager'
   },
   {
-    field: 'empolyee',
-    value: 'Empolyee'
+    field: 'empolyeeSale',
+    value: 'Sale Empolyee'
+  },
+  {
+    field: 'empolyeeHR',
+    value: 'HR Empolyee'
+  },
+  {
+    field: 'HRManager',
+    value: 'HR Manager'
   }
 ]
 
-export const roleDepartments = [
-  {
-    field: 'marketing',
-    value: 'Marketing'
-  },
-  {
-    field: 'humanResources',
-    value: 'Human Resources'
-  },
-  {
-    field: 'accounting',
-    value: 'Accounting'
-  }
-]
+// export const roleDepartments = [
+//   // {
+//   //   field: 'marketing',
+//   //   value: 'Marketing'
+//   // },
+//   {
+//     field: 'humanResources',
+//     value: 'Human Resources'
+//   },
+//   {
+//     field: 'sale',
+//     value: 'Sales'
+//   }
+// ]

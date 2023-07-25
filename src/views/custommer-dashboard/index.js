@@ -85,14 +85,18 @@ function ListCustomer() {
               query: { ...item, type: 'not' }
             }}
           >
-            <IconButton>
+            <Button>
               <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
-            </IconButton>
+            </Button>
           </Link>
           {/* </Button> */}
+
           <IconButton>
             <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
           </IconButton>
+
+          {/* <Delete style={{ fontSize: 18, color: 'red' }} color='red' /> */}
+
         </>
       )
     }

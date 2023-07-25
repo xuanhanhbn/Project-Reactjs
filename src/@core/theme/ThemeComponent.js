@@ -27,7 +27,7 @@ const ThemeComponent = props => {
 
   useEffect(() => {
     const dataLoginPage = JSON.parse(localStorage.getItem('loginPage'))
-    if (dataLoginPage) {
+    if (dataLoginPage && dataLoginPage?.token) {
       dispatch(loginPageActions.userInfo())
     }
   }, [])

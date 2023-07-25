@@ -9,21 +9,41 @@ import { transactionActions, makeSelectTransaction } from './transactionSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, IconButton } from '@mui/material'
 import FormCreate from './components/ModalCreate'
+
 import TransactinonDetails from './components/transaction-details'
 
+import Actions from './components/Actions'
+import Loading from 'src/components/Loading'
+
+
 function Transactions() {
+  // Khai báo BreadCrumb
+  const breadcrumbItems = [{ title: 'Company Active' }, { title: 'Transaction List' }]
   const dispatch = useDispatch()
 
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [isOpenModalTransaction, setIsOpenModalTransaction] = useState(false)
 
   const globalData = useSelector(makeSelectTransaction)
+  const { isCreate, isLoading } = globalData
   const dataTransaction = globalData?.dataTransaction
+
+  const handleGetList = () => {
+    dispatch(transactionActions.getListTransaction())
+  }
 
   // Call api danh sach
   useEffect(() => {
-    dispatch(transactionActions.getListTransaction())
+    handleGetList()
   }, [])
+
+  useEffect(() => {
+    if (isCreate) {
+      dispatch(transactionActions.clear())
+      handleGetList()
+      setIsOpenModal(false)
+    }
+  }, [isCreate])
 
   const parseData = useCallback((item, field, index) => {
     if (field === 'index') {
@@ -65,19 +85,16 @@ function Transactions() {
 
   return (
     <div>
-      <Breadcrumb style={{ marginBottom: 30 }}>
-        <Breadcrumb.Item>
-          <Link href='/admin/dashboard'>Company Active</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>Transactions</Breadcrumb.Item>
-      </Breadcrumb>
+      <Breadcrumb style={{ marginBottom: 30 }} items={breadcrumbItems} />
+
       <div className='d-flex justify-content-end mb-3'>
         <Button size='large' variant='contained' sx={{ marginLeft: 10 }} onClick={() => handleOpenModalCreate()}>
-          Thêm mới
+          Create New
         </Button>
       </div>
+      <Loading isLoading={isLoading} />
       <TableCommon
-        data={fakeData}
+        data={dataTransaction || []}
         parseFunction={parseData}
         columns={columns}
         isShowPaging

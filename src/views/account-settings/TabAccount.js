@@ -27,7 +27,7 @@ const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
   email: Yup.string()
     .required('Email is required')
-    .matches(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/, 'Email sai định dạng'),
+    .matches(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/, 'Email invalid'),
 
   role: Yup.string().required('Role is required'),
   status: Yup.string().required('Status is required'),
