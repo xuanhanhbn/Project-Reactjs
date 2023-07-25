@@ -1,11 +1,13 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Breadcrumb } from 'antd'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
-import { Delete } from 'mdi-material-ui'
+import { CheckAll, Delete } from 'mdi-material-ui'
 import Link from 'next/link'
 
 import CustomTable from 'src/components/TableCommon'
 import { penddingList } from './constant'
+import { IconButton } from '@mui/material'
+import Actions from './components/Actions'
 
 function PenddingList() {
   const breadcrumbItems = [{ href: '', title: 'Company Active' }, { title: 'Approval Pending List' }]
@@ -19,17 +21,7 @@ function PenddingList() {
     if (field === 'actions') {
       return (
         <>
-          <Link
-            passHref
-            href={{
-              pathname: '/customer-dashboard/custommer-detail',
-              query: { ...item, type: 'not' }
-            }}
-          >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
-          </Link>
-          {/* </Button> */}
-          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          <Actions />
         </>
       )
     }
@@ -37,14 +29,14 @@ function PenddingList() {
     return item[field]
   }, [])
 
-  const fakeData = [{ discription: 'test', createdBy: 'test', createdDate: 'test' }]
+  const fakeData = [{ discription: 'test', createdBy: 'test', createdDate: 'test', status: 'test' }]
 
   return (
     <div className='container'>
       <Breadcrumb items={breadcrumbItems} />
       <div className='mt-3'>
         <CustomTable
-          data={fakeData || []}
+          data={fakeData}
           columns={penddingList}
           parseFunction={parseData}
           isShowPaging

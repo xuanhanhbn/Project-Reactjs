@@ -11,12 +11,12 @@ export const colums = [
     name: 'Ticket'
   },
   {
-    field: 'createDate',
+    field: 'createdAt',
     maxWidth: 170,
     name: 'Create Date'
   },
   {
-    field: 'processingStaff',
+    field: 'fullName',
     maxWidth: 170,
     name: 'Processing Staff'
   },
