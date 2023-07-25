@@ -121,6 +121,16 @@ const navigation = () => {
       role: ['Admin', 'Manager', 'EMPOYLEE'],
       disabled: true
     },
+<<<<<<< HEAD
+=======
+    {
+      icon: CreditCardOutline,
+      title: 'Customer Service',
+      path: '/customer-care',
+      isShowMenu: true,
+      role: ['Admin', 'Manager', 'EMPOYLEE']
+    }
+>>>>>>> dev
 
     // {
     //   title: 'Documents',
