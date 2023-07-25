@@ -17,6 +17,23 @@ function* onGetList() {
   }
 }
 
+// Create Transaction
+function* onCreateTransaction(data) {
+  const payload = data?.payload
+  const url = '/Transaction'
+  try {
+    const response = yield call(postApiDefault, url, payload)
+    if (response && response.status === 200) {
+      yield put(transactionActions.createTransactionSuccess(response.data))
+    } else {
+      yield put(transactionActions.createTransactionFailed())
+    }
+  } catch (error) {
+    yield put(transactionActions.createTransactionFailed('internet'))
+  }
+}
+
 export default function* transactionSaga() {
   yield takeLatest(transactionActions.getListTransaction, onGetList)
+  yield takeLatest(transactionActions.createTransaction, onCreateTransaction)
 }

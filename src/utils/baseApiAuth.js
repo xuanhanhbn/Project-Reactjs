@@ -14,7 +14,7 @@ baseInstance.interceptors.request.use(
       const loginData = await localStorage.getItem('loginPage')
       if (loginData !== undefined) {
         const loginDataParse = JSON.parse(loginData)
-        config.headers.Authorization = `Bearer ${loginDataParse}`
+        config.headers.Authorization = `Bearer ${loginDataParse?.token}`
       }
     } catch (error) {
       config.validateStatus = status => status < 500

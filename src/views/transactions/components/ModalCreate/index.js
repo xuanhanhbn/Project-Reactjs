@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react'
 import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
@@ -12,13 +13,17 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import { FormControl, TextField, Typography } from '@mui/material'
-
+import { FormControl, InputAdornment, InputLabel, TextField, Typography } from '@mui/material'
+import MenuItem from '@mui/material/MenuItem'
 import { Controller, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { inputCreate } from '../../constants'
+import { inputCreate, inputShowInfoCustomer } from '../../constants'
 import { useState } from 'react'
-import { makeSelectCustomer } from 'src/views/custommer-dashboard/customerSlice'
+import { customerActions, makeSelectCustomer } from 'src/views/custommer-dashboard/customerSlice'
+import Select from '@mui/material/Select'
+import { useEffect } from 'react'
+import { transactionActions } from '../../transactionSlice'
+import { useCallback } from 'react'
 
 const style = {
   position: 'absolute',
@@ -42,11 +47,13 @@ const modalStyles = {
 }
 
 const validationSchema = Yup.object().shape({
-  contentSubTransactions: Yup.string().required('Content SubTransactions is required'),
-  totalSubTransactions: Yup.string().required('Total SubTransactions is required'),
-  remarksTitle: Yup.string().required('Remarks Title is required'),
-  remarksContent: Yup.string().required('Remarks Content is not valid')
+  detail: Yup.string().required('Discription Transaction is required'),
+  total: Yup.string()
+    .required('Total Transactions is required')
+    .matches(/^[0-9]+(?:[,.][0-9]+)*$/, 'Total invalid'),
+  customer: Yup.string().required('Customer is required')
 })
+
 function FormCreate(props) {
   const { title, onOpen, onClose, handleSubmitForm, value } = props
   const dispatch = useDispatch()
@@ -56,6 +63,7 @@ function FormCreate(props) {
     handleSubmit,
     clearErrors,
     setError,
+    setValue,
     control,
     formState: { errors }
   } = useForm({
@@ -63,45 +71,136 @@ function FormCreate(props) {
   })
 
   const baseDataRequest = {
-    subTransactions: [
-      {
-        details: '',
-        subTotal: 0
-      }
-    ],
-    remarks: [
-      {
-        title: '',
-        content: ''
-      }
-    ],
+    detail: '',
+    total: 0,
     customerId: ''
   }
 
   const [dataRequest, setDataRequest] = useState(baseDataRequest)
+  const [valueCustomer, setValueCustomer] = useState('')
 
   // const globalData = useSelector(makeSelectCustomer)
-  const dataCustomer = useSelector(makeSelectCustomer)
-  console.log('dataCustomer: ', dataCustomer)
+  const getDataCustomer = useSelector(makeSelectCustomer)
+  const dataCustomer = getDataCustomer?.dataCustomer
   const handleClose = () => onClose()
 
   const onSubmit = data => {
+    const replaceData = data?.total?.toLocaleString()?.replace(/\D/g, '')
+
     const newDataRequest = {
-      subTransactions: [
-        {
-          details: data?.contentSubTransactions,
-          subTotal: Number(data?.totalSubTransactions)
-        }
-      ],
-      remarks: [
-        {
-          title: data?.remarksTitle,
-          content: data?.remarksContent
-        }
-      ],
-      customerId: ''
+      ...data,
+      total: Number(replaceData)
     }
-    console.log('data: ', data)
+    dispatch(transactionActions.createTransaction(newDataRequest))
+  }
+
+  useEffect(() => {
+    dispatch(customerActions.getListCustomer())
+  }, [])
+
+  // Render value select
+  const renderValueSelect = item => {
+    if (Array.isArray(dataCustomer) && dataCustomer.length > 0) {
+      return dataCustomer.map(customer => {
+        return (
+          <MenuItem key={customer?.customerId} value={customer?.customerId}>
+            {customer?.name}
+          </MenuItem>
+        )
+      })
+    }
+  }
+
+  // Render input
+  const renderDefaultFilter = item => {
+    if (item.type === 'INPUT') {
+      const { field } = item
+      const message = errors[field] && errors[field].message
+
+      return (
+        <Grid item xs={12} sm={6} key={item.field}>
+          <Controller
+            control={control}
+            render={({ field: { onChange, value } }) => {
+              return (
+                <TextField
+                  fullWidth
+                  required
+                  label={item.placeHolder}
+                  id='outlined-start-adornment'
+                  name={item.field}
+                  onChange={item.field === 'total' ? handleInputTotalChange : onChange}
+                  value={value}
+                  InputProps={
+                    item.field === 'total' ? { endAdornment: <InputAdornment position='end'>$</InputAdornment> } : null
+                  }
+                />
+              )
+            }}
+            name={item.field}
+          />
+
+          <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{message}</Typography>
+        </Grid>
+      )
+    }
+
+    if (item.type === 'SELECT') {
+      return (
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <Controller
+              control={control}
+              name='customer'
+              render={({ field }) => (
+                <>
+                  <InputLabel>{item.placeHolder}</InputLabel>
+                  <Select {...field} onChange={handleSelectChange} label={item.placeHolder}>
+                    {renderValueSelect(item)}
+                  </Select>
+                </>
+              )}
+            />
+          </FormControl>
+
+          <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{errors.customer?.message}</Typography>
+        </Grid>
+      )
+    }
+  }
+
+  // Xử lí change input total
+  const handleInputTotalChange = event => {
+    const inputValue = event.target.value
+
+    // Loại bỏ các dấu phẩy trong giá trị
+    const numericValue = inputValue.replace(/,/g, '')
+
+    // Thêm dấu phẩy sau mỗi 3 số
+    const formattedValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+    // Cập nhật giá trị vào React Hook Form
+    setValue('total', formattedValue, { shouldValidate: true })
+  }
+
+  // Xử lí change Select
+  const handleSelectChange = event => {
+    const selectedValue = event.target.value
+    setValue('customer', selectedValue, { shouldValidate: true })
+    setValueCustomer(selectedValue)
+  }
+
+  // Hiển thị khi người dùng select && select có dữ liệu
+  const renderInputCustomer = item => {
+    if (valueCustomer) {
+      const result = dataCustomer.filter(item => item.customerId === valueCustomer)
+
+      return (
+        <Grid item xs={12} sm={6}>
+          <TextField disabled fullWidth required label={item.lable} name={item.field} value={result[0][item.field]} />
+        </Grid>
+      )
+    }
   }
 
   return (
@@ -127,41 +226,8 @@ function FormCreate(props) {
               <FormControl style={{ width: '100%' }}>
                 <CardContent>
                   <Grid container spacing={5}>
-                    <Grid item xs={12}>
-                      <Box sx={modalStyles.inputFields}>
-                        {inputCreate.map(input => {
-                          const { field } = input
-                          const message = errors[field] && errors[field].message
-
-                          return (
-                            <Grid key={input.field}>
-                              <Controller
-                                control={control}
-                                render={({ field: { onChange, value } }) => {
-                                  return (
-                                    <TextField
-                                      key={input.field}
-                                      placeholder={input.lable}
-                                      name={input.field}
-                                      label={input.lable}
-                                      value={value}
-                                      onChange={onChange}
-                                      required
-                                      fullWidth
-                                      style={{ marginBottom: 10 }}
-                                    />
-                                  )
-                                }}
-                                name={input.field}
-                              />
-                              <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>
-                                {message}
-                              </Typography>
-                            </Grid>
-                          )
-                        })}
-                      </Box>
-                    </Grid>
+                    {inputCreate.map(input => renderDefaultFilter(input))}
+                    {inputShowInfoCustomer.map(item => renderInputCustomer(item))}
                   </Grid>
                 </CardContent>
                 <Divider sx={{ margin: 0 }} />

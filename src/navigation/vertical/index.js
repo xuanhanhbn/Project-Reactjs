@@ -51,13 +51,14 @@ const navigation = () => {
       isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE']
     },
-    {
-      title: 'Forums',
-      icon: SwapHorizontal,
-      path: '/marketing-department/forums',
-      isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
-    },
+
+    // {
+    //   title: 'Forums',
+    //   icon: SwapHorizontal,
+    //   path: '/marketing-department/forums',
+    //   isShowMenu: true,
+    //   role: ['Admin', 'Manager', 'EMPOYLEE']
+    // },
 
     // {
     //   title: 'Members',
@@ -66,13 +67,13 @@ const navigation = () => {
     //   isShowMenu: true,
     //   role: ['Admin', 'Manager', 'EMPOYLEE']
     // },
-    {
-      title: 'Messages',
-      icon: ForumOutline,
-      path: '/marketing-department/messages',
-      isShowMenu: false,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
-    },
+    // {
+    //   title: 'Messages',
+    //   icon: ForumOutline,
+    //   path: '/marketing-department/messages',
+    //   isShowMenu: false,
+    //   role: ['Admin', 'Manager', 'EMPOYLEE']
+    // },
 
     {
       sectionTitle: 'HR',
@@ -83,7 +84,20 @@ const navigation = () => {
       title: 'Ticket Lists',
       icon: TicketConfirmationOutline,
       path: '/ticket-lists',
-      isShowMenu: true
+      isShowMenu: true,
+      role: ['Admin', 'Manager', 'EMPOYLEE']
+    },
+    {
+      sectionTitle: 'Employee',
+      isShowMenu: true,
+      role: ['Admin', 'Manager', 'EMPOYLEE']
+    },
+    {
+      title: 'Employee List',
+      icon: AccountGroupOutline,
+      path: '/staff',
+      isShowMenu: true,
+      role: ['Admin', 'Manager', 'EMPOYLEE']
     },
 
     {
@@ -91,14 +105,6 @@ const navigation = () => {
       isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE']
     },
-
-    // {
-    //   title: 'Account Staff',
-    //   icon: AccountGroupOutline,
-    //   path: 'account-staffs',
-    //   isShowMenu: true,
-    //   role: ['Admin', 'Manager', 'EMPOYLEE']
-    // },
     {
       title: 'Customer',
       icon: AccountCogOutline,
