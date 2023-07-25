@@ -20,10 +20,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { inputCreate, inputShowInfoCustomer } from '../../constants'
 import { useState } from 'react'
 import { customerActions, makeSelectCustomer } from 'src/views/custommer-dashboard/customerSlice'
-import Select from '@mui/material/Select'
+
+// import Select from '@mui/material/Select'
 import { useEffect } from 'react'
 import { transactionActions } from '../../transactionSlice'
-import { useCallback } from 'react'
+import Select from 'react-select'
 
 const style = {
   position: 'absolute',
@@ -36,14 +37,11 @@ const style = {
   boxShadow: 24
 }
 
-const modalStyles = {
-  inputFields: {
-    marginTop: '20px',
-    marginBottom: '15px',
-    '.MuiFormControl-root': {
-      marginBottom: '20px'
-    }
-  }
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    padding: '8px 0'
+  })
 }
 
 const validationSchema = Yup.object().shape({
@@ -77,7 +75,7 @@ function FormCreate(props) {
   }
 
   const [dataRequest, setDataRequest] = useState(baseDataRequest)
-  const [valueCustomer, setValueCustomer] = useState('')
+  const [valueCustomer, setValueCustomer] = useState({})
 
   // const globalData = useSelector(makeSelectCustomer)
   const getDataCustomer = useSelector(makeSelectCustomer)
@@ -154,10 +152,16 @@ function FormCreate(props) {
               name='customer'
               render={({ field }) => (
                 <>
-                  <InputLabel>{item.placeHolder}</InputLabel>
-                  <Select {...field} onChange={handleSelectChange} label={item.placeHolder}>
-                    {renderValueSelect(item)}
-                  </Select>
+                  {/* <InputLabel>{item.placeHolder}</InputLabel> */}
+                  <Select
+                    {...field}
+                    onChange={handleSelectChange}
+                    options={handleGetOptions()}
+                    value={valueCustomer}
+                    isSearchable
+                    className='z-2'
+                    styles={customStyles}
+                  />
                 </>
               )}
             />
@@ -167,6 +171,15 @@ function FormCreate(props) {
         </Grid>
       )
     }
+  }
+
+  const handleGetOptions = () => {
+    const formattedOptions = dataCustomer?.map(item => ({
+      value: item?.customerId,
+      label: item?.name
+    }))
+
+    return formattedOptions
   }
 
   // Xử lí change input total
@@ -184,16 +197,16 @@ function FormCreate(props) {
   }
 
   // Xử lí change Select
-  const handleSelectChange = event => {
-    const selectedValue = event.target.value
-    setValue('customer', selectedValue, { shouldValidate: true })
+  const handleSelectChange = selectedOption => {
+    const selectedValue = selectedOption
+    setValue('customer', selectedValue?.value, { shouldValidate: true })
     setValueCustomer(selectedValue)
   }
 
   // Hiển thị khi người dùng select && select có dữ liệu
   const renderInputCustomer = item => {
-    if (valueCustomer) {
-      const result = dataCustomer.filter(item => item.customerId === valueCustomer)
+    if (valueCustomer && Object.keys(valueCustomer).length) {
+      const result = dataCustomer?.filter(item => item?.customerId === valueCustomer?.value)
 
       return (
         <Grid item xs={12} sm={6}>
@@ -204,7 +217,7 @@ function FormCreate(props) {
   }
 
   return (
-    <div>
+    <div className='container' id='modal-create-transaction'>
       <Modal
         aria-labelledby='transition-modal-title'
         aria-describedby='transition-modal-description'
