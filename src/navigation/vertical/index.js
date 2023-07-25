@@ -120,7 +120,7 @@ const navigation = () => {
       isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE'],
       disabled: true
-    }
+    },
 
     // {
     //   title: 'Documents',
@@ -173,19 +173,20 @@ const navigation = () => {
     //   path: '/admin/list-documents',
     //   isShowMenu: true,
     //   role: ['Admin', 'Manager', 'EMPOYLEE']
-    // },
-    // {
-    //   sectionTitle: 'Customer Care',
-    //   isShowMenu: true,
-    //   role: ['Admin', 'Manager', 'EMPOYLEE']
     // }
-    // {
-    //   icon: CreditCardOutline,
-    //   title: 'Customer Care',
-    //   path: '/customer-care',
-    //   isShowMenu: true,
-    //   role: ['Admin', 'Manager', 'EMPOYLEE']
-    // },
+    {
+      sectionTitle: 'Customer Care',
+      isShowMenu: true,
+      role: ['Admin', 'Manager', 'EMPOYLEE']
+    },
+    {
+      icon: CreditCardOutline,
+      title: 'Customer Care',
+      path: '/customer-care',
+      isShowMenu: true,
+      role: ['Admin', 'Manager', 'EMPOYLEE']
+    }
+    
     // {
     //   title: 'Forgot Password',
     //   icon: Login,

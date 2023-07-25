@@ -12,9 +12,7 @@ import FormCreate from './components/ModalCreate'
 
 import TransactinonDetails from './components/transaction-details'
 
-import Actions from './components/Actions'
 import Loading from 'src/components/Loading'
-
 
 function Transactions() {
   // Khai báo BreadCrumb

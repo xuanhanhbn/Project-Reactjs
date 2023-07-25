@@ -26,6 +26,7 @@ import { useEffect } from 'react'
 import { transactionActions } from '../../transactionSlice'
 import Select from 'react-select'
 
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -36,6 +37,7 @@ const style = {
   borderRadius: 1,
   boxShadow: 24
 }
+
 
 const customStyles = {
   control: (provided, state) => ({

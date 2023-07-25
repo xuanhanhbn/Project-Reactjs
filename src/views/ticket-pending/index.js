@@ -11,6 +11,7 @@ import TicketDetails from './components/TicketDetails'
 import { makeSelectTicket, ticketActions } from './ticketSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link'
+import CreateTicket from '../create-ticket'
 
 function TicketPendings() {
   const { control, handleSubmit } = useForm()
@@ -44,7 +45,7 @@ function TicketPendings() {
     if (field === 'actions') {
       return (
         <>
-          <Link href='' passHref>
+          <Link href='/ticket-lists/ticket-details/' passHref>
             <IconButton color='secondary'>
               <EyeOutline style={{ fontSize: 18 }} />
             </IconButton>
