@@ -217,7 +217,7 @@ function FormCreate(props) {
   }
 
   return (
-    <div className='container' id='modal-create-transaction'>
+    <div className='container '>
       <Modal
         aria-labelledby='transition-modal-title'
         aria-describedby='transition-modal-description'
@@ -243,7 +243,7 @@ function FormCreate(props) {
                     {inputShowInfoCustomer.map(item => renderInputCustomer(item))}
                   </Grid>
                 </CardContent>
-                <Divider sx={{ margin: 0 }} />
+                <Divider sx={{ marginTop: 20 }} />
                 <CardActions style={{ justifyContent: 'flex-end' }}>
                   <Button size='large' color='secondary' variant='outlined' onClick={() => handleClose()}>
                     Cancel

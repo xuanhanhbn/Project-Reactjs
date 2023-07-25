@@ -96,7 +96,6 @@ function ListCustomer() {
           </IconButton>
 
           {/* <Delete style={{ fontSize: 18, color: 'red' }} color='red' /> */}
-
         </>
       )
     }
@@ -195,7 +194,6 @@ function ListCustomer() {
           title='Add Customer'
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'
-          style={{ minWidth: 340 }}
         />
       )}
     </div>

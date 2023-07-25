@@ -120,6 +120,13 @@ const navigation = () => {
       isShowMenu: true,
       role: ['Admin', 'Manager', 'EMPOYLEE'],
       disabled: true
+    },
+    {
+      icon: CreditCardOutline,
+      title: 'Customer Service',
+      path: '/customer-care',
+      isShowMenu: true,
+      role: ['Admin', 'Manager', 'EMPOYLEE']
     }
 
     // {

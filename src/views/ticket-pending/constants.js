@@ -1,41 +1,71 @@
-export const colums = [
+export const columsAllTicket = [
   {
     field: 'index',
-    maxWidth: 170,
     name: 'STT',
     align: 'center'
   },
   {
-    field: 'ticket',
-    maxWidth: 170,
-    name: 'Ticket'
+    field: 'content',
+    name: 'Ticket Content'
   },
   {
-    field: 'createdAt',
-    maxWidth: 170,
-    name: 'Create Date'
+    field: 'ticketCategory',
+    name: 'Ticket Category'
+  },
+  {
+    field: 'name',
+    name: 'Customer Name'
+  },
+  {
+    field: 'email',
+    name: 'Customer Email'
   },
   {
     field: 'fullName',
-    maxWidth: 170,
-    name: 'Processing Staff'
+    name: 'Handling Staff'
   },
   {
     field: 'status',
-    maxWidth: 170,
     name: 'Status'
   },
   {
     field: 'actions',
-    maxWidth: 170,
     name: 'Actions',
     align: 'center'
   }
 ]
 
 export const inputSearchTicket = [
+  // {
+  //   field: 'search',
+  //   label: 'Search',
+  //   type: 'INPUT'
+  // },
   {
-    field: 'search',
-    label: 'Search'
+    field: 'status',
+    label: 'Search Status'
+  }
+]
+
+export const statusTicket = [
+  {
+    value: 0,
+    label: 'Open'
+  },
+  {
+    value: 1,
+    label: 'Pending'
+  },
+  {
+    value: 2,
+    label: 'Processing'
+  },
+  {
+    value: 3,
+    label: 'Done'
+  },
+  {
+    value: 4,
+    label: 'Closed'
   }
 ]

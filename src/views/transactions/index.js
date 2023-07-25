@@ -9,12 +9,8 @@ import { transactionActions, makeSelectTransaction } from './transactionSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, IconButton } from '@mui/material'
 import FormCreate from './components/ModalCreate'
-
 import TransactinonDetails from './components/transaction-details'
-
-import Actions from './components/Actions'
 import Loading from 'src/components/Loading'
-
 
 function Transactions() {
   // Khai báo BreadCrumb
@@ -84,7 +80,7 @@ function Transactions() {
   const handleCloseModalTransaction = () => setIsOpenModalTransaction(false)
 
   return (
-    <div>
+    <div className='container'>
       <Breadcrumb style={{ marginBottom: 30 }} items={breadcrumbItems} />
 
       <div className='d-flex justify-content-end mb-3'>
@@ -107,7 +103,6 @@ function Transactions() {
           title='Add Transaction'
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'
-          style={{ minWidth: 340 }}
         />
       )}
       {isOpenModalTransaction && (
@@ -117,7 +112,6 @@ function Transactions() {
           title='Details'
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'
-          style={{ minWidth: 340 }}
         />
       )}
     </div>
