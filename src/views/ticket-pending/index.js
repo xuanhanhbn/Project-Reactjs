@@ -88,7 +88,7 @@ function TicketPendings() {
   }, [])
 
   // fake data
-  const fakeData = [{ ticket: 'tést' }]
+  const fakeData = [{ status: 'tést' }]
 
   return (
     <div style={{ flex: 1 }}>

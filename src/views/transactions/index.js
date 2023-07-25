@@ -10,10 +10,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button, IconButton } from '@mui/material'
 import FormCreate from './components/ModalCreate'
 import TransactinonDetails from './components/transaction-details'
-<<<<<<< HEAD
 
-=======
->>>>>>> dev
+
 import Loading from 'src/components/Loading'
 
 function Transactions() {
