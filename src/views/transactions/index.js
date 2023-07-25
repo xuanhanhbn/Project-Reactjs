@@ -9,11 +9,13 @@ import { transactionActions, makeSelectTransaction } from './transactionSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, IconButton } from '@mui/material'
 import FormCreate from './components/ModalCreate'
+import TransactinonDetails from './components/transaction-details'
 
 function Transactions() {
   const dispatch = useDispatch()
 
   const [isOpenModal, setIsOpenModal] = useState(false)
+  const [isOpenModalTransaction, setIsOpenModalTransaction] = useState(false)
 
   const globalData = useSelector(makeSelectTransaction)
   const dataTransaction = globalData?.dataTransaction
@@ -32,7 +34,7 @@ function Transactions() {
       return (
         <>
           <Link href='' passHref>
-            <IconButton color='secondary'>
+            <IconButton onClick={() => handleOpenModalTransaction()} color='secondary'>
               <EyeOutline style={{ fontSize: 18 }} />
             </IconButton>
           </Link>
@@ -57,6 +59,9 @@ function Transactions() {
 
   const handleOpenModalCreate = () => setIsOpenModal(true)
   const handleCloseModalCreate = () => setIsOpenModal(false)
+
+  const handleOpenModalTransaction = () => setIsOpenModalTransaction(true)
+  const handleCloseModalTransaction = () => setIsOpenModalTransaction(false)
 
   return (
     <div>
@@ -83,6 +88,16 @@ function Transactions() {
           onOpen={isOpenModal}
           onClose={() => handleCloseModalCreate()}
           title='Add Transaction'
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+          style={{ minWidth: 340 }}
+        />
+      )}
+      {isOpenModalTransaction && (
+        <TransactinonDetails
+          onOpen={isOpenModalTransaction}
+          onClose={() => handleCloseModalTransaction()}
+          title='Details'
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'
           style={{ minWidth: 340 }}
