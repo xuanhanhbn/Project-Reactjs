@@ -16,7 +16,6 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
-import CustommerSeveviceStaff from './components/MenuStatus/CustomerServiceStaff'
 import { DownOutlined } from '@ant-design/icons'
 import { Space } from 'antd'
 import Actions from './components/Actions'
@@ -87,16 +86,8 @@ const CustomerCare = () => {
       return index + 1
     }
 
-    if (field === 'serviceStaff') {
-      return (
-        <>
-          <CustommerSeveviceStaff role={role} />
-        </>
-      )
-    }
-
     if (field === 'actions') {
-      return <Actions />
+      return <Actions role={role} />
     }
     if (field === 'status') {
       if (item.status === 'Not Processed') {

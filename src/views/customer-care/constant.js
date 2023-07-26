@@ -18,11 +18,11 @@ export const listCustomerService = [
   //   maxWidth: 170,
   //   name: 'Phone Number'
   // },
-  {
-    field: 'serviceStaff',
-    maxWidth: 170,
-    name: 'Service Staff'
-  },
+  // {
+  //   field: 'serviceStaff',
+  //   maxWidth: 170,
+  //   name: 'Service Staff'
+  // },
 
   // {
   //   field: 'email',
