@@ -11,7 +11,7 @@ import Select from 'react-select'
 import ModalCreate from './components/ModalCreate'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeSelectStaff, staffActions } from 'src/views/staff/staffSlice'
-import { makeSelectTicket, ticketActions } from '../../ticketSlice'
+import { makeSelectTicketEmployee, ticketActions, ticketEmployeeActions } from '../../ticketEmployeeSlice'
 import Actions from '../Actions'
 import Loading from 'src/components/Loading'
 import { useSnackbar } from 'notistack'
@@ -22,14 +22,10 @@ function AllTicketList() {
 
   const globalDataStaff = useSelector(makeSelectStaff)
   const dataStaff = globalDataStaff?.dataStaff
-  const globalDataTicket = useSelector(makeSelectTicket)
-  const { isLoading, isError, isSuccess, isChangeSuccess } = globalDataTicket
+  const globalDataEmployeeTicket = useSelector(makeSelectTicketEmployee)
+  const { isLoading, isError, isSuccess, isChangeSuccess } = globalDataEmployeeTicket
 
-  const baseDataRequest = {
-    fullName: ''
-  }
-  const [dataRequest, setDataRequest] = useState(baseDataRequest)
-  const dataTicket = globalDataTicket?.dataTicket
+  const dataTicketEmployee = globalDataEmployeeTicket?.dataTicketEmployee
   const [valueTicket, setValueTicket] = useState({})
   const [valueEmployee, setValueEmployee] = useState({})
   const [defaultValue, setDefaultValue] = useState(null)
@@ -47,31 +43,31 @@ function AllTicketList() {
   }
 
   useEffect(() => {
-    // dispatch(staffActions.getListStaff())
-    dispatch(staffActions.getListStaff())
+    dispatch(ticketEmployeeActions.getListTicket())
 
-    setTimeout(() => {
-      dispatch(ticketActions.getListTicket())
-    }, 1000)
+    // setTimeout(() => {
+    //   dispatch(ticketEmployeeActions.getListMyTicket())
+    // }, 1000)
   }, [])
 
   useEffect(() => {
     if (isError) {
-      dispatch(ticketActions.clear())
+      dispatch(ticketEmployeeActions.clear())
       handleShowSnackbar('There was an error. Please try again.', 'error')
     }
   }, [isError])
 
   useEffect(() => {
     if (isChangeSuccess) {
-      dispatch(ticketActions.clear())
-      dispatch(ticketActions.getListTicket())
+      dispatch(ticketEmployeeActions.clear())
+
+      // dispatch(ticketEmployeeActions.getListTicket())
       handleShowSnackbar('Success')
     }
   }, [isChangeSuccess])
 
   const onSubmit = data => {
-    dispatch(ticketActions.getListTicket())
+    dispatch(ticketEmployeeActions.getListTicket())
     setValueTicket({})
   }
 
@@ -175,7 +171,7 @@ function AllTicketList() {
       )
     }
     if (field === 'name') {
-      return <div>{item?.requestor?.name}</div>
+      return <div>{item?.requestor?.fullName}</div>
     }
     if (field === 'email') {
       return <div>{item?.requestor?.email}</div>
@@ -196,12 +192,13 @@ function AllTicketList() {
   }
 
   const handleSelectChange = selectedOption => {
+    const selectedValue = selectedOption
+
     const newDataRequest = {
       status: selectedOption?.value
     }
-    dispatch(ticketActions.getListTicket(newDataRequest))
+    dispatch(ticketEmployeeActions.getListTicket(newDataRequest))
 
-    const selectedValue = selectedOption
     setValue('status', selectedValue?.value, { shouldValidate: true })
     setValueTicket(selectedValue)
   }
@@ -226,7 +223,6 @@ function AllTicketList() {
                         {...field}
                         onChange={handleSelectChange}
                         options={statusTicket}
-                        placeholder='Search Status'
                         value={valueTicket}
                         isSearchable
                         className='z-3'
@@ -241,16 +237,16 @@ function AllTicketList() {
             <Button onClick={handleSubmit(onSubmit)} size='large' variant='outlined'>
               <Reload />
             </Button>
-            <Button size='large' variant='contained' onClick={() => handleOpenModalCreateCustomer()}>
+            {/* <Button size='large' variant='contained' onClick={() => handleOpenModalCreateCustomer()}>
               Create New
-            </Button>
+            </Button> */}
           </Stack>
         </form>
       </div>
       {/* Table */}
       <div className='table-data mt-3'>
         <TableCommon
-          data={dataTicket || []}
+          data={dataTicketEmployee || []}
           parseFunction={parseData}
           columns={columsAllTicket}
           isShowPaging

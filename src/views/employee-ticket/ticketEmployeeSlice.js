@@ -1,19 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Satellite } from 'mdi-material-ui'
 
 const initialState = {
   isLoading: false,
   errorMessage: '',
   isSuccess: false,
   isError: false,
-  dataTicket: [],
+  dataTicketEmployee: [],
   dataMyTicket: [],
   isChangeSuccess: false,
   dataError: {}
 }
 
-const ticket = createSlice({
-  name: 'ticket',
+const ticketEmployee = createSlice({
+  name: 'ticketEmployee',
   initialState,
   reducers: {
     getListTicket(state) {
@@ -27,7 +26,7 @@ const ticket = createSlice({
     },
     getListTicketSuccess(state, action) {
       state.isLoading = false
-      state.dataTicket = action.payload || []
+      state.dataTicketEmployee = action.payload || []
       state.isSuccess = true
     },
 
@@ -125,8 +124,8 @@ const ticket = createSlice({
   }
 })
 
-export const ticketActions = ticket.actions
+export const ticketEmployeeActions = ticketEmployee.actions
 
-export const makeSelectTicket = state => state.ticket
+export const makeSelectTicketEmployee = state => state.ticketEmployee
 
-export default ticket.reducer
+export default ticketEmployee.reducer

@@ -19,11 +19,13 @@ import { FormControl, TextField, Typography } from '@mui/material'
 import { Delete, DotsHorizontal, EyeOutline } from 'mdi-material-ui'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
-import { makeSelectTicket, ticketActions } from '../../ticketSlice'
+import { makeSelectTicket, makeSelectTicketEmployee, ticketActions } from '../../ticketEmployeeSlice'
 import { useSnackbar } from 'notistack'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
+import { inputAddCustomer } from '../AllListTicket/components/ModalCreate/constant'
+import Assign from './components'
 import { makeSelectStaff } from 'src/views/staff/staffSlice'
 
 const view = <Link href='/ticket-lists/ticket-details/'>View</Link>
@@ -124,7 +126,7 @@ function Actions(props) {
   const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
 
   const dispatch = useDispatch()
-  const dataTicket = useSelector(makeSelectTicket)
+  const dataTicket = useSelector(makeSelectTicketEmployee)
   const { isError } = dataTicket
 
   const defaultDataTicket = dataTicket?.dataTicket
@@ -172,9 +174,7 @@ function Actions(props) {
   }
 
   const handleGetOptions = () => {
-    const salesItems = dataStaff?.filter(item => item?.roles?.toString() === 'Sale')
-
-    const formattedOptions = salesItems?.map(item => ({
+    const formattedOptions = dataStaff?.map(item => ({
       value: item?.id,
       label: item?.fullName
     }))

@@ -8,7 +8,12 @@ import { columsAllTicket, inputSearchTicket, statusTicket } from '../../constant
 import TableCommon from 'src/components/TableCommon'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
-import { makeSelectTicket, ticketActions } from '../../ticketSlice'
+import {
+  makeSelectTicket,
+  makeSelectTicketEmployee,
+  ticketActions,
+  ticketEmployeeActions
+} from '../../ticketEmployeeSlice'
 import Select from 'react-select'
 import Actions from '../Actions'
 import Loading from 'src/components/Loading'
@@ -24,20 +29,18 @@ function MyTicketList() {
 
   const { control, handleSubmit, setValue } = useForm()
   const dispatch = useDispatch()
-  const globalDataMyTicket = useSelector(makeSelectTicket)
+  const globalDataMyTicket = useSelector(makeSelectTicketEmployee)
   const { isLoading } = globalDataMyTicket
   const dataMyTicket = globalDataMyTicket?.dataMyTicket
 
   const [valueTicket, setValueTicket] = useState({})
 
   const onSubmit = data => {
-    console.log('datA: ', data)
-
-    // dispatch(ticketActions.getListTicket(data))
+    dispatch(ticketEmployeeActions.getListMyTicket(data))
   }
 
   useEffect(() => {
-    dispatch(ticketActions.getListMyTicket())
+    dispatch(ticketEmployeeActions.getListMyTicket())
   }, [])
 
   // tự render actions khi có thêm items mới

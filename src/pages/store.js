@@ -42,6 +42,10 @@ import marketingReducer from 'src/views/marketing-department/marketingSlice'
 import ticketSaga from 'src/views/ticket-pending/ticketSaga'
 import ticketReducer from 'src/views/ticket-pending/ticketSlice'
 
+// EMPLOYEE TICKET
+import ticketEmployeeReducer from 'src/views/employee-ticket/ticketEmployeeSlice'
+import ticketEmployeeSaga from 'src/views/employee-ticket/ticketEmployeeSaga'
+
 // registry reducer
 const reducers = combineReducers({
   customer: customerReducer,
@@ -52,7 +56,8 @@ const reducers = combineReducers({
   dashboard: dashboardReducer,
   document: documentReducer,
   marketing: marketingReducer,
-  ticket: ticketReducer
+  ticket: ticketReducer,
+  ticketEmployee: ticketEmployeeReducer
 })
 
 // registry sagas
@@ -66,7 +71,8 @@ function* rootSaga() {
     marketingSaga(),
     transactionSaga(),
     staffSaga(),
-    ticketSaga()
+    ticketSaga(),
+    ticketEmployeeSaga()
   ])
 }
 

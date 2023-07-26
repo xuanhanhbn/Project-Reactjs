@@ -40,17 +40,17 @@ const navigation = () => {
       role: ['Admin']
     },
 
-    // {
-    //   title: 'Account Settings',
-    //   icon: AccountCogOutline,
-    //   path: '/account-settings',
-    //   role: ['Admin', 'Manager', 'EMPOYLEE']
-    // },
-
     {
-      sectionTitle: 'Marketing Department',
+      sectionTitle: 'Employee Ticket',
       isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
+      role: ['Admin', 'Manager', 'SaleManager']
+    },
+    {
+      title: 'Ticket Employee Lists',
+      icon: TicketConfirmationOutline,
+      path: '/employee-ticket',
+      isShowMenu: true,
+      role: ['Admin', 'Manager', 'SaleManager']
     },
 
     // {
@@ -77,48 +77,48 @@ const navigation = () => {
     // },
 
     {
-      sectionTitle: 'HR',
+      sectionTitle: 'Customer Ticket',
       isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
+      role: ['Admin', 'Manager', 'SaleManager']
     },
     {
       title: 'Ticket Lists',
       icon: TicketConfirmationOutline,
       path: '/ticket-lists',
       isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
+      role: ['Admin', 'Manager', 'SaleManager']
     },
     {
       sectionTitle: 'Employee',
       isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
+      role: ['Admin', 'Manager', 'SaleManager']
     },
     {
       title: 'Employee List',
       icon: AccountGroupOutline,
       path: '/staff',
       isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
+      role: ['Admin', 'Manager', 'SaleManager']
     },
 
     {
       sectionTitle: 'Customer List',
       isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
+      role: ['Admin', 'Manager', 'SaleManager']
     },
     {
       title: 'Customer',
       icon: AccountCogOutline,
       path: '/customer-dashboard',
       isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
+      role: ['Admin', 'Manager', 'SaleManager']
     },
     {
       title: 'Transactions',
       icon: FileDocumentMultipleOutline,
       path: '/transactions',
       isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE'],
+      role: ['Admin', 'Manager', 'SaleManager'],
       disabled: true
     },
     {
@@ -126,7 +126,7 @@ const navigation = () => {
       title: 'Customer Service',
       path: '/customer-care',
       isShowMenu: true,
-      role: ['Admin', 'Manager', 'EMPOYLEE']
+      role: ['Admin', 'Manager', 'SaleManager']
     }
 
     // {
