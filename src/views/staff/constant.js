@@ -8,18 +8,15 @@ export const columns = [
     // isSort: true,
   },
   { field: 'fullName', name: 'Name', minWidth: 170 },
-  { field: 'employeeCode', name: 'Employee Code', minWidth: 100 },
+  { field: 'email', name: 'Employee Email', minWidth: 100 },
+  { field: 'fullName', name: 'Employee Name', minWidth: 100 },
 
   {
     field: 'roles',
     name: 'Roles',
     minWidth: 170
   },
-  {
-    field: 'department',
-    name: 'Deparment',
-    minWidth: 170
-  },
+
   {
     field: 'actions',
     name: 'Actions',
@@ -78,19 +75,19 @@ export const inputCreateUser = [
 export const roleAccount = [
   {
     field: 'saleManager',
-    value: 'Sale Manager'
+    value: 'SaleManager'
   },
   {
     field: 'empolyeeSale',
-    value: 'Sale Empolyee'
+    value: 'Sale'
   },
   {
     field: 'empolyeeHR',
-    value: 'HR Empolyee'
+    value: 'HR'
   },
   {
     field: 'HRManager',
-    value: 'HR Manager'
+    value: 'HRManager'
   }
 ]
 

@@ -18,6 +18,22 @@ function* onGetList(data) {
   }
 }
 
+function* onGetListDetails(data) {
+  const payload = data?.payload
+  console.log('payload: ', payload)
+  const url = `CustomerTicket/TicketsByCustomer/&page=0&size=16`
+  try {
+    const response = yield call(getApiDefault, url)
+    if (response && response.status === 200) {
+      yield put(customerActions.getListDetailsCustomerSuccess(response.data))
+    } else {
+      yield put(customerActions.getListDetailsCustomerFailed())
+    }
+  } catch (error) {
+    yield put(customerActions.getListDetailsCustomerFailed('internet'))
+  }
+}
+
 // Thêm mới khách hàng
 function* onCreateCustomer(data) {
   const payload = data?.payload
@@ -39,4 +55,5 @@ function* onCreateCustomer(data) {
 export default function* customerSaga() {
   yield takeLatest(customerActions.getListCustomer, onGetList)
   yield takeLatest(customerActions.createCustomer, onCreateCustomer)
+  yield takeLatest(customerActions.getListDetailsCustomer, onGetListDetails)
 }

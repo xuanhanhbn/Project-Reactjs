@@ -1,70 +1,111 @@
-import React, { useCallback } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useEffect, useState } from 'react'
 import Stack from '@mui/material/Stack'
 import { Controller, useForm } from 'react-hook-form'
 import { Button, IconButton, TextField, Typography } from '@mui/material'
 import { Delete, DeleteOutline, EyeOutline, Magnify } from 'mdi-material-ui'
-import { colums, inputSearchTicket } from '../../constants'
+import { columsAllTicket, inputSearchTicket, statusTicket } from '../../constants'
 import TableCommon from 'src/components/TableCommon'
 import Link from 'next/link'
+import { useDispatch, useSelector } from 'react-redux'
+import { makeSelectTicket, ticketActions } from '../../ticketSlice'
+import Select from 'react-select'
+import Actions from '../Actions'
+import Loading from 'src/components/Loading'
 
 function MyTicketList() {
-  const { control, handleSubmit } = useForm()
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      width: '200px',
+      height: '50px'
+    })
+  }
+
+  const { control, handleSubmit, setValue } = useForm()
+  const dispatch = useDispatch()
+  const globalDataMyTicket = useSelector(makeSelectTicket)
+  const { isLoading } = globalDataMyTicket
+  const dataMyTicket = globalDataMyTicket?.dataMyTicket
+
+  const [valueTicket, setValueTicket] = useState({})
 
   const onSubmit = data => {
+    console.log('datA: ', data)
+
     // dispatch(ticketActions.getListTicket(data))
   }
 
+  useEffect(() => {
+    dispatch(ticketActions.getListMyTicket())
+  }, [])
+
   // tự render actions khi có thêm items mới
   const parseData = useCallback((item, field, index) => {
+    // if (Array.isArray(dataTicket) && dataTicket.length > 0) {
     if (field === 'index') {
       return index + 1
     }
-
     if (field === 'actions') {
-      return (
-        <>
-          <Link href='' passHref>
-            <IconButton color='secondary'>
-              <EyeOutline style={{ fontSize: 18 }} />
-            </IconButton>
-          </Link>
-          <IconButton
-            onClick={() => {
-              alert('delete')
-            }}
-            color='error'
-          >
-            <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
-          </IconButton>
-        </>
-      )
+      return <Actions item={item} />
     }
     if (field === 'status') {
-      if (item.status === 'Not Processed') {
+      if (item.status === 'Opened') {
         return (
           <div style={{ backgroundColor: 'rgb(244 196 196)', borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
-            <Typography sx={{ color: 'red', textAlign: 'center' }}>Not Processed</Typography>
+            <Typography sx={{ color: 'red', textAlign: 'center' }}>Open</Typography>
           </div>
         )
       }
-      if (item.status === 'In Processed') {
+      if (item.status === 'Pending') {
         return (
           <div style={{ backgroundColor: 'rgb(244 243 196)', borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
-            <Typography sx={{ color: 'warning.main', textAlign: 'center' }}>In Processed</Typography>
+            <Typography sx={{ color: 'warning.main', textAlign: 'center' }}>Pending</Typography>
           </div>
         )
       }
-      if (item.status === 'Processed') {
+      if (item.status === 'Processing') {
         return (
           <div style={{ backgroundColor: 'rgb(205 246 215)', borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
-            <Typography sx={{ color: 'success.main', textAlign: 'center' }}>Processed</Typography>
+            <Typography sx={{ color: 'success.main', textAlign: 'center' }}>Processing</Typography>
+          </div>
+        )
+      }
+      if (item.status === 'Done') {
+        return (
+          <div style={{ backgroundColor: 'rgb(205 246 215)', borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
+            <Typography sx={{ color: 'success.main', textAlign: 'center' }}>Done</Typography>
+          </div>
+        )
+      }
+      if (item.status === 'Closed') {
+        return (
+          <div style={{ backgroundColor: 'rgb(205 246 215)', borderRadius: 5, paddingTop: 5, paddingBottom: 5 }}>
+            <Typography sx={{ color: 'success.main', textAlign: 'center' }}>Closed</Typography>
           </div>
         )
       }
     }
+    if (field === 'fullName') {
+      return <div>{item?.resolver?.fullName}</div>
+    }
+    if (field === 'name') {
+      return <div>{item?.requestor?.name}</div>
+    }
+    if (field === 'email') {
+      return <div>{item?.requestor?.email}</div>
+    }
+
+    // }
 
     return item[field]
   }, [])
+
+  const handleSelectChange = selectedOption => {
+    const selectedValue = selectedOption
+    setValue('status', selectedValue?.value, { shouldValidate: true })
+    setValueTicket(selectedValue)
+  }
 
   return (
     <div>
@@ -77,16 +118,16 @@ function MyTicketList() {
                 <Controller
                   key={inputSearch.field}
                   control={control}
-                  render={({ field: { onChange, value } }) => {
+                  render={({ field }) => {
                     return (
-                      <TextField
-                        placeholder={inputSearch.label}
-                        name={inputSearch.field}
-                        label={inputSearch.label}
-                        value={value}
-                        onChange={onChange}
-                        required
-                        fullWidth
+                      <Select
+                        {...field}
+                        onChange={handleSelectChange}
+                        options={statusTicket}
+                        value={valueTicket}
+                        isSearchable
+                        className='z-3'
+                        styles={customStyles}
                       />
                     )
                   }}
@@ -94,23 +135,22 @@ function MyTicketList() {
                 />
               </div>
             ))}
-            <Button
-              style={{ backgroundColor: '#9155FD', color: 'white' }}
-              onClick={handleSubmit(onSubmit)}
-              size='large'
-              variant='contained'
-            >
+            <Button onClick={handleSubmit(onSubmit)} size='large' variant='outlined'>
               <Magnify />
             </Button>
+            {/* <Button size='large' variant='contained' onClick={() => handleOpenModalCreateCustomer()}>
+              Create New
+            </Button> */}
           </Stack>
         </form>
       </div>
+      <Loading isLoading={isLoading} />
       {/* Table */}
       <div className='table-data mt-3'>
         <TableCommon
-          data={[]}
+          data={dataMyTicket || []}
           parseFunction={parseData}
-          columns={colums}
+          columns={columsAllTicket}
           isShowPaging
           classNameTable='tblCampaignReport'
         />

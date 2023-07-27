@@ -49,27 +49,23 @@ export const inputSearchTicket = [
 
 export const statusTicket = [
   {
-    value: '',
-    label: '--'
-  },
-  {
-    value: 'Opened',
+    value: 0,
     label: 'Open'
   },
   {
-    value: 'Pending',
+    value: 1,
     label: 'Pending'
   },
   {
-    value: 'Processing',
+    value: 2,
     label: 'Processing'
   },
   {
-    value: 'Done',
+    value: 3,
     label: 'Done'
   },
   {
-    value: 'Closed',
+    value: 4,
     label: 'Closed'
   }
 ]

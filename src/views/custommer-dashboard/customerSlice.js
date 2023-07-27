@@ -8,6 +8,7 @@ const initialState = {
   isCreate: false,
   isCreateFailed: false,
   dataCustomer: [],
+  dataDetailsCustomer: [],
   dataError: {}
 }
 
@@ -29,6 +30,22 @@ const customer = createSlice({
       state.dataCustomer = action.payload || []
       state.isSuccess = true
     },
+
+    getListDetailsCustomer(state) {
+      state.isLoading = true
+    },
+    getListDetailsCustomerFailed(state, action) {
+      state.isLoading = false
+      state.isError = true
+      state.dataError = action.payload || {}
+      state.errorMessage = ''
+    },
+    getListDetailsCustomerSuccess(state, action) {
+      state.isLoading = false
+      state.dataDetailsCustomer = action.payload || []
+      state.isSuccess = true
+    },
+
     createCustomer(state) {
       state.isLoading = true
     },

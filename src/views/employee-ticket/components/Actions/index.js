@@ -19,11 +19,18 @@ import { FormControl, TextField, Typography } from '@mui/material'
 import { Delete, DotsHorizontal, EyeOutline } from 'mdi-material-ui'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
-import { makeSelectTicket, ticketActions } from '../../ticketSlice'
+import {
+  makeSelectTicket,
+  makeSelectTicketEmployee,
+  ticketActions,
+  ticketEmployeeActions
+} from '../../ticketEmployeeSlice'
 import { useSnackbar } from 'notistack'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
+import { inputAddCustomer } from '../AllListTicket/components/ModalCreate/constant'
+import Assign from './components'
 import { makeSelectStaff } from 'src/views/staff/staffSlice'
 import { makeSelectLogin } from 'src/pages/pages/login/loginSlice'
 
@@ -70,21 +77,19 @@ function Actions(props) {
   const globalDataStaff = useSelector(makeSelectStaff)
   const dataStaff = globalDataStaff?.dataStaff
 
-  const getDataGetMe = useSelector(makeSelectLogin)
-  const dataUser = getDataGetMe?.dataUser
-  const roleUser = dataUser?.roles
   const { enqueueSnackbar } = useSnackbar()
   const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
 
   const dispatch = useDispatch()
-  const dataTicket = useSelector(makeSelectTicket)
+  const dataTicket = useSelector(makeSelectTicketEmployee)
   const { isError } = dataTicket
 
-  const defaultDataTicket = dataTicket?.dataTicket
+  const getDataGetMe = useSelector(makeSelectLogin)
+  const dataUser = getDataGetMe?.dataUser
+  const roleUser = dataUser?.roles
 
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [dataAssignSelect, setDataAssignSelect] = useState(null)
-  const [dataAssignSelectTest, setDataAssignSelectTest] = useState([{}])
 
   const items = [
     {
@@ -100,7 +105,8 @@ function Actions(props) {
     {
       key: 'assign',
       label: 'Assign',
-      icon: <Delete />
+      icon: <Delete />,
+      disabled: roleUser?.toString() === 'HrManager' ? false : true
     },
     {
       key: 'status',
@@ -137,6 +143,11 @@ function Actions(props) {
     }
   ]
 
+  const defaultValue = {
+    value: item?.ticketId,
+    label: item?.resolver?.fullName
+  }
+
   const handleDropdownItemClick = (e, item) => {
     const ticketId = item?.ticketId
 
@@ -150,21 +161,18 @@ function Actions(props) {
       handleChangeStatus(1)
     }
     if (e.key === 'processing') {
-      dispatch(ticketActions.onChangeProcessing({ ticketId: ticketId }))
-      handleChangeStatus(2)
+      dispatch(ticketEmployeeActions.onChangeProcessing({ ticketId: ticketId }))
     }
     if (e.key === 'done') {
-      dispatch(ticketActions.onChangeComplete({ ticketId: ticketId }))
+      dispatch(ticketEmployeeActions.onChangeComplete({ ticketId: ticketId }))
     }
     if (e.key === 'closed') {
-      handleChangeStatus(4)
+      dispatch(ticketEmployeeActions.onChangeClose({ ticketId: ticketId }))
     }
     if (e.key === 'assign') {
       handleChangeAssign()
     }
   }
-
-  const handleChangeStatus = data => console.log('data: ', data)
 
   const handleChangeAssign = () => {
     setIsOpenModal(true)
@@ -172,17 +180,12 @@ function Actions(props) {
 
   const handleSelectChange = selectedOption => {
     const selectedValue = selectedOption
-
-    const newDataRequest = {
-      value: selectedValue?.value,
-      label: selectedValue?.label
-    }
     setValue('assign', selectedValue?.value, { shouldValidate: true })
     setDataAssignSelect(selectedValue)
   }
 
   const handleGetOptions = () => {
-    const salesItems = dataStaff?.filter(item => item?.roles?.toString() === 'Sale')
+    const salesItems = dataStaff?.filter(item => item?.roles?.toString() === 'Hr')
 
     const formattedOptions = salesItems?.map(item => ({
       value: item?.id,
@@ -197,17 +200,12 @@ function Actions(props) {
       ticketId: item?.ticketId,
       employeeId: dataAssignSelect?.value
     }
-    dispatch(ticketActions.onChangeAssign(newDataRequest))
+    dispatch(ticketEmployeeActions.onChangeAssign(newDataRequest))
   }
 
   const handleCloseModal = () => {
     setIsOpenModal(false)
     setDataAssignSelect(null)
-  }
-
-  const defaultValue = {
-    value: item?.ticketId,
-    label: item?.resolver?.fullName
   }
 
   return (
@@ -256,7 +254,6 @@ function Actions(props) {
                               <Grid>
                                 {/* <Controller
                                   control={control}
-                                  defaultValue={defaultValue}
                                   render={({ field }) => {
                                     return ( */}
                                 <Select
@@ -267,14 +264,13 @@ function Actions(props) {
                                   getOptionLabel={option => option.label}
                                   getOptionValue={option => option.value}
                                   isSearchable
-                                  isDisabled={defaultValue && defaultValue?.label ? true : false}
                                   className='z-3'
                                 />
                                 {/* )
                                   }}
                                   name='assign'
-                                /> */}
-                                {/* <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>
+                                />
+                                <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>
                                   {errors?.assign?.message}
                                 </Typography> */}
                               </Grid>

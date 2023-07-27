@@ -53,18 +53,51 @@ export const listOder = [
 export const custommerInfomatinons = [
   {
     field: 'name',
-    value: 'Name',
+    value: 'Name'
   },
   {
     field: 'email',
-    value: 'Email',
+    value: 'Email'
   },
   {
     field: 'telephone',
-    value: 'Phone',
+    value: 'Phone'
   },
   {
     field: 'address',
-    value: 'Address',
+    value: 'Address'
+  }
+]
+
+export const columns = [
+  {
+    field: 'index',
+    name: 'STT',
+    align: 'center'
   },
+  {
+    field: 'content',
+    name: 'Ticket Content',
+    align: 'center'
+  },
+  {
+    field: 'createdAt',
+    name: 'Create At',
+    align: 'center'
+  },
+  {
+    field: 'ticketCategory',
+    name: 'Ticket Category',
+    align: 'center'
+  },
+  {
+    field: 'fullName',
+    name: 'Handling Staff',
+    align: 'center'
+  },
+  {
+    field: 'status',
+    name: 'Status',
+    align: 'center'
+  }
 ]
