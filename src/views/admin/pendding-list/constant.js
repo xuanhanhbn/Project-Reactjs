@@ -21,6 +21,11 @@ export const penddingList = [
     name: 'Created Date'
   },
   {
+    field: 'status',
+    maxWidth: 170,
+    name: 'Status'
+  },
+  {
     field: 'actions',
     maxWidth: 170,
     name: 'Actions',

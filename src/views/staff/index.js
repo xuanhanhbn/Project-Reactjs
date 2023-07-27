@@ -11,7 +11,9 @@ import { styled } from '@mui/material/styles'
 
 import TableCommon from 'src/components/TableCommon'
 import Link from 'next/link'
-import { Delete, EyeOutline } from 'mdi-material-ui'
+import { Delete } from 'mdi-material-ui'
+import EyeOutline from 'mdi-material-ui/EyeOutline'
+
 import { columns } from './constant'
 import { Breadcrumb } from 'antd'
 import { right } from '@popperjs/core'
@@ -23,6 +25,7 @@ import Loading from 'src/components/Loading'
 import { makeSelectStaff, staffActions } from './staffSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSnackbar } from 'notistack'
+import { IconButton } from '@mui/material'
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
@@ -33,6 +36,8 @@ const ColorButton = styled(Button)(({ theme }) => ({
 }))
 
 function ListStaff() {
+  const breadcrumbItems = [{ title: 'Company Active' }, { title: 'Employee List' }]
+
   const dispatch = useDispatch()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -58,10 +63,14 @@ function ListStaff() {
               query: { ...item, type: 'not' }
             }}
           >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+            <IconButton>
+              <EyeOutline style={{ fontSize: 18 }} />
+            </IconButton>
           </Link>
           {/* </Button> */}
-          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          <IconButton>
+            <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          </IconButton>
         </>
       )
     }
@@ -93,12 +102,7 @@ function ListStaff() {
 
   return (
     <div>
-      <Breadcrumb style={{ marginBottom: 30 }}>
-        <Breadcrumb.Item>
-          <Link href='/admin/dashboard'>Company Active</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>Staff</Breadcrumb.Item>
-      </Breadcrumb>
+      <Breadcrumb style={{ marginBottom: 30 }} items={breadcrumbItems} />
 
       <ColorButton onClick={() => handleOpenModalCreateCustomer()} sx={{ float: right, mb: 8 }}>
         Create User
@@ -116,11 +120,12 @@ function ListStaff() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Loading isLoading={isLoading} />
       {isOpenModal && (
         <FormCreate
           onOpen={isOpenModal}
           onClose={() => handleCloseModalCreate()}
-          title='Add Customer'
+          title='Add Employee'
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'
           style={{ minWidth: 340 }}

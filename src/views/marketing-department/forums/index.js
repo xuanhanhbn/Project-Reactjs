@@ -14,13 +14,13 @@ import TableCommon from 'src/components/TableCommon'
 import { Delete } from 'mdi-material-ui'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import { useCallback } from 'react'
-import { columns, createTopic } from './constants'
+import { columns, createTopic, listTopic } from './constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeSelectMakerting, marketingActions } from '../marketingSlice'
 import Loading from 'src/components/Loading'
 import { useSnackbar } from 'notistack'
 import { Controller, useForm } from 'react-hook-form'
-import { TextField } from '@mui/material'
+import { IconButton, TextField } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import moment from 'moment'
@@ -85,9 +85,9 @@ function MarketingForums() {
               query: { ...item }
             }}
           >
-            <Button>
+            <IconButton>
               <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
-            </Button>
+            </IconButton>
           </Link>
           {/* </Button> */}
           <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
@@ -123,7 +123,10 @@ function MarketingForums() {
       {/* <MarketingDepartmentHeader /> */}
       <Card className='mt-4'>
         <TableCommon
-          data={Array.isArray(dataDocument) && dataDocument.length > 0 ? dataDocument : []}
+        
+          // data={Array.isArray(dataDocument) && dataDocument.length > 0 ? dataDocument : [] }
+
+          data={listTopic}
           parseFunction={parseData}
           columns={columns}
           isShowPaging

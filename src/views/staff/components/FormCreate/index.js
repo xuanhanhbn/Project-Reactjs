@@ -50,14 +50,18 @@ const styles = {
 }
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required('First Name is required'),
-  lastName: Yup.string().required('Last Name is required'),
+  fullName: Yup.string().required('Full Name is required'),
   username: Yup.string().required('User Name is required'),
   email: Yup.string().required('Email is required').email('Email is invalid.'),
   password: Yup.string().required('Password is required'),
-  roles: Yup.string().required('Roles is not valid'),
-  department: Yup.string().required('Roles is not valid'),
-  dateOfBirth: Yup.string().required('Birth date is not valid')
+  roles: Yup.string().required('Roles is required'),
+
+  // department: Yup.string().required('Roles is required'),
+  dateOfBirth: Yup.string().required('Birth date is required'),
+  phone: Yup.string()
+    .required('Phone Number is required')
+    .min(10, 'Phone Number is not valid')
+    .max(10, 'Phone Number is max 10 characters')
 })
 function FormCreate(props) {
   const { title, onOpen, onClose, handleSubmitForm, value } = props
@@ -78,22 +82,22 @@ function FormCreate(props) {
     if (item.field === 'roles') {
       return roleAccount.map(role => {
         return (
-          <MenuItem key={role.field} value={role.field}>
+          <MenuItem key={role.field} value={role.value}>
             {role.value}
           </MenuItem>
         )
       })
     }
 
-    if (item.field === 'department') {
-      return roleDepartments.map(role => {
-        return (
-          <MenuItem key={role.field} value={role.field}>
-            {role.value}
-          </MenuItem>
-        )
-      })
-    }
+    // if (item.field === 'department') {
+    //   return roleDepartments.map(role => {
+    //     return (
+    //       <MenuItem key={role.field} value={role.value}>
+    //         {role.value}
+    //       </MenuItem>
+    //     )
+    //   })
+    // }
   }
 
   const renderDefaultFilter = item => {
@@ -108,7 +112,7 @@ function FormCreate(props) {
             render={({ field: { onChange, value } }) => {
               return (
                 <>
-                  <Typography sx={{ mb: 6, fontWeight: 500 }}>{item.inputLabel}</Typography>
+                  {/* <Typography sx={{ mb: 6, fontWeight: 500 }}>{item.inputLabel}</Typography> */}
                   <TextField
                     fullWidth
                     required
@@ -138,8 +142,8 @@ function FormCreate(props) {
               name={item.field}
               render={({ field: { onChange, value } }) => (
                 <>
-                  <Typography sx={{ mb: 6, fontWeight: 500 }}>{item.inputLabel}</Typography>
-                  <InputLabel sx={{ top: 35 }}>{item.placeHolder}</InputLabel>
+                  {/* <Typography sx={{ mb: 6, fontWeight: 500 }}>{item.inputLabel}</Typography> */}
+                  <InputLabel>{item.placeHolder}</InputLabel>
                   <Select size='large' name={item.field} onChange={onChange} value={value} label={item.placeHolder}>
                     {renderValueSelect(item)}
                   </Select>
@@ -161,9 +165,9 @@ function FormCreate(props) {
     const newDataRequest = {
       ...data,
       dateOfBirth: moment(data.dateOfBirth).format('YYYY-MM-DD'),
-      roles: [`${data.roles}`]
+      roles: [`${data.roles}`],
+      department: ''
     }
-    console.log('newDataRequest: ', newDataRequest)
 
     // data.dateOfBirth = moment(data.dateOfBirth).format('YYYY-MM-DD')
     dispatch(staffActions.createStaff(newDataRequest))
@@ -195,7 +199,7 @@ function FormCreate(props) {
                     <Grid container spacing={5}>
                       {inputCreateUser.map(item => renderDefaultFilter(item))}
                       <Grid item xs={12} sm={6}>
-                        <Typography sx={{ mb: 6, fontWeight: 500 }}>Birth Date :</Typography>
+                        {/* <Typography sx={{ mb: 6, fontWeight: 500 }}>Birth Date :</Typography> */}
                         <Controller
                           control={control}
                           render={({ field }) => (

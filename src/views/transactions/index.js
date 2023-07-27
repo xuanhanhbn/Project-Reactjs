@@ -2,26 +2,45 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Breadcrumb, Typography } from 'antd'
 import Link from 'next/link'
-import { Delete, EyeOutline } from 'mdi-material-ui'
+import { Delete, DeleteOutline, EyeOutline } from 'mdi-material-ui'
 import TableCommon from 'src/components/TableCommon'
-import { columns } from './constants'
+import { columns, fakeData } from './constants'
 import { transactionActions, makeSelectTransaction } from './transactionSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 import FormCreate from './components/ModalCreate'
+import TransactinonDetails from './components/transaction-details'
+import Loading from 'src/components/Loading'
+import moment from 'moment'
 
 function Transactions() {
+  // Khai báo BreadCrumb
+  const breadcrumbItems = [{ title: 'Company Active' }, { title: 'Transaction List' }]
   const dispatch = useDispatch()
 
   const [isOpenModal, setIsOpenModal] = useState(false)
+  const [isOpenModalTransaction, setIsOpenModalTransaction] = useState(false)
 
   const globalData = useSelector(makeSelectTransaction)
+  const { isCreate, isLoading } = globalData
   const dataTransaction = globalData?.dataTransaction
+
+  const handleGetList = () => {
+    dispatch(transactionActions.getListTransaction())
+  }
 
   // Call api danh sach
   useEffect(() => {
-    dispatch(transactionActions.getListTransaction())
+    handleGetList()
   }, [])
+
+  useEffect(() => {
+    if (isCreate) {
+      dispatch(transactionActions.clear())
+      handleGetList()
+      setIsOpenModal(false)
+    }
+  }, [isCreate])
 
   const parseData = useCallback((item, field, index) => {
     if (field === 'index') {
@@ -31,21 +50,23 @@ function Transactions() {
     if (field === 'actions') {
       return (
         <>
-          <Link
-            passHref
-            href={{
-              pathname: '',
-              query: { ...item, type: 'not' }
-            }}
-          >
-            <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+          <Link href='' passHref>
+            <IconButton onClick={() => handleOpenModalTransaction()} color='secondary'>
+              <EyeOutline style={{ fontSize: 18 }} />
+            </IconButton>
           </Link>
-          {/* </Button> */}
-          <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          <IconButton color='error'>
+            <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+          </IconButton>
         </>
       )
     }
-    if (field === 'name') {
+    if (field === 'date') {
+      const formatDate = moment(item?.createdAt).format('YYYY/MM/DD')
+
+      return <Typography>{formatDate}</Typography>
+    }
+    if (field === 'nameCustomer') {
       return <Typography>{item?.customer?.name}</Typography>
     }
     if (field === 'email') {
@@ -61,19 +82,19 @@ function Transactions() {
   const handleOpenModalCreate = () => setIsOpenModal(true)
   const handleCloseModalCreate = () => setIsOpenModal(false)
 
+  const handleOpenModalTransaction = () => setIsOpenModalTransaction(true)
+  const handleCloseModalTransaction = () => setIsOpenModalTransaction(false)
+
   return (
-    <div>
-      <Breadcrumb style={{ marginBottom: 30 }}>
-        <Breadcrumb.Item>
-          <Link href='/admin/dashboard'>Company Active</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>Transactions</Breadcrumb.Item>
-      </Breadcrumb>
+    <div className='container'>
+      <Breadcrumb style={{ marginBottom: 30 }} items={breadcrumbItems} />
+
       <div className='d-flex justify-content-end mb-3'>
         <Button size='large' variant='contained' sx={{ marginLeft: 10 }} onClick={() => handleOpenModalCreate()}>
-          Thêm mới
+          Create New
         </Button>
       </div>
+      <Loading isLoading={isLoading} />
       <TableCommon
         data={dataTransaction || []}
         parseFunction={parseData}
@@ -88,7 +109,15 @@ function Transactions() {
           title='Add Transaction'
           aria-labelledby='modal-modal-title'
           aria-describedby='modal-modal-description'
-          style={{ minWidth: 340 }}
+        />
+      )}
+      {isOpenModalTransaction && (
+        <TransactinonDetails
+          onOpen={isOpenModalTransaction}
+          onClose={() => handleCloseModalTransaction()}
+          title='Details'
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
         />
       )}
     </div>

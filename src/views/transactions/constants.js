@@ -7,10 +7,8 @@ export const columns = [
 
     // isSort: true,
   },
-  { field: 'name', name: 'Customer', minWidth: 170 },
-  { field: 'email', name: 'Email', minWidth: 170 },
+  { field: 'nameCustomer', name: 'Customer', minWidth: 170 },
 
-  { field: 'address', name: 'Address', minWidth: 170 },
   { field: 'total', name: 'Total', minWidth: 100 },
   {
     field: 'date',
@@ -23,6 +21,11 @@ export const columns = [
     minWidth: 170
   },
   {
+    field: 'status',
+    name: 'Status',
+    minWidth: 170
+  },
+  {
     field: 'actions',
     name: 'Actions',
     minWidth: 170,
@@ -30,21 +33,50 @@ export const columns = [
   }
 ]
 
+export const fakeData = [
+  {
+    nameCustomer: 'Tên Khách Hàng',
+    emailCustomer: 'email@gmail.com',
+    addressCustomer: 'Đây là địa chỉ khách hàng',
+    total: 'Tổng tiền',
+    date: '20-07-2023',
+    createdByName: 'Dương đẹp trai',
+    status: 'Processing'
+  }
+]
+
 export const inputCreate = [
   {
-    field: 'contentSubTransactions',
-    lable: 'Content SubTransactions'
+    field: 'detail',
+    lable: 'Transaction Discription',
+    placeHolder: 'Transaction Discription',
+    type: 'INPUT'
   },
   {
-    field: 'totalSubTransactions',
-    lable: 'Total SubTransactions'
+    field: 'total',
+    lable: 'Total Transactions',
+    placeHolder: 'Total Transactions',
+    type: 'INPUT'
   },
   {
-    field: 'remarksTitle',
-    lable: 'Remarks Title'
+    field: 'customerId',
+    lable: 'Customer ',
+    placeHolder: 'Customer',
+    type: 'SELECT'
+  }
+]
+
+export const inputShowInfoCustomer = [
+  {
+    field: 'email',
+    lable: 'Customer Email'
   },
   {
-    field: 'remarksContent',
-    lable: 'Remarks Content'
+    field: 'address',
+    lable: 'Customer Address'
+  },
+  {
+    field: 'telephone',
+    lable: 'Customer Telephone'
   }
 ]
