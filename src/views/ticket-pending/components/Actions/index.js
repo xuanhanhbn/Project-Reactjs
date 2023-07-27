@@ -37,7 +37,8 @@ const style = {
   width: 400,
   bgcolor: 'background.paper',
   borderRadius: 1,
-  boxShadow: 24
+  boxShadow: 24,
+  height: 400
 }
 
 const modalStyles = {
@@ -78,7 +79,7 @@ function Actions(props) {
 
   const dispatch = useDispatch()
   const dataTicket = useSelector(makeSelectTicket)
-  const { isError } = dataTicket
+  const { isChangeSuccess } = dataTicket
 
   const defaultDataTicket = dataTicket?.dataTicket
 
@@ -164,6 +165,13 @@ function Actions(props) {
     }
   }
 
+  useEffect(() => {
+    if (isChangeSuccess) {
+      dispatch(ticketActions.clear())
+      setIsOpenModal(false)
+    }
+  }, [isChangeSuccess])
+
   const handleChangeStatus = data => console.log('data: ', data)
 
   const handleChangeAssign = () => {
@@ -228,7 +236,7 @@ function Actions(props) {
         </a>
       </Dropdown>
       {isOpenModal && (
-        <div>
+        <div className='container'>
           <Modal
             aria-labelledby='transition-modal-title'
             aria-describedby='transition-modal-description'
@@ -283,7 +291,7 @@ function Actions(props) {
                         </Grid>
                       </CardContent>
                       <Divider sx={{ margin: 0 }} />
-                      <CardActions style={{ justifyContent: 'flex-end' }}>
+                      <CardActions style={{ justifyContent: 'flex-end', alignItems: 'flex-end' }}>
                         <Button size='large' color='secondary' variant='outlined' onClick={() => handleCloseModal()}>
                           Cancel
                         </Button>

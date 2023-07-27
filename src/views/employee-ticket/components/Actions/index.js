@@ -82,7 +82,7 @@ function Actions(props) {
 
   const dispatch = useDispatch()
   const dataTicket = useSelector(makeSelectTicketEmployee)
-  const { isError } = dataTicket
+  const { isChangeSuccess } = dataTicket
 
   const getDataGetMe = useSelector(makeSelectLogin)
   const dataUser = getDataGetMe?.dataUser
@@ -147,6 +147,13 @@ function Actions(props) {
     value: item?.ticketId,
     label: item?.resolver?.fullName
   }
+
+  useEffect(() => {
+    if (isChangeSuccess) {
+      dispatch(ticketEmployeeActions.clear())
+      setIsOpenModal(false)
+    }
+  }, [isChangeSuccess])
 
   const handleDropdownItemClick = (e, item) => {
     const ticketId = item?.ticketId
@@ -261,6 +268,7 @@ function Actions(props) {
                                   onChange={handleSelectChange}
                                   options={handleGetOptions()}
                                   defaultValue={defaultValue}
+                                  isDisabled={defaultValue && defaultValue?.label ? true : false}
                                   getOptionLabel={option => option.label}
                                   getOptionValue={option => option.value}
                                   isSearchable

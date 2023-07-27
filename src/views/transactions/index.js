@@ -11,6 +11,7 @@ import { Button, IconButton } from '@mui/material'
 import FormCreate from './components/ModalCreate'
 import TransactinonDetails from './components/transaction-details'
 import Loading from 'src/components/Loading'
+import moment from 'moment'
 
 function Transactions() {
   // Khai báo BreadCrumb
@@ -60,7 +61,12 @@ function Transactions() {
         </>
       )
     }
-    if (field === 'name') {
+    if (field === 'date') {
+      const formatDate = moment(item?.createdAt).format('YYYY/MM/DD')
+
+      return <Typography>{formatDate}</Typography>
+    }
+    if (field === 'nameCustomer') {
       return <Typography>{item?.customer?.name}</Typography>
     }
     if (field === 'email') {
