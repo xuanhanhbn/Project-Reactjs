@@ -12,6 +12,7 @@ import { makeSelectTicketEmployee, ticketEmployeeActions } from '../../ticketEmp
 import Select from 'react-select'
 import Actions from '../Actions'
 import Loading from 'src/components/Loading'
+import { useSnackbar } from 'notistack'
 
 function MyTicketList() {
   const customStyles = {
@@ -25,10 +26,14 @@ function MyTicketList() {
   const { control, handleSubmit, setValue } = useForm()
   const dispatch = useDispatch()
   const globalDataMyTicket = useSelector(makeSelectTicketEmployee)
-  const { isLoading } = globalDataMyTicket
+  const { isLoading, isChangeSuccess } = globalDataMyTicket
   const dataMyTicket = globalDataMyTicket?.dataMyTicket
 
   const [valueTicket, setValueTicket] = useState({})
+
+  const { enqueueSnackbar } = useSnackbar()
+
+  const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
 
   const onSubmit = data => {
     dispatch(ticketEmployeeActions.getListMyTicket(data))
@@ -37,6 +42,13 @@ function MyTicketList() {
   useEffect(() => {
     dispatch(ticketEmployeeActions.getListMyTicket())
   }, [])
+
+  useEffect(() => {
+    if (isChangeSuccess) {
+      dispatch(ticketEmployeeActions.clear())
+      dispatch(ticketEmployeeActions.getListMyTicket())
+    }
+  }, [isChangeSuccess])
 
   // tự render actions khi có thêm items mới
   const parseData = useCallback((item, field, index) => {

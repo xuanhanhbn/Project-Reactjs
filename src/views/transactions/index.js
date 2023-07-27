@@ -12,6 +12,7 @@ import FormCreate from './components/ModalCreate'
 import TransactinonDetails from './components/transaction-details'
 import Loading from 'src/components/Loading'
 import moment from 'moment'
+import { useSnackbar } from 'notistack'
 
 function Transactions() {
   // Khai báo BreadCrumb
@@ -24,6 +25,9 @@ function Transactions() {
   const globalData = useSelector(makeSelectTransaction)
   const { isCreate, isLoading } = globalData
   const dataTransaction = globalData?.dataTransaction
+  const { enqueueSnackbar } = useSnackbar()
+
+  const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
 
   const handleGetList = () => {
     dispatch(transactionActions.getListTransaction())
@@ -39,6 +43,7 @@ function Transactions() {
       dispatch(transactionActions.clear())
       handleGetList()
       setIsOpenModal(false)
+      handleShowSnackbar('Create Transaction Success')
     }
   }, [isCreate])
 
@@ -100,6 +105,7 @@ function Transactions() {
         parseFunction={parseData}
         columns={columns}
         isShowPaging
+        onChangePage={page => onChangePage(page - 1)}
         classNameTable='tblCampaignReport'
       />
       {isOpenModal && (

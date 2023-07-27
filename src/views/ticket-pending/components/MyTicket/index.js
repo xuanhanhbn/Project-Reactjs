@@ -25,7 +25,7 @@ function MyTicketList() {
   const { control, handleSubmit, setValue } = useForm()
   const dispatch = useDispatch()
   const globalDataMyTicket = useSelector(makeSelectTicket)
-  const { isLoading } = globalDataMyTicket
+  const { isLoading, isChangeSuccess } = globalDataMyTicket
   const dataMyTicket = globalDataMyTicket?.dataMyTicket
 
   const [valueTicket, setValueTicket] = useState({})
@@ -39,6 +39,12 @@ function MyTicketList() {
   useEffect(() => {
     dispatch(ticketActions.getListMyTicket())
   }, [])
+  useEffect(() => {
+    if (isChangeSuccess) {
+      dispatch(ticketActions.clear())
+      dispatch(ticketActions.getListMyTicket())
+    }
+  }, [isChangeSuccess])
 
   // tự render actions khi có thêm items mới
   const parseData = useCallback((item, field, index) => {
@@ -103,6 +109,11 @@ function MyTicketList() {
 
   const handleSelectChange = selectedOption => {
     const selectedValue = selectedOption
+
+    // const newDataRequest = {
+    //   status: selectedOption?.value
+    // }
+    // dispatch(ticketActions.getListMyTicket(newDataRequest))
     setValue('status', selectedValue?.value, { shouldValidate: true })
     setValueTicket(selectedValue)
   }

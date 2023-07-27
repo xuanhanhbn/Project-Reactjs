@@ -91,14 +91,14 @@ const navigation = () => {
     {
       sectionTitle: 'Employee',
       isShowMenu: true,
-      role: ['Admin', 'Hr', 'HrManager']
+      role: ['Admin']
     },
     {
       title: 'Employee List',
       icon: AccountGroupOutline,
       path: '/staff',
       isShowMenu: true,
-      role: ['Admin', 'Hr', 'HrManager']
+      role: ['Admin']
     },
 
     {
@@ -118,7 +118,7 @@ const navigation = () => {
       icon: FileDocumentMultipleOutline,
       path: '/transactions',
       isShowMenu: true,
-      role: ['Admin', 'SaleManager', 'Sale'],
+      role: ['Admin', 'SaleManager', 'Sale', 'Hr', 'HrManager'],
       disabled: true
     },
     {
@@ -126,7 +126,7 @@ const navigation = () => {
       title: 'Customer Service',
       path: '/customer-care',
       isShowMenu: true,
-      role: ['Admin', 'SaleManager', 'Sale']
+      role: ['Admin', 'SaleManager', 'Sale', 'Hr', 'HrManager']
     }
 
     // {

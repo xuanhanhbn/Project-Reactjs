@@ -153,7 +153,6 @@ function AllTicketList() {
                 <Controller
                   key={inputSearch.field}
                   control={control}
-                  defaultValue={statusTicket[2]}
                   render={({ field }) => {
                     return (
                       <Select

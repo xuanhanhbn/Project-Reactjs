@@ -185,9 +185,9 @@ function AllTicketList() {
             <Button onClick={handleSubmit(onSubmit)} size='large' variant='outlined'>
               <Reload />
             </Button>
-            {/* <Button size='large' variant='contained' onClick={() => handleOpenModalCreateCustomer()}>
+            <Button size='large' variant='contained' onClick={() => handleOpenModalCreateCustomer()}>
               Create New
-            </Button> */}
+            </Button>
           </Stack>
         </form>
       </div>
