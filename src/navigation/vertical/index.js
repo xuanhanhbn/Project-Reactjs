@@ -122,13 +122,13 @@ const navigation = () => {
       disabled: true
     },
 
-    {
-      icon: CreditCardOutline,
-      title: 'Customer Service',
-      path: '/customer-care',
-      isShowMenu: true,
-      role: ['Admin', 'SaleManager', 'Sale']
-    },
+    // {
+    //   icon: CreditCardOutline,
+    //   title: 'Customer Service',
+    //   path: '/customer-care',
+    //   isShowMenu: true,
+    //   role: ['Admin', 'SaleManager', 'Sale']
+    // },
 
     // {
     //   title: 'Documents',
