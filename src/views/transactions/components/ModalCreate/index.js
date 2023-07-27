@@ -199,7 +199,7 @@ function FormCreate(props) {
   // Xử lí change Select
   const handleSelectChange = selectedOption => {
     const selectedValue = selectedOption
-    setValue('customer', selectedValue?.value, { shouldValidate: true })
+    setValue('customerId', selectedValue?.value, { shouldValidate: true })
     setValueCustomer(selectedValue)
   }
 
