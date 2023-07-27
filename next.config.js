@@ -3,7 +3,7 @@ const path = require('path')
 // const withCSS = require('@zeit/next-css')
 
 module.exports = {
-  pageExtensions: ['config.js', 'api.js', 'constants.js', 'store.js'],
+  // pageExtensions: ['config.js', 'api.js', 'constants.js', 'store.js'],
 
   trailingSlash: true,
   reactStrictMode: true,
