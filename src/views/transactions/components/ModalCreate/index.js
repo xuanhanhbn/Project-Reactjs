@@ -51,7 +51,7 @@ const validationSchema = Yup.object().shape({
   total: Yup.string()
     .required('Total Transactions is required')
     .matches(/^[0-9]+(?:[,.][0-9]+)*$/, 'Total invalid'),
-  customer: Yup.string().required('Customer is required')
+  customerId: Yup.string().required('Customer is required')
 })
 
 function FormCreate(props) {
@@ -151,7 +151,7 @@ function FormCreate(props) {
           <FormControl fullWidth>
             <Controller
               control={control}
-              name='customer'
+              name='customerId'
               render={({ field }) => (
                 <>
                   {/* <InputLabel>{item.placeHolder}</InputLabel> */}
@@ -169,7 +169,7 @@ function FormCreate(props) {
             />
           </FormControl>
 
-          <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{errors.customer?.message}</Typography>
+          <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>{errors.customerId?.message}</Typography>
         </Grid>
       )
     }

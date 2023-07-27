@@ -59,7 +59,7 @@ export const inputCreate = [
     type: 'INPUT'
   },
   {
-    field: 'customer',
+    field: 'customerId',
     lable: 'Customer ',
     placeHolder: 'Customer',
     type: 'SELECT'

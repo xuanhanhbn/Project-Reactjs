@@ -59,7 +59,6 @@ function AllTicketList() {
       dispatch(ticketActions.clear())
       dispatch(ticketActions.getListTicket())
       handleShowSnackbar('Success')
-      setIsOpenModal(false)
     }
   }, [isChangeSuccess])
 
