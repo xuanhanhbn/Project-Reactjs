@@ -18,9 +18,11 @@ import { columns, listOder } from './constant'
 import { Breadcrumb } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { customerActions, makeSelectCustomer } from '../../customerSlice'
+import { ticketActions, makeSelectTicket } from './ticketListSlice'
 import { useRouter } from 'next/router'
 import Loading from 'src/components/Loading'
 import CustomTable from 'src/components/TableCommon'
+import moment from 'moment'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -40,12 +42,28 @@ function CustommerDetails(props) {
   const globalData = router?.query
   const dispatch = useDispatch()
 
-  const globalDataDetails = useSelector(makeSelectCustomer)
+  const globalDataDetails = useSelector(makeSelectTicket)
   const { isLoading } = globalDataDetails
-  const ticketDetails = globalDataDetails?.dataDetailsCustomer
 
+  const ticketDetails = globalDataDetails?.dataTicket
+
+  const listTicket = []
+
+  for (let i = 0; i < ticketDetails.length; i++) {
+    if (ticketDetails[i].requestor.customerId == globalData.customerId) {
+      listTicket.push(ticketDetails[i])
+    }
+  }
+
+  // for (let i = 0; i < listTicket.length; i++) {
+  //   listTicket[i].createdAt = moment(listTicket[i].createdAt).format('DD/MM/YYY')
+  // }
+
+  console.log('list Ticket', listTicket)
+
+  // Call api danh sach
   useEffect(() => {
-    dispatch(customerActions.getListDetailsCustomer(globalData?.customerId))
+    dispatch(ticketActions.getListTicket())
   }, [])
 
   const parseData = useCallback((item, field, index) => {
@@ -78,6 +96,18 @@ function CustommerDetails(props) {
     //   )
     // }
 
+    if (field === 'fullName') {
+      const name = item.resolver.fullName
+
+      return <div>{name}</div>
+    }
+
+    if (field === 'createdAt') {
+      const formatDate = moment(item?.createdAt).format('YYYY/MM/DD')
+
+      return <div>{formatDate}</div>
+    }
+
     return item[field]
   }, [])
 
@@ -90,71 +120,8 @@ function CustommerDetails(props) {
       <Card>
         <CardContent sx={{ padding: theme => `${theme.spacing(10, 10.25, 6)} !important` }}>
           <Box sx={{ flexGrow: 1 }}>
-            <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
-              <Grid item xs={3} sx={{ padding: '10px 20px' }}>
-                <div style={{ borderRight: '1px solid  #3a35411f' }}>
-                  <Typography variant='h5' sx={{ marginBottom: 8, color: 'black' }}>
-                    Total Cost
-                  </Typography>
-                  <Typography variant='h3' sx={{ marginBottom: 2, color: 'black' }}>
-                    $10404.2
-                  </Typography>
-                  <p style={{ color: '#3a354161' }}>New cost last 365 days</p>
-                </div>
-              </Grid>
-              <Grid item xs={3} sx={{ padding: '10px 20px' }}>
-                <div style={{ borderRight: '1px solid  #3a35411f' }}>
-                  <Typography variant='h5' sx={{ marginBottom: 8, color: 'black' }}>
-                    Total Oder
-                  </Typography>
-                  <Typography
-                    variant='h3'
-                    sx={{ marginBottom: 2, color: 'black', display: 'flex', alignItems: 'center' }}
-                  >
-                    127
-                    <div
-                      style={{ width: 13, height: 13, borderRadius: '50%', backgroundColor: 'orange', marginLeft: 10 }}
-                    ></div>
-                  </Typography>
-                  <p style={{ color: '#3a354161' }}>Total oder last 365 days</p>
-                </div>
-              </Grid>
-              <Grid item xs={3} sx={{ padding: '10px 20px' }}>
-                <div style={{ borderRight: '1px solid  #3a35411f' }}>
-                  <Typography variant='h5' sx={{ marginBottom: 8, color: 'black' }}>
-                    Completed
-                  </Typography>
-                  <Typography
-                    variant='h3'
-                    sx={{ marginBottom: 2, color: 'black', display: 'flex', alignItems: 'center' }}
-                  >
-                    100
-                    <div
-                      style={{ width: 13, height: 13, borderRadius: '50%', backgroundColor: 'green', marginLeft: 10 }}
-                    ></div>
-                  </Typography>
-                  <p style={{ color: '#3a354161' }}>Completed last 365 days</p>
-                </div>
-              </Grid>
-              <Grid item xs={3} sx={{ padding: '10px 20px' }}>
-                <div>
-                  <Typography variant='h5' sx={{ marginBottom: 8, color: 'black' }}>
-                    Canceld
-                  </Typography>
-                  <Typography
-                    variant='h3'
-                    sx={{ marginBottom: 2, color: 'black', display: 'flex', alignItems: 'center' }}
-                  >
-                    27
-                    <div
-                      style={{ width: 13, height: 13, borderRadius: '50%', backgroundColor: 'red', marginLeft: 10 }}
-                    ></div>
-                  </Typography>
-                  <p style={{ color: '#3a354161' }}>Canceld oder last 365 days</p>
-                </div>
-              </Grid>
-            </Grid>
-            <Box sx={{ padding: 20, paddingTop: 10 }}>
+            <Typography variant='h2'>Customer Details</Typography>
+            <Box sx={{ paddingTop: 10 }}>
               <div style={{ borderTop: '1px solid  #3a35411f', paddingTop: 30 }}>
                 <Box sx={{ flexGrow: 1 }}>
                   <Grid container spacing={2} columns={{ xs: 16, sm: 8, md: 12 }}>
@@ -216,33 +183,7 @@ function CustommerDetails(props) {
                         Oders
                       </Typography>
                       <div style={{ border: '1px solid  #3a35411f', borderRadius: 4 }}>
-                        <TableContainer component={Paper}>
-                          <Table aria-label='simple table'>
-                            <TableHead>
-                              <TableRow>
-                                <TableCell align='left'>Product name</TableCell>
-                                <TableCell align='left'>Date</TableCell>
-                                <TableCell align='left'>Status</TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {listOder.map(oder => (
-                                <TableRow
-                                  key={oder.id}
-                                  sx={{ '&:last-child td, &:last-child th': { border: 0 }, p: 10 }}
-                                >
-                                  <TableCell align='left'>
-                                    <p style={{ color: 'black', fontWeight: 500 }}>{oder.productName}</p>
-                                  </TableCell>
-                                  <TableCell align='left'>{oder.date}</TableCell>
-                                  <TableCell align='left'>
-                                    <p style={{ color: ` ${oder.corlo}`, fontWeight: 500 }}>{oder.status}</p>
-                                  </TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
+                        <CustomTable columns={columns} data={listTicket || []} parseFunction={parseData} />
                       </div>
                     </Grid>
                   </Grid>
@@ -252,9 +193,7 @@ function CustommerDetails(props) {
           </Box>
         </CardContent>
       </Card>
-      <div>
-        <CustomTable columns={columns} data={ticketDetails || []} parseFunction={parseData} />
-      </div>
+      <div></div>
       <Loading isLoading={isLoading} />
     </div>
   )

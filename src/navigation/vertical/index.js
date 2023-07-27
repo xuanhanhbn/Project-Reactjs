@@ -127,13 +127,8 @@ const navigation = () => {
       title: 'Customer Service',
       path: '/customer-care',
       isShowMenu: true,
-<<<<<<< HEAD
-      role: ['Admin', 'Manager', 'EMPOYLEE']
-    },
-=======
       role: ['Admin', 'SaleManager', 'Sale']
-    }
->>>>>>> dev
+    },
 
     // {
     //   title: 'Documents',
@@ -184,8 +179,7 @@ const navigation = () => {
     //   title: 'Documents',
     //   icon: FileDocument,
     //   path: '/admin/list-documents',
-    //   isShowMenu: true,
-<<<<<<< HEAD
+
     //   role: ['Admin', 'Manager', 'EMPOYLEE']
     // }
     {
@@ -201,7 +195,6 @@ const navigation = () => {
       role: ['Admin', 'Manager', 'EMPOYLEE']
     }
 
-=======
     //   role: ['Admin', 'EMPOYLEE']
     // },
     // {
@@ -216,7 +209,6 @@ const navigation = () => {
     //   isShowMenu: true,
     //   role: ['Admin', 'EMPOYLEE']
     // },
->>>>>>> dev
     // {
     //   title: 'Forgot Password',
     //   icon: Login,

@@ -85,11 +85,7 @@ export const columns = [
     name: 'Create At',
     align: 'center'
   },
-  {
-    field: 'ticketCategory',
-    name: 'Ticket Category',
-    align: 'center'
-  },
+
   {
     field: 'fullName',
     name: 'Handling Staff',

@@ -11,16 +11,13 @@ import { Breadcrumb, Dropdown } from 'antd'
 import { Controller, useForm } from 'react-hook-form'
 import TableCommon from 'src/components/TableCommon'
 import { listCustomerService, listStatusService, items } from './constant'
-<<<<<<< HEAD
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import { DownOutlined } from '@ant-design/icons'
 import { Space } from 'antd'
-=======
 import CustommerSeveviceStaff from './components/MenuStatus/CustomerServiceStaff'
->>>>>>> dev
 import Actions from './components/Actions'
 
 const CustomerCare = () => {
