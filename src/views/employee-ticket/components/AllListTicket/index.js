@@ -44,10 +44,6 @@ function AllTicketList() {
 
   useEffect(() => {
     dispatch(ticketEmployeeActions.getListTicket())
-
-    // setTimeout(() => {
-    //   dispatch(ticketEmployeeActions.getListMyTicket())
-    // }, 1000)
   }, [])
 
   useEffect(() => {
@@ -60,8 +56,7 @@ function AllTicketList() {
   useEffect(() => {
     if (isChangeSuccess) {
       dispatch(ticketEmployeeActions.clear())
-
-      // dispatch(ticketEmployeeActions.getListTicket())
+      dispatch(ticketEmployeeActions.getListTicket())
       handleShowSnackbar('Success')
     }
   }, [isChangeSuccess])
@@ -70,44 +65,6 @@ function AllTicketList() {
     dispatch(ticketEmployeeActions.getListTicket())
     setValueTicket({})
   }
-
-  const handleChangeSelectEmployee = selectedOption => {
-    const selectedValue = selectedOption
-
-    setValueEmployee(selectedValue)
-    setValue('fullName', selectedValue?.value, { shouldValidate: true })
-  }
-
-  // const handleGetValueStaff = async () => {
-  //   try {
-  //     const url = 'Employee'
-  //     const res = await getApiDefault(url)
-  //     if (res && res.status === 200) {
-  //       setValueStaff(res?.data)
-  //     }
-  //   } catch (error) {
-  //     console.log('error: ', error)
-  //   }
-  // }
-
-  // const handleGetOptionsSelect = () => dataTicket
-
-  // const handleSetDefaultValue = () => {
-  //   if (Array.isArray(dataTicket) && dataTicket.length > 0) {
-  //     const formattedOptions = dataTicket.map(item => ({
-  //       value: item?.resolver.id,
-  //       label: item?.resolver.fullName
-  //     }))
-
-  //     return formattedOptions
-  //   }
-  // }
-
-  // const handleGetValue = field => {
-  //   const data = handleSetDefaultValue()
-
-  //   return data.find(obj => obj.label === dataTicket?.resolver?.fullName)
-  // }
 
   // tự render actions khi có thêm items mới
   const parseData = useCallback((item, field, index) => {
@@ -181,15 +138,6 @@ function AllTicketList() {
 
     return item[field]
   }, [])
-
-  const handleGetOptions = () => {
-    const formattedOptions = dataStaff?.map(item => ({
-      value: item?.id,
-      label: item?.fullName
-    }))
-
-    return formattedOptions
-  }
 
   const handleSelectChange = selectedOption => {
     const selectedValue = selectedOption

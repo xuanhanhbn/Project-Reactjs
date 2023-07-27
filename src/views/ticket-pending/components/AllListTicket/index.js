@@ -25,16 +25,10 @@ function AllTicketList() {
   const globalDataTicket = useSelector(makeSelectTicket)
   const { isLoading, isError, isSuccess, isChangeSuccess } = globalDataTicket
 
-  const baseDataRequest = {
-    fullName: ''
-  }
-  const [dataRequest, setDataRequest] = useState(baseDataRequest)
   const dataTicket = globalDataTicket?.dataTicket
   const [valueTicket, setValueTicket] = useState({})
   const [valueEmployee, setValueEmployee] = useState({})
-  const [defaultValue, setDefaultValue] = useState(null)
   const [isOpenModal, setIsOpenModal] = useState(false)
-  const [valueStaff, setValueStaff] = useState([])
   const { enqueueSnackbar } = useSnackbar()
   const handleShowSnackbar = (message, variant = 'success') => enqueueSnackbar(message, { variant })
 
@@ -47,12 +41,10 @@ function AllTicketList() {
   }
 
   useEffect(() => {
-    // dispatch(staffActions.getListStaff())
     dispatch(staffActions.getListStaff())
-
-    setTimeout(() => {
-      dispatch(ticketActions.getListTicket())
-    }, 1000)
+    dispatch(ticketActions.getListTicket())
+    const newDataRequest = { value: 'test', label: 'test' }
+    setValue('status', newDataRequest, { shouldValidate: true })
   }, [])
 
   useEffect(() => {
@@ -67,6 +59,7 @@ function AllTicketList() {
       dispatch(ticketActions.clear())
       dispatch(ticketActions.getListTicket())
       handleShowSnackbar('Success')
+      setIsOpenModal(false)
     }
   }, [isChangeSuccess])
 
@@ -74,44 +67,6 @@ function AllTicketList() {
     dispatch(ticketActions.getListTicket())
     setValueTicket({})
   }
-
-  const handleChangeSelectEmployee = selectedOption => {
-    const selectedValue = selectedOption
-
-    setValueEmployee(selectedValue)
-    setValue('fullName', selectedValue?.value, { shouldValidate: true })
-  }
-
-  // const handleGetValueStaff = async () => {
-  //   try {
-  //     const url = 'Employee'
-  //     const res = await getApiDefault(url)
-  //     if (res && res.status === 200) {
-  //       setValueStaff(res?.data)
-  //     }
-  //   } catch (error) {
-  //     console.log('error: ', error)
-  //   }
-  // }
-
-  // const handleGetOptionsSelect = () => dataTicket
-
-  // const handleSetDefaultValue = () => {
-  //   if (Array.isArray(dataTicket) && dataTicket.length > 0) {
-  //     const formattedOptions = dataTicket.map(item => ({
-  //       value: item?.resolver.id,
-  //       label: item?.resolver.fullName
-  //     }))
-
-  //     return formattedOptions
-  //   }
-  // }
-
-  // const handleGetValue = field => {
-  //   const data = handleSetDefaultValue()
-
-  //   return data.find(obj => obj.label === dataTicket?.resolver?.fullName)
-  // }
 
   // tự render actions khi có thêm items mới
   const parseData = useCallback((item, field, index) => {
@@ -160,19 +115,7 @@ function AllTicketList() {
       }
     }
     if (field === 'fullName') {
-      return (
-        <div>{item?.resolver?.fullName}</div>
-
-        // <Select
-        //   onChange={handleChangeSelectEmployee()}
-        //   options={handleGetOptions() || []}
-        //   value={valueEmployee}
-        //   getOptionLabel={option => option?.fullName}
-        //   getOptionValue={option => option?.id}
-        //   isSearchable
-        //   className='z-2'
-        // />
-      )
+      return <div>{item?.resolver?.fullName}</div>
     }
     if (field === 'name') {
       return <div>{item?.requestor?.name}</div>
@@ -185,15 +128,6 @@ function AllTicketList() {
 
     return item[field]
   }, [])
-
-  const handleGetOptions = () => {
-    const formattedOptions = dataStaff?.map(item => ({
-      value: item?.id,
-      label: item?.fullName
-    }))
-
-    return formattedOptions
-  }
 
   const handleSelectChange = selectedOption => {
     const newDataRequest = {
@@ -220,17 +154,18 @@ function AllTicketList() {
                 <Controller
                   key={inputSearch.field}
                   control={control}
+                  defaultValue={statusTicket[2]}
                   render={({ field }) => {
                     return (
                       <Select
                         {...field}
                         onChange={handleSelectChange}
                         options={statusTicket}
-                        placeholder='Search Status'
                         value={valueTicket}
                         isSearchable
                         className='z-3'
                         styles={customStyles}
+                        name={inputSearch.field}
                       />
                     )
                   }}

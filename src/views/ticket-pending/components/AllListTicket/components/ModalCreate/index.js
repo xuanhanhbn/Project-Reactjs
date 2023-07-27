@@ -65,10 +65,6 @@ function ModalCreate(props) {
   const globalDataCustomer = useSelector(makeSelectCustomer)
   const handleClose = () => onClose()
 
-  // useEffect(() => {
-  //   dispatch(customerActions.getListCustomer())
-  // }, [])
-
   const onSubmit = async data => {
     const validationToken = JSON.parse(localStorage.getItem('loginPage'))
     const customerId = 'd94855f6-5533-42ce-b7d5-08db8cdfdeed'

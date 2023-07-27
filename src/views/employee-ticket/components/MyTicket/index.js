@@ -8,12 +8,7 @@ import { columsAllTicket, inputSearchTicket, statusTicket } from '../../constant
 import TableCommon from 'src/components/TableCommon'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  makeSelectTicket,
-  makeSelectTicketEmployee,
-  ticketActions,
-  ticketEmployeeActions
-} from '../../ticketEmployeeSlice'
+import { makeSelectTicketEmployee, ticketEmployeeActions } from '../../ticketEmployeeSlice'
 import Select from 'react-select'
 import Actions from '../Actions'
 import Loading from 'src/components/Loading'
@@ -93,7 +88,7 @@ function MyTicketList() {
       return <div>{item?.resolver?.fullName}</div>
     }
     if (field === 'name') {
-      return <div>{item?.requestor?.name}</div>
+      return <div>{item?.requestor?.fullName}</div>
     }
     if (field === 'email') {
       return <div>{item?.requestor?.email}</div>

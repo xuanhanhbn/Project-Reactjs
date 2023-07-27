@@ -42,7 +42,6 @@ function* onChangeAssign(data) {
   const url = '/CustomerTicket/Assign'
   try {
     const response = yield call(putApiDefault, url, payload)
-    console.log('res: ', response)
     if (response && response.status === 200) {
       yield put(ticketActions.onChangeAssignSuccess(response.data))
     } else {

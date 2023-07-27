@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Grid } from '@mui/material'
@@ -13,11 +14,13 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import { listOder } from './constant'
+import { columns, listOder } from './constant'
 import { Breadcrumb } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { customerActions, makeSelectCustomer } from '../../customerSlice'
 import { useRouter } from 'next/router'
+import Loading from 'src/components/Loading'
+import CustomTable from 'src/components/TableCommon'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -27,16 +30,63 @@ const ImgStyled = styled('img')(({ theme }) => ({
 }))
 
 function CustommerDetails(props) {
+  const breadcrumbItems = [
+    { title: 'Company Active' },
+    { href: '/customer-dashboard', title: 'Custommer List' },
+    { title: 'Custommer Detail' }
+  ]
+
   const router = useRouter()
   const globalData = router?.query
+  const dispatch = useDispatch()
+
+  const globalDataDetails = useSelector(makeSelectCustomer)
+  const { isLoading } = globalDataDetails
+  const ticketDetails = globalDataDetails?.dataDetailsCustomer
+
+  useEffect(() => {
+    dispatch(customerActions.getListDetailsCustomer(globalData?.customerId))
+  }, [])
+
+  const parseData = useCallback((item, field, index) => {
+    if (field === 'index') {
+      return index + 1
+    }
+
+    // if (field === 'actions') {
+    //   return (
+    //     <>
+    //       <Link
+    //         passHref
+    //         href={{
+    //           pathname: '/customer-dashboard/custommer-detail',
+    //           query: { ...item, type: 'not' }
+    //         }}
+    //       >
+    //         <Button>
+    //           <EyeOutline style={{ fontSize: 18, marginRight: 5 }} />
+    //         </Button>
+    //       </Link>
+    //       {/* </Button> */}
+
+    //       <IconButton>
+    //         <Delete style={{ fontSize: 18, color: 'red' }} color='red' />
+    //       </IconButton>
+
+    //       {/* <Delete style={{ fontSize: 18, color: 'red' }} color='red' /> */}
+    //     </>
+    //   )
+    // }
+
+    return item[field]
+  }, [])
+
+  console.log('globalData: ', globalData)
 
   return (
     <div>
-      <Breadcrumb style={{ marginBottom: 30 }}>
-        <Breadcrumb.Item>Marketing Department</Breadcrumb.Item>
-        <Breadcrumb.Item>Custommer Dashboard</Breadcrumb.Item>
-        <Breadcrumb.Item>Custommer Detail</Breadcrumb.Item>
-      </Breadcrumb>
+      <Breadcrumb style={{ marginBottom: 30 }} items={breadcrumbItems} />
+
       <Card>
         <CardContent sx={{ padding: theme => `${theme.spacing(10, 10.25, 6)} !important` }}>
           <Box sx={{ flexGrow: 1 }}>
@@ -202,6 +252,10 @@ function CustommerDetails(props) {
           </Box>
         </CardContent>
       </Card>
+      <div>
+        <CustomTable columns={columns} data={ticketDetails || []} parseFunction={parseData} />
+      </div>
+      <Loading isLoading={isLoading} />
     </div>
   )
 }

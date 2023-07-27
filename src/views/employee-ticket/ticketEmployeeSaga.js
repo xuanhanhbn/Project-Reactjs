@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { ticketEmployeeActions } from './ticketEmployeeSlice'
 import { getApiDefault, postApiDefault } from './api'
-import { putApiDefault } from './components/Actions/api'
+import { putApiDefault, putApiNoData } from './components/Actions/api'
 
 // Lấy danh sách Ticket
 function* onGetList(data) {
@@ -57,77 +57,76 @@ function* onChangeAssign(data) {
 }
 
 // onChangeProcessing
-// function* onChangeProcessing(data) {
-//   const payload = data?.payload
-//   const url = '/CustomerTicket/Processing'
-//   try {
-//     const response = yield call(putApiDefault, url, payload)
-//     console.log('res: ', response)
-//     if (response && response.status === 200) {
-//       yield put(ticketActions.onChangeProcessingSuccess(response.data))
-//     } else {
-//       yield put(ticketActions.onChangeProcessingFailed())
-//     }
-//   } catch (error) {
-//     yield put(ticketActions.onChangeProcessingFailed('internet'))
-//   }
-// }
+function* onChangeProcessing(data) {
+  const payload = data?.payload?.ticketId
+  const url = `/EmployeeTicket/Processing/${payload}`
+  try {
+    const response = yield call(putApiNoData, url)
+    if (response && response.status === 200) {
+      yield put(ticketEmployeeActions.onChangeProcessingSuccess(response.data))
+    } else {
+      yield put(ticketEmployeeActions.onChangeProcessingFailed())
+    }
+  } catch (error) {
+    yield put(ticketEmployeeActions.onChangeProcessingFailed('internet'))
+  }
+}
 
 // onChangeComplete
-// function* onChangeComplete(data) {
-//   const payload = data?.payload
-//   const url = '/CustomerTicket/Complete'
-//   try {
-//     const response = yield call(putApiDefault, url, payload)
-//     if (response && response.status === 200) {
-//       yield put(ticketActions.onChangeCompleteSuccess(response.data))
-//     } else {
-//       yield put(ticketActions.onChangeCompleteFailed())
-//     }
-//   } catch (error) {
-//     yield put(ticketActions.onChangeCompleteFailed('internet'))
-//   }
-// }
+function* onChangeComplete(data) {
+  const payload = data?.payload?.ticketId
+  const url = `/EmployeeTicket/Complete/${payload}`
+  try {
+    const response = yield call(putApiNoData, url)
+    if (response && response.status === 200) {
+      yield put(ticketEmployeeActions.onChangeCompleteSuccess(response.data))
+    } else {
+      yield put(ticketEmployeeActions.onChangeCompleteFailed())
+    }
+  } catch (error) {
+    yield put(ticketEmployeeActions.onChangeCompleteFailed('internet'))
+  }
+}
 
-// Lấy danh sách Ticket
-// function* onChangeReopen(data) {
-//   const payload = data?.payload
-//   const url = '/CustomerTicket/Reopen'
-//   try {
-//     const response = yield call(putApiDefault, url, payload)
-//     if (response && response.status === 200) {
-//       yield put(ticketActions.onChangeReopenSuccess(response.data))
-//     } else {
-//       yield put(ticketActions.onChangeReopenFailed())
-//     }
-//   } catch (error) {
-//     yield put(ticketActions.onChangeReopenFailed('internet'))
-//   }
-// }
+// Reopen
+
+function* onChangeReopen(data) {
+  const payload = data?.payload?.ticketId
+  const url = `/EmployeeTicket/Reopen/${payload}`
+  try {
+    const response = yield call(putApiNoData, url)
+    if (response && response.status === 200) {
+      yield put(ticketEmployeeActions.onChangeReopenSuccess(response.data))
+    } else {
+      yield put(ticketEmployeeActions.onChangeReopenFailed())
+    }
+  } catch (error) {
+    yield put(ticketEmployeeActions.onChangeReopenFailed('internet'))
+  }
+}
 
 // onChangeClose
-// function* onChangeClose(data) {
-//   const payload = data?.payload
-//   const url = '/CustomerTicket/Close'
-//   try {
-//     const response = yield call(putApiDefault, url, payload)
-//     if (response && response.status === 200) {
-//       yield put(ticketActions.onChangeCloseSuccess(response.data))
-//     } else {
-//       yield put(ticketActions.onChangeCloseFailed())
-//     }
-//   } catch (error) {
-//     yield put(ticketActions.onChangeCloseFailed('internet'))
-//   }
-// }
+function* onChangeClose(data) {
+  const payload = data?.payload?.ticketId
+  const url = `/CustomerTicket/Close/${payload}`
+  try {
+    const response = yield call(putApiNoData, url)
+    if (response && response.status === 200) {
+      yield put(ticketEmployeeActions.onChangeCloseSuccess(response.data))
+    } else {
+      yield put(ticketEmployeeActions.onChangeCloseFailed())
+    }
+  } catch (error) {
+    yield put(ticketEmployeeActions.onChangeCloseFailed('internet'))
+  }
+}
 
 export default function* ticketEmployeeSaga() {
   yield takeLatest(ticketEmployeeActions.getListTicket, onGetList)
   yield takeLatest(ticketEmployeeActions.getListMyTicket, onGetListMyTicket)
   yield takeLatest(ticketEmployeeActions.onChangeAssign, onChangeAssign)
-
-  // yield takeLatest(ticketActions.onChangeProcessing, onChangeProcessing)
-  // yield takeLatest(ticketActions.onChangeComplete, onChangeComplete)
-  // yield takeLatest(ticketActions.onChangeReopen, onChangeReopen)
-  // yield takeLatest(ticketActions.onChangeClose, onChangeClose)
+  yield takeLatest(ticketEmployeeActions.onChangeProcessing, onChangeProcessing)
+  yield takeLatest(ticketEmployeeActions.onChangeComplete, onChangeComplete)
+  yield takeLatest(ticketEmployeeActions.onChangeReopen, onChangeReopen)
+  yield takeLatest(ticketEmployeeActions.onChangeClose, onChangeClose)
 }

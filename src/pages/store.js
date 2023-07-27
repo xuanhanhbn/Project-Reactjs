@@ -1,4 +1,3 @@
-// import AsyncStorage from '@react-native-async-storage/async-storage'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'

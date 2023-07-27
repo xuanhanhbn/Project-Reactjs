@@ -19,7 +19,12 @@ import { FormControl, TextField, Typography } from '@mui/material'
 import { Delete, DotsHorizontal, EyeOutline } from 'mdi-material-ui'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
-import { makeSelectTicket, makeSelectTicketEmployee, ticketActions } from '../../ticketEmployeeSlice'
+import {
+  makeSelectTicket,
+  makeSelectTicketEmployee,
+  ticketActions,
+  ticketEmployeeActions
+} from '../../ticketEmployeeSlice'
 import { useSnackbar } from 'notistack'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
@@ -27,59 +32,9 @@ import { Controller, useForm } from 'react-hook-form'
 import { inputAddCustomer } from '../AllListTicket/components/ModalCreate/constant'
 import Assign from './components'
 import { makeSelectStaff } from 'src/views/staff/staffSlice'
+import { makeSelectLogin } from 'src/pages/pages/login/loginSlice'
 
 const view = <Link href='/ticket-lists/ticket-details/'>View</Link>
-
-const items = [
-  {
-    key: 'view',
-    label: view,
-    icon: <EyeOutline />
-  },
-  {
-    key: 'delete',
-    label: 'Delete',
-    icon: <Delete />
-  },
-  {
-    key: 'assign',
-    label: 'Assign',
-    icon: <Delete />
-  },
-  {
-    key: 'status',
-    label: 'Status',
-    children: [
-      {
-        key: 'open',
-        value: 0,
-        label: 'Open',
-        disabled: true
-      },
-      {
-        key: 'pending',
-        value: 1,
-        label: 'Pending',
-        disabled: true
-      },
-      {
-        key: 'processing',
-        value: 2,
-        label: 'Processing'
-      },
-      {
-        key: 'done',
-        value: 3,
-        label: 'Done'
-      },
-      {
-        key: 'closed',
-        value: 4,
-        label: 'Closed'
-      }
-    ]
-  }
-]
 
 const style = {
   position: 'absolute',
@@ -129,10 +84,69 @@ function Actions(props) {
   const dataTicket = useSelector(makeSelectTicketEmployee)
   const { isError } = dataTicket
 
-  const defaultDataTicket = dataTicket?.dataTicket
+  const getDataGetMe = useSelector(makeSelectLogin)
+  const dataUser = getDataGetMe?.dataUser
+  const roleUser = dataUser?.roles
 
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [dataAssignSelect, setDataAssignSelect] = useState(null)
+
+  const items = [
+    {
+      key: 'view',
+      label: view,
+      icon: <EyeOutline />
+    },
+    {
+      key: 'delete',
+      label: 'Delete',
+      icon: <Delete />
+    },
+    {
+      key: 'assign',
+      label: 'Assign',
+      icon: <Delete />,
+      disabled: roleUser?.toString() === 'HrManager' ? false : true
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      children: [
+        {
+          key: 'open',
+          value: 0,
+          label: 'Open',
+          disabled: true
+        },
+        {
+          key: 'pending',
+          value: 1,
+          label: 'Pending',
+          disabled: true
+        },
+        {
+          key: 'processing',
+          value: 2,
+          label: 'Processing'
+        },
+        {
+          key: 'done',
+          value: 3,
+          label: 'Done'
+        },
+        {
+          key: 'closed',
+          value: 4,
+          label: 'Closed'
+        }
+      ]
+    }
+  ]
+
+  const defaultValue = {
+    value: item?.ticketId,
+    label: item?.resolver?.fullName
+  }
 
   const handleDropdownItemClick = (e, item) => {
     const ticketId = item?.ticketId
@@ -147,21 +161,18 @@ function Actions(props) {
       handleChangeStatus(1)
     }
     if (e.key === 'processing') {
-      dispatch(ticketActions.onChangeProcessing({ ticketId: ticketId }))
-      handleChangeStatus(2)
+      dispatch(ticketEmployeeActions.onChangeProcessing({ ticketId: ticketId }))
     }
     if (e.key === 'done') {
-      dispatch(ticketActions.onChangeComplete({ ticketId: ticketId }))
+      dispatch(ticketEmployeeActions.onChangeComplete({ ticketId: ticketId }))
     }
     if (e.key === 'closed') {
-      handleChangeStatus(4)
+      dispatch(ticketEmployeeActions.onChangeClose({ ticketId: ticketId }))
     }
     if (e.key === 'assign') {
       handleChangeAssign()
     }
   }
-
-  const handleChangeStatus = data => console.log('data: ', data)
 
   const handleChangeAssign = () => {
     setIsOpenModal(true)
@@ -174,7 +185,9 @@ function Actions(props) {
   }
 
   const handleGetOptions = () => {
-    const formattedOptions = dataStaff?.map(item => ({
+    const salesItems = dataStaff?.filter(item => item?.roles?.toString() === 'Hr')
+
+    const formattedOptions = salesItems?.map(item => ({
       value: item?.id,
       label: item?.fullName
     }))
@@ -187,7 +200,7 @@ function Actions(props) {
       ticketId: item?.ticketId,
       employeeId: dataAssignSelect?.value
     }
-    dispatch(ticketActions.onChangeAssign(newDataRequest))
+    dispatch(ticketEmployeeActions.onChangeAssign(newDataRequest))
   }
 
   const handleCloseModal = () => {
@@ -239,29 +252,27 @@ function Actions(props) {
                           <Grid item xs={12}>
                             <Box sx={modalStyles.inputFields}>
                               <Grid>
-                                <Controller
+                                {/* <Controller
                                   control={control}
                                   render={({ field }) => {
-                                    return (
-                                      <Select
-                                        {...field}
-                                        name='assign'
-                                        onChange={handleSelectChange}
-                                        options={handleGetOptions()}
-                                        value={dataAssignSelect}
-                                        defaultValue={dataAssignSelect}
-                                        getOptionLabel={option => option.label}
-                                        getOptionValue={option => option.value}
-                                        isSearchable
-                                        className='z-3'
-                                      />
-                                    )
+                                    return ( */}
+                                <Select
+                                  name='assign'
+                                  onChange={handleSelectChange}
+                                  options={handleGetOptions()}
+                                  defaultValue={defaultValue}
+                                  getOptionLabel={option => option.label}
+                                  getOptionValue={option => option.value}
+                                  isSearchable
+                                  className='z-3'
+                                />
+                                {/* )
                                   }}
                                   name='assign'
                                 />
                                 <Typography style={{ color: 'red', marginTop: 0, marginBottom: 10 }}>
                                   {errors?.assign?.message}
-                                </Typography>
+                                </Typography> */}
                               </Grid>
                             </Box>
                           </Grid>
